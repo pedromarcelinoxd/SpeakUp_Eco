@@ -48,7 +48,7 @@ class StoreDenunciaRequest extends FormRequest
             }
         };
 
-        $foto = ['image', 'mimes:jpeg,png,jpg,webp', 'max:'.self::MAX_KB, 'dimensions:min_width=200,min_height=200,max_width=8000,max_height=8000'];
+        $foto = ['image', 'mimes:jpeg,png,jpg,webp', 'max:'.self::MAX_KB, 'dimensions:min_width=200,min_height=200,max_width=16000,max_height=16000'];
 
         return [
             'foto' => ['required', ...$foto],

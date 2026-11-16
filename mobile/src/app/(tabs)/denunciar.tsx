@@ -21,6 +21,7 @@ import { api, ApiError, type PhotoAsset, type Report } from '@/lib/api';
 import { DEFAULT_CENTER, REPORT_CATEGORIES, SEVERITIES, type ReportCategory, type Severity } from '@/lib/catalog';
 import { useAuth } from '@/lib/auth';
 import { useMyLocation } from '@/lib/location';
+import { preparePhoto } from '@/lib/photo';
 
 const STEPS = ['O que é', 'Foto e local', 'Detalhes', 'Revisão'];
 const MAX_PHOTOS = 5;
@@ -96,16 +97,25 @@ function ReportFlow() {
     }
     const options: ImagePicker.ImagePickerOptions = {
       mediaTypes: ['images'],
-      quality: 0.6, // comprime para respeitar o limite de 5 MB do servidor
+      quality: 1, // a compressão é feita depois, em preparePhoto
       allowsMultipleSelection: source === 'library',
       selectionLimit: MAX_PHOTOS - photos.length,
       exif: false,
     };
     const result = source === 'camera' ? await ImagePicker.launchCameraAsync(options) : await ImagePicker.launchImageLibraryAsync(options);
     if (result.canceled) return;
-    const valid = result.assets.filter((a) => !a.fileSize || a.fileSize <= MAX_BYTES);
-    if (valid.length < result.assets.length) Alert.alert('Foto muito grande', 'Fotos acima de 5 MB foram ignoradas.');
-    setPhotos((prev) => [...prev, ...valid.map((a) => ({ uri: a.uri, mimeType: a.mimeType ?? 'image/jpeg', fileName: a.fileName, fileSize: a.fileSize }))].slice(0, MAX_PHOTOS));
+    // Reduz cada foto (até 1600 px, JPEG) para caber no limite do servidor e subir rápido
+    const prepared: PhotoAsset[] = [];
+    for (const [i, a] of result.assets.entries()) {
+      try {
+        prepared.push(await preparePhoto(a, photos.length + i));
+      } catch {
+        // Sem conseguir reduzir, envia a original se couber no limite
+        if (!a.fileSize || a.fileSize <= MAX_BYTES) prepared.push({ uri: a.uri, mimeType: a.mimeType ?? 'image/jpeg', fileName: a.fileName });
+      }
+    }
+    if (prepared.length < result.assets.length) Alert.alert('Foto não adicionada', 'Não foi possível preparar uma das fotos. Tente tirar outra.');
+    setPhotos((prev) => [...prev, ...prepared].slice(0, MAX_PHOTOS));
     setErrors({});
   }
 
