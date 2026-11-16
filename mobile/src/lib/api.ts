@@ -126,22 +126,39 @@ export function setUnauthorizedHandler(fn: () => void) {
   onUnauthorized = fn;
 }
 
+/** Servidor no computador (http://IP:8000) ou publicado na internet (https). */
+const isLocalServer = /^http:\/\/(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(API_URL);
+
+function connectionMessage() {
+  return isLocalServer
+    ? `Não foi possível conectar ao servidor (${API_URL}). Verifique se o backend está rodando e se o celular está na mesma rede.`
+    : 'Sem resposta do servidor. Confira sua internet e tente de novo — se o app ficou um tempo sem uso, o servidor pode levar até 1 minuto para iniciar.';
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = { Accept: 'application/json', ...(init.headers as Record<string, string>) };
   if (token) headers.Authorization = `Bearer ${token}`;
   headers['X-EcoRadar-Dispositivo'] = await getDeviceId();
   if (init.body && !(init.body instanceof FormData)) headers['Content-Type'] = 'application/json';
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 20000);
-  let res: Response;
-  try {
-    res = await fetch(`${API_URL}${path}`, { ...init, headers, signal: controller.signal });
-  } catch {
-    throw new ApiError(`Não foi possível conectar ao servidor (${API_URL}). Verifique se o backend está rodando e se o celular está na mesma rede.`, 0);
-  } finally {
-    clearTimeout(timer);
+  // O servidor gratuito "dorme" sem uso e leva até ~1 min para acordar; envios com foto
+  // pelo 4G também demoram. Por isso o prazo é longo e leituras tentam de novo uma vez.
+  const isUpload = init.body instanceof FormData;
+  const isRead = !init.method || init.method === 'GET';
+  const attempts = isRead ? 2 : 1;
+  let res: Response | null = null;
+  for (let i = 0; i < attempts && !res; i++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), isUpload ? 120_000 : 60_000);
+    try {
+      res = await fetch(`${API_URL}${path}`, { ...init, headers, signal: controller.signal });
+    } catch {
+      if (i === attempts - 1) throw new ApiError(connectionMessage(), 0);
+    } finally {
+      clearTimeout(timer);
+    }
   }
+  if (!res) throw new ApiError(connectionMessage(), 0);
 
   if (res.status === 204) return undefined as T;
   const data = await res.json().catch(() => ({}));
