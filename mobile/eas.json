@@ -10,12 +10,12 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://ecoradar-api.onrender.com/api"
+        "EXPO_PUBLIC_API_URL": "https://ecoradar-api-f3sw.onrender.com/api"
       }
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://ecoradar-api.onrender.com/api"
+        "EXPO_PUBLIC_API_URL": "https://ecoradar-api-f3sw.onrender.com/api"
       }
     }
   }
