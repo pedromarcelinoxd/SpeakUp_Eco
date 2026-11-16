@@ -39,6 +39,12 @@ services:
       # O Render pede o valor ao criar o blueprint.
       - key: ECORADAR_DEMO_PASSWORD
         sync: false
+      # Administrador: o servidor aplica este e-mail e senha a cada inicialização
+      # (cria a conta ou troca a senha). Definir no painel do Render > Environment.
+      - key: ECORADAR_ADMIN_EMAIL
+        sync: false
+      - key: ECORADAR_ADMIN_PASSWORD
+        sync: false
 
 databases:
   - name: ecoradar-db

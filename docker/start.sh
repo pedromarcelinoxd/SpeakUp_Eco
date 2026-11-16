@@ -24,6 +24,8 @@ if [ "${ECORADAR_SEED_DEMO:-false}" = "true" ]; then
     php artisan db:seed --class=EcoRadarApresentacaoSeeder --force
 fi
 php artisan ecoradar:fotos-demo
+# Administrador definido no painel da hospedagem (troca de senha sem terminal)
+php artisan ecoradar:admin-env
 
 php artisan config:cache
 php artisan route:cache
