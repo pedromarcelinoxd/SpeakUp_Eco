@@ -1,10 +1,12 @@
 /**
  * Cliente da API Laravel central (a mesma usada pelo painel web).
- * Autenticação via token Sanctum (Bearer), salvo no SecureStore.
+ * Conta opcional: com login, token Sanctum (Bearer) salvo no SecureStore; sem login,
+ * o aparelho se identifica por um UUID anônimo (cabeçalho X-EcoRadar-Dispositivo).
  */
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import type { PointCategory, ReportCategory, ReportStatus, Severity } from './catalog';
+import { getDeviceId } from './device';
 
 /**
  * URL da API:
@@ -32,10 +34,13 @@ export type User = {
   foto_perfil_path?: string | null;
 };
 
+export type Vote = 'existe' | 'resolvida';
+
 export type Report = {
   id: number;
-  user_id: number;
-  user?: { id: number; name: string };
+  user_id: number | null;
+  user?: { id: number; name: string } | null;
+  autor: { nome: string; anonimo: boolean; sou_eu: boolean };
   categoria: ReportCategory;
   titulo: string | null;
   descricao: string | null;
@@ -49,10 +54,14 @@ export type Report = {
   origem: 'web' | 'app';
   foto_url: string | null;
   fotos: string[];
+  validacoes: { existe: number; resolvida: number };
+  meu_voto: Vote | null;
+  pode_validar: boolean;
+  motivo_bloqueio: string | null;
   confirmacoes_count: number;
   confirmada_por_mim: boolean;
   permissoes: { confirmar: boolean; excluir: boolean; alterar_status: boolean } | null;
-  historico?: { status: ReportStatus; observacao: string | null; data: string }[];
+  historico?: { status: ReportStatus; origem: 'autor' | 'comunidade' | 'equipe' | null; observacao: string | null; data: string }[];
   created_at: string;
   updated_at?: string;
 };
@@ -99,7 +108,7 @@ export type AppNotification = {
 };
 
 export class ApiError extends Error {
-  constructor(message: string, public status: number, public errors?: Record<string, string[]>) {
+  constructor(message: string, public status: number, public errors?: Record<string, string[]>, public data?: Record<string, unknown>) {
     super(message);
   }
 }
@@ -118,6 +127,7 @@ export function setUnauthorizedHandler(fn: () => void) {
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = { Accept: 'application/json', ...(init.headers as Record<string, string>) };
   if (token) headers.Authorization = `Bearer ${token}`;
+  headers['X-EcoRadar-Dispositivo'] = await getDeviceId();
   if (init.body && !(init.body instanceof FormData)) headers['Content-Type'] = 'application/json';
 
   const controller = new AbortController();
@@ -136,7 +146,8 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!res.ok) {
     if (res.status === 401 && token) onUnauthorized?.();
     const first = data?.errors ? (Object.values(data.errors)[0] as string[])[0] : null;
-    throw new ApiError(first || data?.message || 'Erro inesperado no servidor.', res.status, data?.errors);
+    const fallback = res.status === 429 ? 'Muitas tentativas em pouco tempo. Aguarde um pouco e tente de novo.' : 'Erro inesperado no servidor.';
+    throw new ApiError(first || data?.message || fallback, res.status, data?.errors, data);
   }
   return data as T;
 }
@@ -165,6 +176,9 @@ export const api = {
   reports: (params: { minhas?: boolean } = {}) => request<Report[]>(`/denuncias${params.minhas ? '?minhas=1' : ''}`),
   report: (id: number | string) => request<Report>(`/denuncias/${id}`),
   confirm: (id: number) => request<Report>(`/denuncias/${id}/confirmar`, { method: 'POST' }),
+  /** Validação comunitária: um voto por pessoa ("existe" ou "resolvida"); pode mudar de opinião. */
+  vote: (id: number, tipo: Vote) =>
+    request<{ denuncia: Report; voto_registrado: boolean; status_mudou: boolean }>(`/denuncias/${id}/validar`, { method: 'POST', body: JSON.stringify({ tipo }) }),
   remove: (id: number) => request<void>(`/denuncias/${id}`, { method: 'DELETE' }),
   createReport(input: {
     photos: PhotoAsset[];
@@ -175,6 +189,7 @@ export const api = {
     latitude: number;
     longitude: number;
     endereco?: string;
+    ignorarDuplicata?: boolean;
   }) {
     const form = new FormData();
     const [cover, ...extras] = input.photos;
@@ -188,6 +203,7 @@ export const api = {
     form.append('longitude', String(input.longitude));
     if (input.endereco) form.append('endereco', input.endereco.slice(0, 255));
     form.append('origem', 'app');
+    if (input.ignorarDuplicata) form.append('ignorar_duplicata', '1');
     return request<Report>('/denuncias', { method: 'POST', body: form });
   },
 

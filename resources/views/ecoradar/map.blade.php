@@ -148,8 +148,8 @@
             </button>
         </div>
 
-        {{-- ============ Legenda (desktop) ============ --}}
-        <div class="absolute bottom-6 left-4 z-[400] hidden w-64 lg:block" x-show="panel === null" x-transition.opacity>
+        {{-- ============ Legenda (celular e desktop) ============ --}}
+        <div class="absolute bottom-24 left-4 z-[400] w-64 max-w-[calc(100%-2rem)] lg:bottom-6" x-show="panel === null" x-transition.opacity>
             <div class="rounded-2xl border border-slate-200/80 bg-white/95 shadow-float backdrop-blur">
                 <button type="button" @click="legendOpen = !legendOpen" class="flex w-full items-center justify-between px-4 py-3" :aria-expanded="legendOpen">
                     <span class="section-title text-[13.5px]">Legenda</span>
@@ -280,7 +280,7 @@
 
             {{-- -------- Detalhes: denúncia -------- --}}
             <template x-if="panel === 'detail' && selected?.kind === 'report'">
-                <div class="flex min-h-0 flex-1 flex-col" x-data="{ r: selected.item }" x-effect="r = selected.item">
+                <div class="flex min-h-0 flex-1 flex-col" x-data="{ r: selected.item }" x-effect="r = $store.eco.findReport(selected.item.id) || selected.item">
                     <div class="scroll-thin min-h-0 flex-1 overflow-y-auto">
                         <div class="relative m-3 mb-0 overflow-hidden rounded-2xl">
                             <img :src="$u.photo(r)" :alt="$u.hasRealPhoto(r) ? `Foto: ${r.title}` : 'Imagem ilustrativa da categoria'" class="aspect-[16/9] w-full object-cover">
@@ -297,10 +297,15 @@
                             </div>
                             <h2 class="font-display text-[19px] font-bold leading-snug text-ink" x-text="r.title"></h2>
                             <p class="text-[13.5px] leading-relaxed text-ink-muted" x-text="r.description"></p>
+                            <div x-show="r.photos?.length > 1" class="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1">
+                                <template x-for="(src, i) in r.photos" :key="src">
+                                    <img :src="src" :alt="`Foto ${i + 1} de ${r.photos.length}`" class="h-20 w-28 shrink-0 rounded-xl object-cover">
+                                </template>
+                            </div>
                             <dl class="grid grid-cols-2 gap-3 rounded-2xl bg-slate-50 p-3.5 text-[12.5px]">
                                 <div>
-                                    <dt class="text-ink-muted">Data</dt>
-                                    <dd class="mt-0.5 font-semibold text-ink" x-text="$u.formatDate(r.createdAt)"></dd>
+                                    <dt class="text-ink-muted">Data e horário</dt>
+                                    <dd class="mt-0.5 font-semibold text-ink" x-text="$u.formatDateTime(r.createdAt)"></dd>
                                 </div>
                                 <div>
                                     <dt class="text-ink-muted">Distância</dt>
@@ -310,27 +315,23 @@
                                     <dt class="text-ink-muted">Localização</dt>
                                     <dd class="mt-0.5 font-semibold text-ink" x-text="r.address"></dd>
                                 </div>
-                                <div x-show="r.confirmations">
-                                    <dt class="text-ink-muted">Confirmações</dt>
-                                    <dd class="mt-0.5 font-semibold text-ink" x-text="`${r.confirmations + ($store.eco.isConfirmed(r.id) ? 1 : 0)} moradores`"></dd>
+                                <div>
+                                    <dt class="text-ink-muted">Enviada por</dt>
+                                    <dd class="mt-0.5 font-semibold text-ink" x-text="r.anonymous ? 'Cidadão (sem conta)' : r.author"></dd>
                                 </div>
                                 <div>
                                     <dt class="text-ink-muted">Gravidade</dt>
                                     <dd class="mt-0.5 font-semibold" :style="`color:${$u.severity(r.severity).color}`" x-text="$u.severity(r.severity).label"></dd>
                                 </div>
                             </dl>
+                            <x-eco.community-validation />
                         </div>
                     </div>
                     <div class="flex gap-2 border-t border-slate-100 p-4">
                         <a :href="$u.route('report', r.id)" class="btn-primary flex-1">
-                            Ver detalhes
+                            Ver detalhes e histórico
                             <x-eco.icon name="arrow-right" class="h-4 w-4" />
                         </a>
-                        <button type="button" class="btn-secondary" @click="$store.eco.confirmReport(r.id)" :disabled="$store.eco.isConfirmed(r.id) || ['resolvida','nao_confirmada'].includes(r.status)"
-                                :title="$store.eco.isConfirmed(r.id) ? 'Você já confirmou' : 'Confirmar ocorrência'">
-                            <x-eco.icon name="thumbs-up" class="h-4 w-4" />
-                            <span x-text="$store.eco.isConfirmed(r.id) ? 'Confirmada' : 'Confirmar'"></span>
-                        </button>
                     </div>
                 </div>
             </template>

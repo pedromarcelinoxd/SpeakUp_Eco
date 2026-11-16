@@ -2,7 +2,7 @@
  * Funções disponíveis nos templates Blade via a mágica Alpine `$u`.
  * Ex.: <span x-text="$u.timeAgo(r.createdAt)"></span>
  */
-import { POINT_CATEGORIES, REPORT_CATEGORIES, SEVERITIES, STATUSES, LEVELS, SCORE_RULES } from './config';
+import { COMMUNITY_DISCLAIMER, HISTORY_ORIGINS, POINT_CATEGORIES, REPORT_CATEGORIES, SEVERITIES, STATUSES, LEVELS, SCORE_RULES } from './config';
 import { route } from './store';
 import {
     avatarColor, directionsUrl, formatDate, formatDateTime, formatDistance, formatNumber, formatPercent,
@@ -33,6 +33,8 @@ export const helpers = {
     SEVERITIES,
     LEVELS,
     SCORE_RULES,
+    HISTORY_ORIGINS,
+    COMMUNITY_DISCLAIMER,
 
     /** Primeira foto real ou imagem ilustrativa (identificada como tal). */
     photo(r) {

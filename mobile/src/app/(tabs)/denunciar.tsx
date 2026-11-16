@@ -17,7 +17,7 @@ import { Icon } from '@/design/Icon';
 import { shouldAnimate } from '@/design/motion';
 import { Text } from '@/design/Text';
 import { color, font, motion, radius, readable, space } from '@/design/tokens';
-import { api, type PhotoAsset, type Report } from '@/lib/api';
+import { api, ApiError, type PhotoAsset, type Report } from '@/lib/api';
 import { DEFAULT_CENTER, REPORT_CATEGORIES, SEVERITIES, type ReportCategory, type Severity } from '@/lib/catalog';
 import { useMyLocation } from '@/lib/location';
 
@@ -44,6 +44,8 @@ export default function ReportScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<Report | null>(null);
+  // Denúncia parecida já registrada por perto (o servidor avisa antes de duplicar)
+  const [duplicate, setDuplicate] = useState<Report | null>(null);
   const fade = useState(() => new Animated.Value(1))[0];
   const mapRef = useRef<EcoMapHandle>(null);
 
@@ -132,16 +134,22 @@ export default function ReportScreen() {
     }, 160);
   }
 
-  async function submit() {
+  async function submit(ignorarDuplicata = false) {
     for (let i = 0; i < 3; i++) if (!validate(i)) { setStep(i); return; }
     setSending(true);
+    setDuplicate(null);
+    setErrors({});
     try {
       setSent(await api.createReport({
         photos, categoria: category!, titulo: finalTitle.trim(), descricao: description.trim(), criticidade: severity,
-        latitude: coords!.latitude, longitude: coords!.longitude, endereco: address,
+        latitude: coords!.latitude, longitude: coords!.longitude, endereco: address, ignorarDuplicata,
       }));
     } catch (e) {
-      setErrors({ submit: e instanceof Error ? e.message : 'Não foi possível enviar.' });
+      if (e instanceof ApiError && e.status === 409 && e.data?.duplicata) {
+        setDuplicate(e.data.duplicata as Report);
+      } else {
+        setErrors({ submit: e instanceof Error ? e.message : 'Não foi possível enviar.' });
+      }
     } finally {
       setSending(false);
     }
@@ -149,7 +157,7 @@ export default function ReportScreen() {
 
   function reset() {
     setStep(0); setCategory(null); setPhotos([]); setCoords(null); setAddress(''); setDistrict('');
-    setTitle(''); setTitleTouched(false); setDescription(''); setSeverity('media'); setErrors({}); setSent(null);
+    setTitle(''); setTitleTouched(false); setDescription(''); setSeverity('media'); setErrors({}); setSent(null); setDuplicate(null);
   }
 
   if (sent) return <Success report={sent} onTrack={() => { const id = sent.id; reset(); router.push(`/denuncia/${id}`); }} onAnother={reset} />;
@@ -343,6 +351,16 @@ export default function ReportScreen() {
               </Text>
             </View>
             {errors.submit && <Banner text={errors.submit} />}
+            {duplicate && (
+              <View style={styles.duplicate} accessibilityRole="alert">
+                <Text variant="bodyStrong">Já existe uma denúncia parecida bem perto daqui</Text>
+                <Text variant="caption" tone="secondary">“{duplicate.titulo ?? 'Denúncia'}” · {duplicate.validacoes.existe} {duplicate.validacoes.existe === 1 ? 'confirmação' : 'confirmações'}. Confirmar a existente ajuda mais do que criar outra.</Text>
+                <View style={{ flexDirection: 'row', gap: space.xs, flexWrap: 'wrap' }}>
+                  <Button label="Ver e confirmar a existente" size="sm" onPress={() => { const id = duplicate.id; reset(); router.push(`/denuncia/${id}`); }} />
+                  <Button label="É outro problema, enviar" size="sm" variant="secondary" onPress={() => submit(true)} />
+                </View>
+              </View>
+            )}
           </>
         )}
       </Animated.ScrollView>
@@ -353,7 +371,7 @@ export default function ReportScreen() {
           <IconButton icon="arrow-left" label="Voltar" variant="plain" size={52} onPress={() => { setErrors({}); setStep(step - 1); }} />
           {step < 3
             ? <Button label="Continuar" variant="primary" iconRight="arrow-right" style={{ flex: 1 }} onPress={() => goTo(step + 1)} />
-            : <Button label="Enviar denúncia" icon="send" variant="report" style={{ flex: 1 }} loading={sending} onPress={submit} />}
+            : <Button label="Enviar denúncia" icon="send" variant="report" style={{ flex: 1 }} loading={sending} onPress={() => submit()} />}
         </View>
       )}
     </KeyboardAvoidingView>
@@ -377,7 +395,7 @@ function Success({ report, onTrack, onAnother }: { report: Report; onTrack: () =
       <View style={{ gap: space.sm, marginTop: space.xl }}>
         <Text variant="display">Denúncia enviada</Text>
         <Text variant="body" tone="muted">
-          Ela já aparece no mapa e no painel da equipe. Você recebe uma notificação a cada mudança de status.
+          Ela já aparece no mapa para todos. Agora outras pessoas podem confirmar se o problema existe; o status muda conforme a validação da comunidade e da equipe.
         </Text>
         <Text variant="label" tone="brand" style={{ marginTop: space.xs }}>Protocolo #{report.id}</Text>
       </View>
@@ -397,6 +415,7 @@ const styles = StyleSheet.create({
   bar: { height: 4, borderRadius: 2, backgroundColor: color.line },
   catRow: { flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: 72, paddingVertical: space.sm, borderRadius: radius.sm },
   rule: { height: StyleSheet.hairlineWidth, backgroundColor: color.line, marginLeft: 52 },
+  duplicate: { gap: space.xs, padding: space.md, borderRadius: radius.lg, backgroundColor: color.warningTint, borderWidth: 1, borderColor: '#F3D9A4' },
   radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: color.line, alignItems: 'center', justifyContent: 'center' },
   radioOn: { backgroundColor: color.brand, borderColor: color.brand },
   camera: { height: 168, borderRadius: radius.lg, borderWidth: 1.5, borderStyle: 'dashed', borderColor: color.faint, alignItems: 'center', justifyContent: 'center', gap: 4 },

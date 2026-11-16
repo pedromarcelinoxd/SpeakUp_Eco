@@ -77,11 +77,11 @@ class EcoRadarApresentacaoSeeder extends Seeder
             ['apresentacao', 'queimada', 'Fumaça em terreno baldio', 'Queima de lixo no fim da tarde, fumaça forte entrando nas casas.', -23.4921, -47.4493, 'Jardim Vergueiro', 'alta', 'verificada', 9, ['rafael', 'camila', 'lucas', 'beatriz']],
             ['apresentacao', 'poluicao_agua', 'Óleo no córrego Supiriri', 'Mancha escura na água perto da ponte, com cheiro forte.', -23.5221, -47.4712, 'Av. Dom Aguirre, Campolim', 'media', 'resolvida', 21, ['marina', 'gabriel']],
             ['apresentacao', 'descarte_irregular', 'Sofá abandonado na esquina', 'Móvel velho deixado na calçada há uma semana.', -23.5290, -47.4695, 'Rua Antônio Perez Hernandez, Campolim', 'baixa', 'resolvida', 34, ['larissa']],
-            ['marina', 'descarte_irregular', 'Pneus descartados em área verde', 'Cerca de dez pneus jogados perto da trilha, acumulando água.', -23.4898, -47.4402, 'Vila Hortência', 'alta', 'verificada', 6, ['apresentacao', 'carlos', 'patricia']],
+            ['marina', 'descarte_irregular', 'Pneus descartados em área verde', 'Cerca de dez pneus jogados perto da trilha, acumulando água.', -23.4898, -47.4402, 'Vila Hortência', 'alta', 'confirmada', 6, ['apresentacao', 'carlos', 'patricia']],
             ['marina', 'dano_ambiental', 'Corte de árvores sem autorização', 'Três árvores derrubadas no canteiro central durante a madrugada.', -23.4935, -47.4378, 'Av. São Paulo, Vila Hortência', 'alta', 'em_analise', 2, ['apresentacao', 'juliana']],
             ['marina', 'entulho', 'Restos de demolição no terreno', 'Caçamba irregular despejada direto no terreno da esquina.', -23.4871, -47.4455, 'Rua Aparecida, Vila Hortência', 'media', 'resolvida', 48, []],
             ['rafael', 'queimada', 'Queimada no pasto ao lado da escola', 'Fogo alto atrás da escola estadual; fumaça na hora da saída.', -23.4855, -47.4521, 'Jardim Vergueiro', 'alta', 'resolvida', 15, ['apresentacao', 'beatriz', 'thiago', 'lucas']],
-            ['rafael', 'descarte_irregular', 'Lixo eletrônico na calçada', 'Monitores e CPUs abandonados em frente ao terreno vazio.', -23.4899, -47.4560, 'Rua Humberto de Campos, Jardim Vergueiro', 'media', 'pendente', 1, []],
+            ['rafael', 'eletronicos', 'Lixo eletrônico na calçada', 'Monitores e CPUs abandonados em frente ao terreno vazio.', -23.4899, -47.4560, 'Rua Humberto de Campos, Jardim Vergueiro', 'media', 'pendente', 1, []],
             ['juliana', 'poluicao_agua', 'Esgoto a céu aberto', 'Vazamento de esgoto escorrendo pela sarjeta até o córrego.', -23.4862, -47.4688, 'Rua Paula Souza, Além Ponte', 'alta', 'verificada', 11, ['rafael', 'gabriel', 'camila']],
             ['juliana', 'descarte_irregular', 'Lixo acumulado na margem do rio', 'Sacolas e garrafas presas na vegetação da margem.', -23.4840, -47.4710, 'Margem do Rio Sorocaba, Além Ponte', 'media', 'em_analise', 5, ['apresentacao']],
             ['juliana', 'outros', 'Ponto de entrega voluntária cheio', 'Contêiner de recicláveis transbordando há vários dias.', -23.4879, -47.4660, 'Av. Gen. Osório, Além Ponte', 'baixa', 'resolvida', 27, ['marina']],
@@ -92,17 +92,17 @@ class EcoRadarApresentacaoSeeder extends Seeder
             ['beatriz', 'descarte_irregular', 'Restos de poda na calçada', 'Galhos grandes bloqueando a passagem há duas semanas.', -23.5170, -47.4405, 'Rua Vergueiro, Santa Rosália', 'baixa', 'resolvida', 30, []],
             ['thiago', 'entulho', 'Telhas e madeiras no terreno baldio', 'Material de construção abandonado com pregos expostos.', -23.5235, -47.4880, 'Jardim Simus', 'media', 'em_analise', 4, ['gabriel']],
             ['thiago', 'queimada', 'Fogo em vegetação às margens da rodovia', 'Focos de incêndio próximos ao acostamento.', -23.5290, -47.4950, 'Rod. Raposo Tavares, Jardim Simus', 'alta', 'resolvida', 55, ['rafael', 'camila']],
-            ['camila', 'descarte_irregular', 'Animais mortos descartados', 'Descarte de restos de animais em saco plástico, mau cheiro forte.', -23.5150, -47.4720, 'Vila Haro', 'alta', 'verificada', 13, ['juliana', 'thiago']],
+            ['camila', 'descarte_irregular', 'Animais mortos descartados', 'Descarte de restos de animais em saco plástico, mau cheiro forte.', -23.5150, -47.4720, 'Vila Haro', 'alta', 'confirmada', 13, ['juliana', 'thiago']],
             ['camila', 'outros', 'Lixeira pública quebrada', 'Lixeira derrubada e lixo espalhado pela calçada.', -23.5128, -47.4760, 'Rua Coronel Nogueira Padilha, Vila Haro', 'baixa', 'pendente', 2, []],
             ['lucas', 'poluicao_agua', 'Lixo boiando no lago do parque', 'Garrafas PET e isopor acumulados no canto do lago.', -23.4985, -47.4335, 'Parque Campolim', 'media', 'resolvida', 25, ['apresentacao', 'marina']],
             ['lucas', 'dano_ambiental', 'Captura de pássaros silvestres', 'Gaiolas com pássaros silvestres expostas para venda.', -23.4790, -47.4420, 'Éden', 'alta', 'em_analise', 6, []],
             ['patricia', 'descarte_irregular', 'Entulho e lixo doméstico misturados', 'Montanha de lixo cresce a cada semana na esquina.', -23.5345, -47.4590, 'Wanel Ville', 'alta', 'verificada', 10, ['carlos', 'beatriz', 'lucas']],
             ['patricia', 'entulho', 'Restos de reforma em praça', 'Azulejos e cimento descartados ao lado do parquinho.', -23.5378, -47.4625, 'Praça do Wanel Ville', 'media', 'pendente', 1, ['larissa']],
             ['gabriel', 'queimada', 'Queima de fios para retirar cobre', 'Fumaça preta com cheiro de plástico queimado à noite.', -23.4705, -47.4602, 'Jardim Europa', 'alta', 'resolvida', 38, ['juliana', 'rafael']],
-            ['gabriel', 'descarte_irregular', 'Lixo hospitalar em terreno', 'Seringas e embalagens de medicamentos encontradas no mato.', -23.4740, -47.4655, 'Jardim Europa', 'alta', 'verificada', 7, ['apresentacao', 'patricia', 'camila']],
+            ['gabriel', 'eletronicos', 'Baterias e celulares no terreno', 'Baterias estufadas e celulares quebrados jogados no mato.', -23.4740, -47.4655, 'Jardim Europa', 'alta', 'verificada', 7, ['apresentacao', 'patricia', 'camila']],
             ['larissa', 'poluicao_agua', 'Bueiro entupido com lixo', 'Bueiro transborda a cada chuva por causa do lixo acumulado.', -23.5080, -47.4800, 'Vila Carvalho', 'media', 'em_analise', 3, ['thiago']],
             ['larissa', 'outros', 'Faltam lixeiras de coleta seletiva', 'Rua inteira sem ponto de coleta seletiva; moradores misturam tudo.', -23.5055, -47.4840, 'Vila Carvalho', 'baixa', 'nao_confirmada', 44, []],
-            ['marina', 'descarte_irregular', 'Garrafas de vidro quebradas na calçada', 'Cacos de vidro espalhados perto da escola.', -23.4920, -47.4430, 'Vila Hortência', 'media', 'resolvida', 18, ['lucas']],
+            ['marina', 'descarte_irregular', 'Garrafas de vidro quebradas na calçada', 'Cacos de vidro espalhados perto da escola.', -23.4920, -47.4430, 'Vila Hortência', 'media', 'possivelmente_resolvida', 18, ['lucas']],
             ['rafael', 'dano_ambiental', 'Desmatamento em área de preservação', 'Máquinas abrindo clareira em mata ciliar.', -23.4780, -47.4510, 'Jardim Vergueiro', 'alta', 'verificada', 16, ['juliana', 'marina', 'gabriel', 'patricia']],
             ['juliana', 'entulho', 'Concreto descartado no acostamento', 'Blocos de concreto deixados no acostamento da avenida.', -23.4820, -47.4745, 'Av. Ipanema, Além Ponte', 'media', 'resolvida', 60, ['carlos']],
             ['carlos', 'outros', 'Odor forte vindo de galpão', 'Cheiro de produto químico perto do galpão desativado.', -23.4965, -47.4640, 'Centro', 'media', 'em_analise', 2, ['larissa']],
@@ -115,17 +115,22 @@ class EcoRadarApresentacaoSeeder extends Seeder
         ];
 
         $observacoes = [
+            'confirmada' => 'Pessoas da comunidade confirmaram que o problema existe.',
+            'possivelmente_resolvida' => '1 pessoa informou que o problema foi resolvido. Aguardando mais validações.',
             'em_analise' => 'Equipe iniciou a análise da ocorrência.',
             'verificada' => 'Ocorrência confirmada pela equipe no local.',
             'resolvida' => 'Órgão responsável fez a limpeza/solução no local.',
             'nao_confirmada' => 'Equipe não encontrou a ocorrência no endereço informado.',
         ];
+        // [status, origem] de cada etapa até o status final
         $caminho = [
             'pendente' => [],
-            'em_analise' => ['em_analise'],
-            'verificada' => ['em_analise', 'verificada'],
-            'resolvida' => ['em_analise', 'verificada', 'resolvida'],
-            'nao_confirmada' => ['em_analise', 'nao_confirmada'],
+            'confirmada' => [['confirmada', 'comunidade']],
+            'em_analise' => [['em_analise', 'equipe']],
+            'verificada' => [['em_analise', 'equipe'], ['verificada', 'equipe']],
+            'possivelmente_resolvida' => [['confirmada', 'comunidade'], ['possivelmente_resolvida', 'comunidade']],
+            'resolvida' => [['em_analise', 'equipe'], ['verificada', 'equipe'], ['resolvida', 'equipe']],
+            'nao_confirmada' => [['em_analise', 'equipe'], ['nao_confirmada', 'equipe']],
         ];
 
         foreach ($denuncias as $i => [$autor, $cat, $titulo, $descricao, $lat, $lng, $endereco, $crit, $status, $dias, $confirmadores]) {
@@ -141,23 +146,32 @@ class EcoRadarApresentacaoSeeder extends Seeder
             $d->updated_at = $criada;
             $d->save();
 
-            $this->historico($d, 'pendente', null, 'Denúncia registrada.', $criada);
+            $this->historico($d, 'pendente', $u[$autor]->id, 'Denúncia registrada. Aguardando validação da comunidade.', $criada, 'autor');
             $passo = $criada->copy();
-            foreach ($caminho[$status] as $k => $st) {
+            foreach ($caminho[$status] as $k => [$st, $origem]) {
                 $passo = $passo->copy()->addHours(6 + $k * 20);
                 if ($passo->greaterThan($agora)) {
                     $passo = $agora->copy()->subMinutes(10 - $k);
                 }
-                $this->historico($d, $st, $equipe->id, $observacoes[$st], $passo);
+                $this->historico($d, $st, $origem === 'equipe' ? $equipe->id : null, $observacoes[$st], $passo, $origem);
             }
             if ($caminho[$status]) {
                 DB::table('denuncias')->where('id', $d->id)->update(['updated_at' => $passo]);
             }
 
+            // Votos da comunidade: confirmações e, nas resolvidas pela comunidade, avisos de resolução
             foreach ($confirmadores as $j => $login) {
-                DB::table('denuncia_confirmacoes')->insert([
-                    'denuncia_id' => $d->id, 'user_id' => $u[$login]->id,
-                    'created_at' => $criada->copy()->addHours(2 + $j * 3), 'updated_at' => $criada->copy()->addHours(2 + $j * 3),
+                $quando = $criada->copy()->addHours(2 + $j * 3);
+                DB::table('denuncia_validacoes')->insert([
+                    'denuncia_id' => $d->id, 'user_id' => $u[$login]->id, 'votante' => 'u:'.$u[$login]->id,
+                    'tipo' => 'existe', 'created_at' => $quando, 'updated_at' => $quando,
+                ]);
+            }
+            if ($status === 'possivelmente_resolvida') {
+                $votante = $u['camila'];
+                DB::table('denuncia_validacoes')->insert([
+                    'denuncia_id' => $d->id, 'user_id' => $votante->id, 'votante' => 'u:'.$votante->id,
+                    'tipo' => 'resolvida', 'created_at' => $passo, 'updated_at' => $passo,
                 ]);
             }
 
@@ -174,10 +188,10 @@ class EcoRadarApresentacaoSeeder extends Seeder
         $this->command?->info('Dados de apresentação criados: '.count($pessoas).' moradores, '.count($denuncias).' denúncias.');
     }
 
-    private function historico(Denuncia $d, string $status, ?int $autor, string $obs, Carbon $quando): void
+    private function historico(Denuncia $d, string $status, ?int $autor, string $obs, Carbon $quando, string $origem): void
     {
         DB::table('denuncia_status_historico')->insert([
-            'denuncia_id' => $d->id, 'user_id' => $autor, 'status' => $status, 'observacao' => $obs,
+            'denuncia_id' => $d->id, 'user_id' => $autor, 'status' => $status, 'origem' => $origem, 'observacao' => $obs,
             'created_at' => $quando, 'updated_at' => $quando,
         ]);
     }

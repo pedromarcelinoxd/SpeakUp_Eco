@@ -5,7 +5,7 @@
  */
 import { CAMPUS_POINTS, REPORT_CATEGORIES, SEVERITIES } from '../config';
 import { createMap, dropIcon, L } from '../map/base';
-import { apiError, reverseGeocode } from '../services/api';
+import { apiError, reverseGeocode, mapApiReport } from '../services/api';
 import { debounce, distanceKm, storage } from '../utils';
 
 const raw = (x) => (window.Alpine ? window.Alpine.raw(x) : x);
@@ -45,6 +45,7 @@ export default () => {
         errors: {},
         submitting: false,
         submitError: '',
+        duplicate: null,
         result: null,
 
         init() {
@@ -71,8 +72,9 @@ export default () => {
             return ((Math.min(this.step, 5) - 1) / 4) * 100;
         },
 
+        /** Sempre envia ao servidor (com ou sem conta). */
         get usesApi() {
-            return this.$store.eco.isAuthenticated;
+            return true;
         },
 
         /* ---------------- Validação ---------------- */
@@ -233,15 +235,17 @@ export default () => {
             return canvas.toDataURL('image/jpeg', 0.72);
         },
 
-        async submit() {
+        async submit(ignoreDuplicate = false) {
             for (let s = 1; s <= 4; s++) {
                 if (!this.validate(s)) { this.step = s; return; }
             }
             this.submitting = true;
             this.submitError = '';
+            this.duplicate = null;
             try {
-                const previews = this.usesApi ? [] : await Promise.all(this.photos.slice(0, 3).map((p) => this.readPreview(p.file)));
+                const previews = [];
                 this.result = await this.$store.eco.submitReport({
+                    ignoreDuplicate,
                     category: this.category,
                     title: this.title.trim(),
                     description: this.description.trim(),
@@ -257,7 +261,12 @@ export default () => {
                 storage.remove('reportDraft');
                 this.step = 6;
             } catch (e) {
-                this.submitError = e.response ? apiError(e) : (e.message || 'Não foi possível enviar a denúncia.');
+                // Denúncia parecida por perto: oferece confirmar a existente em vez de duplicar
+                if (e.response?.status === 409 && e.response.data?.duplicata) {
+                    this.duplicate = mapApiReport(e.response.data.duplicata);
+                } else {
+                    this.submitError = e.response ? apiError(e) : (e.message || 'Não foi possível enviar a denúncia.');
+                }
             } finally {
                 this.submitting = false;
             }

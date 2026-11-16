@@ -187,18 +187,35 @@ export function StatusTag({ status, size = 'md' }: { status: string; size?: 'sm'
   );
 }
 
-/** Gota coral da denúncia — a mesma forma do mapa. Ícone em carvão para contraste. */
+/**
+ * Gota da denúncia — a mesma forma do mapa, na cor da categoria (ícone branco,
+ * contraste ≥ 4,5:1). Encerradas ficam em cinza.
+ */
 export function ReportDrop({ category, size = 40, muted, onMap }: { category?: string; size?: number; muted?: boolean; onMap?: boolean }) {
   const cat = reportCategory(category);
   return (
     <View style={[{
       width: size, height: size, borderRadius: size / 2, borderBottomLeftRadius: size * 0.16,
-      transform: [{ rotate: '-45deg' }], backgroundColor: muted ? color.line : color.coral,
+      transform: [{ rotate: '-45deg' }], backgroundColor: muted ? color.line : cat.color,
       alignItems: 'center', justifyContent: 'center',
     }, onMap && mapMarkerEdge]}>
       <View style={{ transform: [{ rotate: '45deg' }] }}>
-        <Icon name={cat.icon} size={size * 0.46} tint={muted ? color.ink2 : color.onCoral} />
+        <Icon name={cat.icon} size={size * 0.46} tint={muted ? color.ink2 : color.surface} />
       </View>
+    </View>
+  );
+}
+
+/** Agrupamento de marcadores próximos no mapa: círculo com a quantidade. */
+export function ClusterBubble({ count, hasReports }: { count: number; hasReports: boolean }) {
+  const size = count < 10 ? 38 : count < 50 ? 44 : 52;
+  return (
+    <View style={[{
+      width: size, height: size, borderRadius: size / 2, backgroundColor: color.ink,
+      borderWidth: 3, borderColor: hasReports ? color.coral : color.brand,
+      alignItems: 'center', justifyContent: 'center',
+    }, mapMarkerEdge]}>
+      <Text variant="label" style={{ color: color.surface, fontFamily: font.bold }}>{count}</Text>
     </View>
   );
 }

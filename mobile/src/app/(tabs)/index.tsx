@@ -1,24 +1,28 @@
 /**
- * Mapa — a experiência central do EcoRadar e a tela inicial.
- * Mapa em tela cheia; painel "Perto de você" com a leitura da região;
- * ao tocar num marcador, o painel vira o cartão do item.
+ * Mapa — a experiência central do EcoRadar e a tela inicial, aberta a qualquer
+ * pessoa (com ou sem conta). Mapa em tela cheia; painel "Perto de você"; ao tocar
+ * num marcador, o painel vira o cartão completo do item, com validação comunitária.
+ * Os marcadores se atualizam ao voltar para a tela e a cada 45 s.
  */
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EcoMap } from '@/components/map/EcoMap';
 import type { EcoMapHandle, MapMarker } from '@/components/map/types';
+import { MapLegend } from '@/components/MapLegend';
 import { MapSheet, type MapSheetHandle } from '@/components/MapSheet';
+import { CommunityValidation, PhotoStrip, ReportSummary, useVote } from '@/components/ReportCard';
 import {
-  Banner, Button, Chip, Divider, IconButton, PointStone, ReportDrop, Row, Section, Segmented, Sheet, SkeletonRows, StatusTag,
+  Banner, Button, Chip, Divider, IconButton, PointStone, ReportDrop, Row, Section, Segmented, Sheet, SkeletonRows,
 } from '@/design/components';
 import { Icon } from '@/design/Icon';
 import { MosaicActivity } from '@/design/Mosaic';
 import { Text } from '@/design/Text';
 import { color, float, floatSoft, font, radius, space } from '@/design/tokens';
 import { api, type Point, type Report } from '@/lib/api';
+import { useAuth } from '@/lib/auth';
 import { POINT_CATEGORIES, REPORT_CATEGORIES, pointCategory, reportCategory, statusInfo } from '@/lib/catalog';
 import { formatDistance, openDirections, timeAgo } from '@/lib/format';
 import { regionSummary, withDistance } from '@/lib/insights';
@@ -35,6 +39,7 @@ export default function MapScreen() {
   const map = useRef<EcoMapHandle>(null);
   const sheet = useRef<MapSheetHandle>(null);
   const location = useMyLocation();
+  const { user } = useAuth();
 
   const [mode, setMode] = useState<Mode>(params.tipo === 'descarte' ? 'points' : 'all');
   const [hiddenCats, setHiddenCats] = useState<string[]>([]);
@@ -43,7 +48,7 @@ export default function MapScreen() {
   const [query, setQuery] = useState('');
   const [searching, setSearching] = useState(false);
   const [selected, setSelected] = useState<Selected>(null);
-  const [confirming, setConfirming] = useState(false);
+  const [legendOpen, setLegendOpen] = useState(false);
 
   // "Ver no mapa" a partir de Pontos de descarte: ajusta o modo quando o parâmetro muda
   const [lastTipo, setLastTipo] = useState(params.tipo);
@@ -53,17 +58,33 @@ export default function MapScreen() {
   }
 
   const { data, setData, error, loading, reload } = useApi(async () => {
-    const [reports, points, notif] = await Promise.all([api.reports(), api.points(), api.notifications()]);
-    return { reports, points, unread: notif.nao_lidas };
-  });
+    const [reports, points, notif] = await Promise.all([
+      api.reports(), api.points(), user ? api.notifications() : Promise.resolve(null),
+    ]);
+    return { reports, points, unread: notif?.nao_lidas ?? 0 };
+  }, user?.id ?? 'visitante');
+
+  // Novas denúncias de outras pessoas aparecem sem precisar recarregar
+  useFocusEffect(useCallback(() => {
+    const t = setInterval(() => { reload(); }, 45_000);
+    return () => clearInterval(t);
+  }, [reload]));
+
+  // Selecionado sempre com os dados mais recentes (após votos ou atualização)
+  const selectedReport = selected?.kind === 'report' ? data?.reports.find((r) => r.id === selected.item.id) ?? selected.item : null;
+  const replaceReport = (updated: Report) => {
+    setData((d) => d && { ...d, reports: d.reports.map((x) => (x.id === updated.id ? updated : x)) });
+    setSelected((s) => (s?.kind === 'report' && s.item.id === updated.id ? { kind: 'report', item: updated } : s));
+  };
+  const { vote, voting, feedback } = useVote(selectedReport, replaceReport);
 
   const q = query.trim().toLowerCase();
   const reports = useMemo(() => (data?.reports ?? []).filter((r) => r.latitude != null
-    && mode !== 'points' && !hiddenCats.includes(r.categoria)
+    && mode !== 'points' && !hiddenCats.includes(`r:${r.categoria}`)
     && (showClosed || statusInfo(r.status).open)
     && (!q || `${r.titulo} ${r.endereco} ${reportCategory(r.categoria).label}`.toLowerCase().includes(q))), [data, mode, hiddenCats, showClosed, q]);
   const points = useMemo(() => (data?.points ?? []).filter((p) => p.latitude != null
-    && mode !== 'reports' && !hiddenCats.includes(p.categoria)
+    && mode !== 'reports' && !hiddenCats.includes(`p:${p.categoria}`)
     && (!q || `${p.nome} ${p.residuos_aceitos.join(' ')} ${pointCategory(p.categoria).label}`.toLowerCase().includes(q))), [data, mode, hiddenCats, q]);
 
   const markers: MapMarker[] = useMemo(() => [
@@ -100,19 +121,6 @@ export default function MapScreen() {
     map.current?.focus(c, { zoom: 'neighborhood', offsetY: 200 });
   }
 
-  async function confirm(r: Report) {
-    setConfirming(true);
-    try {
-      const updated = await api.confirm(r.id);
-      setSelected({ kind: 'report', item: updated });
-      setData((d) => d && { ...d, reports: d.reports.map((x) => (x.id === updated.id ? updated : x)) });
-    } catch (e) {
-      Alert.alert('Não foi possível confirmar', e instanceof Error ? e.message : '');
-    } finally {
-      setConfirming(false);
-    }
-  }
-
   const toggleCat = (k: string) => setHiddenCats((h) => (h.includes(k) ? h.filter((x) => x !== k) : [...h, k]));
   const filterCount = hiddenCats.length + (showClosed ? 1 : 0);
   const dist = (lat: number | null, lng: number | null) => (lat == null ? null : withDistance([{ latitude: lat, longitude: lng }], location.coords)[0]?.km ?? null);
@@ -135,7 +143,8 @@ export default function MapScreen() {
       });
   }, [selected, markers, reports, points]);
 
-  const peek = selected ? 262 + (nearbySame.length ? 30 + 38 * Math.min(nearbySame.length, 2) : 0) : searching && q ? 320 : 164;
+  // Cartão do item: mostra título, status e ações sem precisar arrastar; arrastar revela o resto
+  const peek = selected ? (selected.kind === 'report' ? 300 : 280) : searching && q ? 320 : 164;
 
   return (
     <View style={{ flex: 1, backgroundColor: color.ground }}>
@@ -171,7 +180,9 @@ export default function MapScreen() {
               </Pressable>
             )}
           </View>
-          <IconButton icon="bell" label="Notificações" badge={data?.unread} onPress={() => router.push('/notificacoes')} size={50} />
+          {user
+            ? <IconButton icon="bell" label="Notificações" badge={data?.unread} onPress={() => router.push('/notificacoes')} size={50} />
+            : <IconButton icon="user" label="Entrar ou criar conta" onPress={() => router.push('/login')} size={50} />}
         </View>
         <View style={styles.modeRow}>
           <Segmented
@@ -188,10 +199,16 @@ export default function MapScreen() {
         {error && <View style={{ marginTop: space.xs }}><Banner text={error} action="Tentar" onAction={reload} /></View>}
       </View>
 
-      {/* Localização */}
+      {/* Legenda e localização */}
       <View style={[styles.locate, { bottom: peek + space.sm }]} pointerEvents="box-none">
+        <IconButton icon="layers" label="Legenda do mapa" onPress={() => setLegendOpen((v) => !v)} />
         <IconButton icon="locate" label="Minha localização" onPress={locate} />
       </View>
+      {legendOpen && (
+        <View style={[styles.legend, { bottom: peek + space.sm }]}>
+          <MapLegend onClose={() => setLegendOpen(false)} />
+        </View>
+      )}
 
       <MapSheet ref={sheet} peek={peek}>
         {(expanded) => (
@@ -201,14 +218,15 @@ export default function MapScreen() {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            {selected?.kind === 'report' && (
+            {selectedReport && (
               <ReportPanel
-                r={selected.item}
-                km={dist(selected.item.latitude, selected.item.longitude)}
+                r={selectedReport}
+                km={dist(selectedReport.latitude, selectedReport.longitude)}
                 onClose={() => setSelected(null)}
-                onConfirm={() => confirm(selected.item)}
-                confirming={confirming}
-                onDetails={() => router.push(`/denuncia/${selected.item.id}`)}
+                vote={vote}
+                voting={voting}
+                feedback={feedback}
+                onDetails={() => router.push(`/denuncia/${selectedReport.id}`)}
               />
             )}
             {selected?.kind === 'point' && (
@@ -314,7 +332,7 @@ export default function MapScreen() {
             <Text variant="label" tone="muted">Problemas</Text>
             <View style={styles.wrap}>
               {Object.entries(REPORT_CATEGORIES).map(([k, c]) => (
-                <Chip key={k} label={c.label} icon={c.icon} selected={!hiddenCats.includes(k)} onPress={() => toggleCat(k)} />
+                <Chip key={k} label={c.label} icon={c.icon} selected={!hiddenCats.includes(`r:${k}`)} onPress={() => toggleCat(`r:${k}`)} />
               ))}
             </View>
           </View>
@@ -322,7 +340,7 @@ export default function MapScreen() {
             <Text variant="label" tone="muted">Pontos de descarte</Text>
             <View style={styles.wrap}>
               {Object.entries(POINT_CATEGORIES).map(([k, c]) => (
-                <Chip key={k} label={c.label} icon={c.icon} selected={!hiddenCats.includes(k)} onPress={() => toggleCat(k)} />
+                <Chip key={k} label={c.label} icon={c.icon} selected={!hiddenCats.includes(`p:${k}`)} onPress={() => toggleCat(`p:${k}`)} />
               ))}
             </View>
           </View>
@@ -351,37 +369,22 @@ function Figure({ value, label, accent }: { value: number; label: string; accent
   );
 }
 
-function ReportPanel({ r, km, onClose, onConfirm, confirming, onDetails }: {
-  r: Report; km: number | null; onClose: () => void; onConfirm: () => void; confirming: boolean; onDetails: () => void;
+function ReportPanel({ r, km, onClose, vote, voting, feedback, onDetails }: {
+  r: Report; km: number | null; onClose: () => void; onDetails: () => void;
+  vote: Parameters<typeof CommunityValidation>[0]['vote']; voting: Parameters<typeof CommunityValidation>[0]['voting'];
+  feedback: Parameters<typeof CommunityValidation>[0]['feedback'];
 }) {
-  const cat = reportCategory(r.categoria);
   return (
     <View style={{ gap: space.md }}>
-      <View style={styles.panelHead}>
-        <ReportDrop category={r.categoria} size={40} muted={!statusInfo(r.status).open} />
-        <View style={{ flex: 1, gap: 4 }}>
-          <Text variant="headline" numberOfLines={2}>{r.titulo ?? 'Denúncia'}</Text>
-          <Text variant="caption" tone="muted">{cat.label} · {timeAgo(r.created_at)}</Text>
-        </View>
-        <View style={{ alignItems: 'flex-end' }}>
-          <Text variant="numberSm">{formatDistance(km)}</Text>
-          <Text variant="caption" tone="muted">de você</Text>
-        </View>
+      <View style={styles.panelTop}>
+        <ReportDrop category={r.categoria} size={34} muted={!statusInfo(r.status).open} />
+        <Text variant="caption" tone="muted" style={{ flex: 1 }}>Ocorrência #{r.id}{km != null ? ` · ${formatDistance(km)} de você` : ''}</Text>
+        <IconButton icon="x" label="Fechar" variant="plain" size={40} onPress={onClose} />
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-        <StatusTag status={r.status} />
-        <Text variant="caption" tone="muted">
-          {r.confirmacoes_count} {r.confirmacoes_count === 1 ? 'confirmação' : 'confirmações'}
-        </Text>
-      </View>
-      <View style={{ flexDirection: 'row', gap: space.sm }}>
-        {r.permissoes?.confirmar
-          ? <Button label="Também vi isso" icon="thumbs-up" onPress={onConfirm} loading={confirming} style={{ flex: 1 }} />
-          : <Button label={r.confirmada_por_mim ? 'Você confirmou' : 'Ver detalhes'} icon={r.confirmada_por_mim ? 'check' : undefined}
-              variant={r.confirmada_por_mim ? 'secondary' : 'primary'} onPress={onDetails} style={{ flex: 1 }} />}
-        {r.permissoes?.confirmar || r.confirmada_por_mim ? <Button label="Detalhes" variant="secondary" onPress={onDetails} /> : null}
-        <IconButton icon="x" label="Fechar" variant="plain" size={52} onPress={onClose} />
-      </View>
+      <ReportSummary r={r} compact />
+      <CommunityValidation r={r} vote={vote} voting={voting} feedback={feedback} />
+      <PhotoStrip photos={r.fotos} />
+      <Button label="Ver detalhes e histórico" icon="clock" variant="secondary" onPress={onDetails} />
     </View>
   );
 }
@@ -394,19 +397,36 @@ function PointPanel({ p, km, onClose, onDetails }: { p: Point; km: number | null
         <PointStone category={p.categoria} size={40} />
         <View style={{ flex: 1, gap: 4 }}>
           <Text variant="headline" numberOfLines={2}>{p.nome}</Text>
-          <Text variant="caption" tone="muted">{cat.label} · {p.horario || 'horário não informado'}</Text>
+          <Text variant="caption" tone="muted">{cat.label}{km != null ? ` · ${formatDistance(km)} de você` : ''}</Text>
         </View>
-        <View style={{ alignItems: 'flex-end' }}>
-          <Text variant="numberSm">{formatDistance(km)}</Text>
-          <Text variant="caption" tone="muted">de você</Text>
-        </View>
+        <IconButton icon="x" label="Fechar" variant="plain" size={40} onPress={onClose} />
       </View>
-      <Text variant="body" tone="secondary" numberOfLines={2}>Aceita {p.residuos_aceitos.join(', ').toLowerCase()}.</Text>
       <View style={{ flexDirection: 'row', gap: space.sm }}>
         <Button label="Como chegar" icon="navigation" style={{ flex: 1 }} onPress={() => openDirections(p.latitude!, p.longitude!, p.nome)} />
         <Button label="Detalhes" variant="secondary" onPress={onDetails} />
-        <IconButton icon="x" label="Fechar" variant="plain" size={52} onPress={onClose} />
       </View>
+      <View style={{ gap: 6 }}>
+        {!!p.endereco && <PointFact icon="pin" text={p.endereco} />}
+        <PointFact icon="clock" text={p.horario || 'Horário de funcionamento não informado'} />
+      </View>
+      <View style={{ gap: space.xs }}>
+        <Text variant="label" tone="muted">Materiais recebidos</Text>
+        <View style={styles.wrap}>
+          {p.residuos_aceitos.map((m) => (
+            <View key={m} style={styles.material}><Icon name="check" size={13} tint={color.brand} /><Text variant="caption" tone="secondary">{m}</Text></View>
+          ))}
+        </View>
+      </View>
+      {!!p.descricao_local && <Text variant="body" tone="secondary">{p.descricao_local}</Text>}
+    </View>
+  );
+}
+
+function PointFact({ icon, text }: { icon: 'pin' | 'clock'; text: string }) {
+  return (
+    <View style={{ flexDirection: 'row', gap: 6, alignItems: 'flex-start' }}>
+      <Icon name={icon} size={15} tint={color.muted} />
+      <Text variant="caption" tone="secondary" style={{ flex: 1 }}>{text}</Text>
     </View>
   );
 }
@@ -422,7 +442,10 @@ const styles = StyleSheet.create({
   modeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   filterBtn: { width: 46, height: 40, borderRadius: radius.md, backgroundColor: color.surface, alignItems: 'center', justifyContent: 'center' },
   filterDot: { position: 'absolute', top: -5, right: -5, minWidth: 18, height: 18, borderRadius: 9, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 },
-  locate: { position: 'absolute', right: space.md },
+  locate: { position: 'absolute', right: space.md, gap: space.xs },
+  legend: { position: 'absolute', right: space.md + 54, left: space.md, maxWidth: 340, alignSelf: 'flex-end' },
+  panelTop: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginTop: space.xxs },
+  material: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.pill, backgroundColor: color.brandTint },
   sheetHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginTop: space.xxs },
   figures: { flexDirection: 'row', alignItems: 'flex-start', marginTop: space.md, gap: space.md },
   vrule: { width: StyleSheet.hairlineWidth, alignSelf: 'stretch', backgroundColor: color.line },

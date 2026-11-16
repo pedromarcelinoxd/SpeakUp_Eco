@@ -77,7 +77,7 @@
                     <section class="card p-5 sm:p-6" aria-labelledby="timeline">
                         <h3 id="timeline" class="section-title">Acompanhamento</h3>
                         <ol class="mt-5">
-                            <template x-for="(step, i) in timeline" :key="step.status">
+                            <template x-for="(step, i) in timeline" :key="`${i}-${step.status}`">
                                 <li class="relative flex gap-4 pb-6 last:pb-0">
                                     <span x-show="i < timeline.length - 1" class="absolute left-[15px] top-8 h-[calc(100%-2rem)] w-0.5"
                                           :class="timeline[i + 1]?.done ? 'bg-eco-200' : 'bg-slate-200'"></span>
@@ -89,7 +89,8 @@
                                     <div class="min-w-0 pt-1">
                                         <p class="text-[14px] font-semibold" :class="step.done ? 'text-ink' : 'text-slate-400'" x-text="$u.status(step.status).label"></p>
                                         <p x-show="step.done" class="text-[13px] text-ink-muted" x-text="step.note"></p>
-                                        <p x-show="step.done && step.date" class="mt-0.5 text-[12px] text-slate-400" x-text="step.date && $u.formatDateTime(step.date)"></p>
+                                        <p x-show="step.done && step.date" class="mt-0.5 text-[12px] text-slate-400"
+                                           x-text="step.date && `${$u.formatDateTime(step.date)}${step.origin ? ' · ' + ($u.HISTORY_ORIGINS[step.origin] || step.origin) : ''}`"></p>
                                         <p x-show="!step.done" class="text-[12.5px] text-slate-400">Etapa pendente</p>
                                     </div>
                                 </li>
@@ -137,13 +138,10 @@
                         </button>
                     </section>
 
+                    <x-eco.community-validation class="card" />
+
                     <section class="card space-y-3 p-5" aria-labelledby="acoes">
-                        <h3 id="acoes" class="section-title">Você também viu este problema?</h3>
-                        <p class="text-[13px] leading-relaxed text-ink-muted">Confirmar ajuda a equipe a priorizar ocorrências reais. Os pontos só contam após a verificação.</p>
-                        <button type="button" class="btn-primary w-full" :disabled="!canConfirm" @click="$store.eco.confirmReport(r.id)">
-                            <x-eco.icon name="thumbs-up" class="h-4 w-4" />
-                            <span x-text="$store.eco.isConfirmed(r.id) ? 'Você confirmou esta ocorrência' : (canConfirm ? 'Confirmar ocorrência' : 'Confirmação encerrada')"></span>
-                        </button>
+                        <h3 id="acoes" class="section-title">Ações</h3>
                         <button type="button" class="btn-secondary w-full" @click="share()">
                             <x-eco.icon name="share" class="h-4 w-4" />
                             Compartilhar

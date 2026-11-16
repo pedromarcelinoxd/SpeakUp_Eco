@@ -7,6 +7,10 @@ import { color, font } from '@/design/tokens';
 import { AuthProvider, useAuth } from '@/lib/auth';
 import { useNotificationNavigation } from '@/lib/useNotificationNavigation';
 
+/**
+ * Mapa, denúncias e validação são abertos a qualquer pessoa. A conta é opcional:
+ * serve para pontuar, acompanhar notificações e aparecer no ranking.
+ */
 function RootStack() {
   const { user, ready } = useAuth();
   useNotificationNavigation();
@@ -25,14 +29,14 @@ function RootStack() {
         animation: 'slide_from_right',
       }}
     >
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="denuncia/[id]" options={{ title: '', headerTransparent: true }} />
+      <Stack.Screen name="ponto/[id]" options={{ title: '', headerTransparent: true }} />
       <Stack.Protected guard={!!user}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="denuncia/[id]" options={{ title: '' , headerTransparent: true }} />
-        <Stack.Screen name="ponto/[id]" options={{ title: '', headerTransparent: true }} />
         <Stack.Screen name="notificacoes" options={{ title: 'Notificações' }} />
       </Stack.Protected>
       <Stack.Protected guard={!user}>
-        <Stack.Screen name="login" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen name="login" options={{ headerShown: false, presentation: 'modal', animation: 'slide_from_bottom' }} />
       </Stack.Protected>
     </Stack>
   );

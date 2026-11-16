@@ -13,46 +13,34 @@ export const MAP_DEFAULTS = {
  | Categorias de denúncias ambientais
  * -------------------------------------------------------------- */
 export const REPORT_CATEGORIES = {
+    // Cada categoria com cor própria (contraste ≥ 4,5:1 com o ícone branco), igual ao app
+    // e à tabela categorias_ocorrencia do banco.
     descarte_irregular: {
-        label: 'Descarte irregular',
-        short: 'Descarte irregular',
-        icon: 'trash',
-        color: '#A9472B',
+        label: 'Descarte irregular', short: 'Descarte irregular', icon: 'trash', color: '#C2410C',
         description: 'Lixo ou resíduos abandonados em local inadequado.',
     },
     entulho: {
-        label: 'Entulho',
-        short: 'Entulho',
-        icon: 'construction',
-        color: '#A9472B',
+        label: 'Entulho', short: 'Entulho', icon: 'construction', color: '#8B5E34',
         description: 'Restos de construção, reformas ou demolição.',
     },
-    queimada: {
-        label: 'Queimada',
-        short: 'Queimadas',
-        icon: 'flame',
-        color: '#A9472B',
-        description: 'Fogo em terrenos, vegetação ou queima de lixo.',
+    eletronicos: {
+        label: 'Resíduos eletrônicos', short: 'Eletrônicos', icon: 'cpu', color: '#7C3AED',
+        description: 'Aparelhos, pilhas, baterias ou cabos descartados.',
     },
     poluicao_agua: {
-        label: 'Poluição da água',
-        short: 'Poluição',
-        icon: 'droplets',
-        color: '#A9472B',
+        label: 'Poluição da água', short: 'Poluição', icon: 'droplets', color: '#0369A1',
         description: 'Esgoto, óleo ou resíduos em rios, córregos e lagos.',
     },
+    queimada: {
+        label: 'Queimada', short: 'Queimadas', icon: 'flame', color: '#DC2626',
+        description: 'Fogo em terrenos, vegetação ou queima de lixo.',
+    },
     dano_ambiental: {
-        label: 'Dano ambiental',
-        short: 'Dano ambiental',
-        icon: 'axe',
-        color: '#A9472B',
+        label: 'Dano ambiental', short: 'Dano ambiental', icon: 'axe', color: '#BE185D',
         description: 'Desmatamento, corte de árvores ou dano à fauna e flora.',
     },
     outros: {
-        label: 'Outros',
-        short: 'Outros',
-        icon: 'circle-help',
-        color: '#A9472B',
+        label: 'Outros', short: 'Outros', icon: 'circle-help', color: '#475569',
         description: 'Outros problemas ambientais.',
     },
 };
@@ -124,20 +112,30 @@ export const POINT_CATEGORIES = {
  | api: valores do enum `status` na tabela `denuncias`
  * -------------------------------------------------------------- */
 export const STATUSES = {
-    recebida: { label: 'Recebida', color: '#2563EB', bg: 'bg-blue-50', text: 'text-blue-700', icon: 'inbox', api: 'pendente' },
-    em_analise: { label: 'Em análise', color: '#D97706', bg: 'bg-amber-50', text: 'text-amber-700', icon: 'hourglass', api: 'em_analise' },
-    verificada: { label: 'Verificada', color: '#4F46E5', bg: 'bg-indigo-50', text: 'text-indigo-700', icon: 'badge-check', api: 'verificada' },
+    recebida: { label: 'Aguardando validação', color: '#2563EB', bg: 'bg-blue-50', text: 'text-blue-700', icon: 'hourglass', api: 'pendente' },
+    confirmada: { label: 'Confirmada pela comunidade', color: '#0F766E', bg: 'bg-teal-50', text: 'text-teal-800', icon: 'users', api: 'confirmada' },
+    em_analise: { label: 'Em análise pela equipe', color: '#D97706', bg: 'bg-amber-50', text: 'text-amber-800', icon: 'clock', api: 'em_analise', official: true },
+    verificada: { label: 'Verificada pela equipe', color: '#4F46E5', bg: 'bg-indigo-50', text: 'text-indigo-700', icon: 'badge-check', api: 'verificada', official: true },
+    possivelmente_resolvida: { label: 'Possivelmente resolvida', color: '#4D7C0F', bg: 'bg-lime-50', text: 'text-lime-800', icon: 'circle-check', api: 'possivelmente_resolvida' },
     resolvida: { label: 'Resolvida', color: '#16A34A', bg: 'bg-green-50', text: 'text-green-800', icon: 'circle-check', api: 'resolvida' },
-    nao_confirmada: { label: 'Não confirmada', color: '#64748B', bg: 'bg-slate-100', text: 'text-slate-600', icon: 'circle-x', api: 'nao_confirmada' },
+    nao_confirmada: { label: 'Não confirmada', color: '#64748B', bg: 'bg-slate-100', text: 'text-slate-600', icon: 'circle-x', api: 'nao_confirmada', official: true },
 };
 
 export const API_STATUS_MAP = {
     pendente: 'recebida',
+    confirmada: 'confirmada',
     em_analise: 'em_analise',
     verificada: 'verificada',
+    possivelmente_resolvida: 'possivelmente_resolvida',
     resolvida: 'resolvida',
     nao_confirmada: 'nao_confirmada',
 };
+
+/** Texto fixo que separa a validação da comunidade da confirmação oficial. */
+export const COMMUNITY_DISCLAIMER = 'Validação feita por moradores. Não é uma confirmação oficial da prefeitura.';
+
+/** Origem de cada mudança no histórico. */
+export const HISTORY_ORIGINS = { autor: 'registro de quem denunciou', comunidade: 'validação da comunidade', equipe: 'equipe oficial' };
 
 export const SEVERITIES = {
     baixa: { label: 'Baixa', color: '#16A34A' },

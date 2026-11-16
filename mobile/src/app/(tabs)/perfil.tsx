@@ -33,6 +33,64 @@ function achievements(s: Summary): Achievement[] {
 }
 
 export default function ProfileScreen() {
+  const { user } = useAuth();
+  return user ? <SignedProfile /> : <GuestProfile />;
+}
+
+/** Sem conta: convite para entrar e as denúncias feitas por este aparelho. */
+function GuestProfile() {
+  const router = useRouter();
+  const { data, error, loading, refreshing, reload } = useApi(() => api.reports({ minhas: true }), 'visitante');
+  return (
+    <View style={{ flex: 1, backgroundColor: color.ground }}>
+      <StatusBar style="dark" />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: space.xxxl }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={reload} tintColor={color.brand} />}
+      >
+        <ScreenHeader title="Perfil" subtitle="Você está usando o EcoRadar sem conta" />
+        <View style={[readable, { paddingHorizontal: space.lg, gap: space.md, marginTop: space.lg }]}>
+          <Text variant="body" tone="secondary">
+            Sem conta você já pode ver o mapa, denunciar e validar ocorrências. Com uma conta você acompanha notificações, ganha pontos e aparece no ranking.
+          </Text>
+          <Button label="Entrar ou criar conta" icon="user" onPress={() => router.push('/login')} />
+          {error && <Banner text={error} action="Tentar" onAction={reload} />}
+          <Section title="Denúncias deste aparelho" action={data?.length ? `${data.length}` : undefined}>
+            {loading ? <SkeletonRows count={2} /> : data?.length ? data.map((r, i) => (
+              <View key={r.id}>
+                {i > 0 && <Divider inset={68} />}
+                <Pressable onPress={() => router.push(`/denuncia/${r.id}`)} style={({ pressed }) => [styles.report, pressed && { backgroundColor: color.stone }]} accessibilityRole="button">
+                  {r.foto_url
+                    ? <Image source={{ uri: r.foto_url }} style={styles.thumb} accessibilityIgnoresInvertColors />
+                    : <View style={[styles.thumb, { alignItems: 'center', justifyContent: 'center' }]}><Icon name={reportCategory(r.categoria).icon} tint={color.muted} /></View>}
+                  <View style={{ flex: 1, gap: 4 }}>
+                    <Text variant="bodyStrong" numberOfLines={2}>{r.titulo ?? 'Denúncia'}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
+                      <StatusTag status={r.status} size="sm" />
+                      <Text variant="caption" tone="muted">{timeAgo(r.created_at)}</Text>
+                    </View>
+                  </View>
+                  <Icon name="chevron-right" size={18} tint={color.faint} />
+                </Pressable>
+              </View>
+            )) : (
+              <EmptyState icon="flag" title="Nenhuma denúncia deste aparelho" text="As denúncias que você fizer sem conta aparecem aqui." action="Fazer uma denúncia" onAction={() => router.push('/denunciar')} />
+            )}
+          </Section>
+          <View style={styles.setting}>
+            <Icon name="shield" size={20} />
+            <View style={{ flex: 1 }}>
+              <Text variant="bodyStrong">Privacidade</Text>
+              <Text variant="caption" tone="muted">Sem conta, o aparelho é identificado por um código aleatório, sem nome, e-mail ou telefone. Ele só serve para evitar votos repetidos.</Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+function SignedProfile() {
   const router = useRouter();
   const { user, signOut, pushStatus } = useAuth();
   const { data, error, loading, refreshing, reload } = useApi(async () => {

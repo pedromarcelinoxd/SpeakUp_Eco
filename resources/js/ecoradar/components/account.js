@@ -140,8 +140,10 @@ export function settingsPage() {
         },
 
         toggleDemo() {
-            this.$store.eco.setSetting('showDemo', !this.$store.eco.settings.showDemo);
-            this.$store.eco.toast(this.$store.eco.settings.showDemo ? 'Dados demonstrativos ativados.' : 'Exibindo apenas dados reais e locais.', 'info');
+            const on = !this.$store.eco.settings.showDemo;
+            this.$store.eco.setSetting('demoOptIn', on);
+            this.$store.eco.setSetting('showDemo', on);
+            this.$store.eco.toast(on ? 'Dados demonstrativos (fictícios) ativados.' : 'Exibindo apenas dados reais do servidor.', 'info');
         },
 
         clearLocal() {

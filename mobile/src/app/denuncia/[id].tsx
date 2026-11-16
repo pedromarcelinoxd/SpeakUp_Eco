@@ -1,6 +1,7 @@
 /**
- * Detalhe da denúncia: foto, situação, linha do tempo proporcional ao tempo
- * decorrido, local e ações. Excluir fica isolado no fim.
+ * Detalhe da denúncia (público): fotos, informações, validação comunitária,
+ * histórico completo com a origem de cada mudança, local e ações.
+ * Excluir fica isolado no fim.
  */
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -8,16 +9,27 @@ import { useState } from 'react';
 import { Alert, Image, ScrollView, Share, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EcoMap } from '@/components/map/EcoMap';
-import { Banner, Button, IconButton, ReportDrop, Section, Skeleton, StatusTag } from '@/design/components';
+import { CommunityValidation, ReportSummary, useVote } from '@/components/ReportCard';
+import { Banner, Button, IconButton, ReportDrop, Section, Skeleton } from '@/design/components';
 import { Icon } from '@/design/Icon';
 import { Text } from '@/design/Text';
-import { color, font, radius, readable, space } from '@/design/tokens';
-import { api, type Report } from '@/lib/api';
-import { SEVERITIES, reportCategory, statusInfo } from '@/lib/catalog';
+import { color, radius, readable, space } from '@/design/tokens';
+import { api } from '@/lib/api';
+import { SEVERITIES, statusInfo } from '@/lib/catalog';
 import { formatDateTime, openDirections } from '@/lib/format';
 import { useApi } from '@/lib/useApi';
 
 const HOUR = 3600000;
+
+const ORIGIN = { autor: 'registro de quem denunciou', comunidade: 'validação da comunidade', equipe: 'equipe oficial' } as const;
+
+const NEXT_STEP: Record<string, string> = {
+  pendente: 'outras pessoas confirmarem que o problema existe',
+  confirmada: 'análise da equipe ou solução do problema',
+  em_analise: 'verificação no local pela equipe',
+  verificada: 'solução pelo órgão responsável',
+  possivelmente_resolvida: 'mais pessoas confirmarem a resolução',
+};
 
 /** Altura de cada trecho da linha do tempo proporcional ao tempo até o próximo evento. */
 function segmentHeight(ms: number) {
@@ -38,8 +50,8 @@ export default function ReportDetail() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const { data: r, setData, error, loading, reload } = useApi(() => api.report(id), id);
-  const [busy, setBusy] = useState(false);
   const [photo, setPhoto] = useState(0);
+  const { vote, voting, feedback } = useVote(r, (updated) => setData(updated));
 
   const back = (
     <View style={[styles.topButtons, { top: insets.top + space.xs }]}>
@@ -69,20 +81,7 @@ export default function ReportDetail() {
   }
 
   const report = r;
-  const cat = reportCategory(report.categoria);
   const history = report.historico ?? [];
-
-  async function confirm() {
-    setBusy(true);
-    try {
-      const updated = await api.confirm(report.id);
-      setData((d: Report | null) => (d ? { ...d, ...updated, historico: d.historico } : updated));
-    } catch (e) {
-      Alert.alert('Não foi possível confirmar', e instanceof Error ? e.message : '');
-    } finally {
-      setBusy(false);
-    }
-  }
 
   function remove() {
     Alert.alert('Excluir esta denúncia?', 'Ela será removida do app, do mapa e do painel web. Não é possível desfazer.', [
@@ -125,29 +124,16 @@ export default function ReportDetail() {
         )}
 
         <View style={[readable, { paddingHorizontal: space.lg, paddingTop: space.xl }]}>
-          <Text variant="title">{report.titulo ?? 'Denúncia'}</Text>
-          <Text variant="caption" tone="muted" style={{ marginTop: space.xs }}>
-            {cat.label} · por {report.user?.name ?? 'usuário'} · {report.origem === 'app' ? 'enviada pelo app' : 'enviada pelo painel'}
-          </Text>
-
-          <View style={styles.facts}>
-            <StatusTag status={report.status} />
-            {report.criticidade === 'alta'
-              ? <View style={styles.urgent}><Text variant="caption" tone="danger" style={{ fontFamily: font.semibold }}>Urgente</Text></View>
-              : <Text variant="label" tone="muted">Gravidade {SEVERITIES[report.criticidade]?.label.toLowerCase()}</Text>}
-            <Text variant="label" tone="muted">{report.confirmacoes_count} {report.confirmacoes_count === 1 ? 'confirmação' : 'confirmações'}</Text>
-          </View>
-
-          {!!report.descricao && <Text variant="body" tone="secondary" style={{ marginTop: space.lg }}>{report.descricao}</Text>}
-
-          {(report.permissoes?.confirmar || report.confirmada_por_mim) && (
-            <View style={{ marginTop: space.xl, gap: space.xs }}>
-              {report.permissoes?.confirmar
-                ? <Button label="Também vi isso" icon="thumbs-up" onPress={confirm} loading={busy} />
-                : <Button label="Você confirmou esta ocorrência" icon="check" variant="secondary" disabled />}
-              <Text variant="caption" tone="muted">Confirmar ajuda a equipe a priorizar. Os pontos contam após a validação.</Text>
-            </View>
+          <ReportSummary r={report} />
+          {report.criticidade !== 'alta' && (
+            <Text variant="caption" tone="muted" style={{ marginTop: space.xs }}>
+              Gravidade {SEVERITIES[report.criticidade]?.label.toLowerCase()} · {report.origem === 'app' ? 'enviada pelo app' : 'enviada pelo painel'}
+            </Text>
           )}
+
+          <View style={{ marginTop: space.xl }}>
+            <CommunityValidation r={report} vote={vote} voting={voting} feedback={feedback} />
+          </View>
 
           <Section title="Acompanhamento">
             <View accessibilityRole="list">
@@ -164,7 +150,9 @@ export default function ReportDetail() {
                     </View>
                     <View style={{ flex: 1, paddingBottom: last ? 0 : space.xs }}>
                       <Text variant="bodyStrong">{st.label}</Text>
-                      <Text variant="caption" tone="muted">{formatDateTime(h.data)}</Text>
+                      <Text variant="caption" tone="muted">
+                        {formatDateTime(h.data)}{h.origem ? ` · ${ORIGIN[h.origem]}` : ''}
+                      </Text>
                       {!!h.observacao && <Text variant="body" tone="secondary" style={{ marginTop: 2 }}>{h.observacao}</Text>}
                       {!last && <Text variant="caption" tone="faint" style={{ marginTop: 4 }}>{duration(gap)}</Text>}
                     </View>
@@ -174,7 +162,7 @@ export default function ReportDetail() {
               {statusInfo(report.status).open && (
                 <View style={{ flexDirection: 'row', gap: space.sm, marginTop: space.sm }}>
                   <View style={{ width: 18, alignItems: 'center' }}><View style={styles.nodeNext} /></View>
-                  <Text variant="caption" tone="muted" style={{ flex: 1 }}>Próximo passo: {report.status === 'pendente' ? 'análise da equipe' : report.status === 'em_analise' ? 'verificação no local' : 'solução pelo órgão responsável'}</Text>
+                  <Text variant="caption" tone="muted" style={{ flex: 1 }}>Próximo passo: {NEXT_STEP[report.status] ?? 'solução pelo órgão responsável'}</Text>
                 </View>
               )}
             </View>

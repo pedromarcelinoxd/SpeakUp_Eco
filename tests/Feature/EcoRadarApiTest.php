@@ -27,11 +27,11 @@ class EcoRadarApiTest extends TestCase
         Http::fake([ExpoPushChannel::ENDPOINT => Http::response(['data' => [['status' => 'ok']]])]);
     }
 
-    /** PNG 1x1 real (o ambiente de testes não tem GD para gerar imagens). */
+    /** PNG 200x200 real (o ambiente de testes não tem GD para gerar imagens). */
     private function foto(string $nome = 'foto.png'): UploadedFile
     {
         $path = tempnam(sys_get_temp_dir(), 'eco').'.png';
-        file_put_contents($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='));
+        file_put_contents($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAABdklEQVR42u3SMREAMAgAsVLBzIhANCYYGBIJfx/V+WDblwBjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYi2sGgNcDAgte8xEAAAAASUVORK5CYII='));
 
         return new UploadedFile($path, $nome, 'image/png', null, true);
     }
@@ -143,11 +143,11 @@ class EcoRadarApiTest extends TestCase
         Sanctum::actingAs($autor);
         $this->getJson('/api/notificacoes')
             ->assertOk()
-            ->assertJsonPath('notificacoes.0.titulo', 'Sua denúncia foi verificada')
+            ->assertJsonPath('notificacoes.0.titulo', 'Sua denúncia foi verificada pela equipe')
             ->assertJsonPath('nao_lidas', 2);
         Http::assertSent(fn ($req) => $req->url() === ExpoPushChannel::ENDPOINT
             && $req[0]['to'] === 'ExponentPushToken[abc123]'
-            && $req[0]['title'] === 'Sua denúncia foi verificada');
+            && $req[0]['title'] === 'Sua denúncia foi verificada pela equipe');
 
         $this->postJson('/api/notificacoes/lidas')->assertOk();
         $this->getJson('/api/notificacoes')->assertJsonPath('nao_lidas', 0);

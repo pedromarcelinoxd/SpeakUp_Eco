@@ -9,6 +9,7 @@
     "@maplibre/maplibre-react-native": "^11.5.1",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
+    "expo-crypto": "~58.0.8",
     "expo-device": "~58.0.5",
     "expo-font": "~58.0.12",
     "expo-image-picker": "~58.0.10",

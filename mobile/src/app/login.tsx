@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
@@ -11,6 +12,8 @@ import { useAuth } from '@/lib/auth';
 
 export default function LoginScreen() {
   const { signIn, signUp } = useAuth();
+  const router = useRouter();
+  const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
   const insets = useSafeAreaInsets();
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [name, setName] = useState('');
@@ -29,6 +32,7 @@ export default function LoginScreen() {
     try {
       if (mode === 'login') await signIn(email, password);
       else await signUp(name, email, password);
+      close();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Não foi possível entrar.');
     } finally {
@@ -76,6 +80,10 @@ export default function LoginScreen() {
           {error && <Banner text={error} />}
           <Button label={mode === 'login' ? 'Entrar' : 'Criar conta'} onPress={submit} loading={loading} />
           <Text variant="caption" tone="muted" align="center">A mesma conta funciona no app e no painel web.</Text>
+          <Button label="Continuar sem conta" variant="quiet" onPress={close} />
+          <Text variant="caption" tone="muted" align="center">
+            Sem conta você vê o mapa, denuncia e valida ocorrências. Com conta, você ganha pontos, recebe notificações e entra no ranking.
+          </Text>
           {__DEV__ && <Text variant="caption" tone="faint" align="center" style={{ fontSize: 11 }}>Servidor: {API_URL}</Text>}
         </View>
       </ScrollView>

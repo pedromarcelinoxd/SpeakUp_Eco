@@ -25,9 +25,23 @@ const http = axios.create({
     timeout: 12000,
 });
 
+/**
+ * Identificador anônimo deste navegador (UUID aleatório), para denunciar e validar
+ * sem conta. O servidor guarda só um hash dele, para impedir votos repetidos.
+ */
+export function deviceId() {
+    let id = storage.get('dispositivo');
+    if (!id || !/^[A-Za-z0-9-]{16,64}$/.test(id)) {
+        id = (crypto.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`).slice(0, 64);
+        storage.set('dispositivo', id);
+    }
+    return id;
+}
+
 http.interceptors.request.use((config) => {
     const token = storage.get('token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    config.headers['X-EcoRadar-Dispositivo'] = deviceId();
     return config;
 });
 
@@ -36,6 +50,7 @@ export function apiError(err) {
     const data = err?.response?.data;
     if (data?.errors) return Object.values(data.errors).flat()[0];
     if (data?.message) return data.message;
+    if (err?.response?.status === 429) return 'Muitas tentativas em pouco tempo. Aguarde um pouco e tente de novo.';
     if (err?.code === 'ECONNABORTED') return 'O servidor demorou para responder.';
     return 'Não foi possível conectar ao servidor.';
 }
@@ -63,7 +78,8 @@ export function mapApiReport(d) {
         .map((h) => ({
             status: API_STATUS_MAP[h.status] || 'recebida',
             date: h.data,
-            note: h.observacao || (h.status === 'pendente' ? 'Denúncia registrada.' : 'Status atualizado pela equipe.'),
+            origin: h.origem || (h.status === 'pendente' ? 'autor' : 'equipe'),
+            note: h.observacao || (h.status === 'pendente' ? 'Denúncia registrada.' : 'Status atualizado.'),
         }));
     if (!d.historico?.length && status !== 'recebida') history.push({ status, date: d.updated_at, note: 'Status atualizado pela equipe.' });
 
@@ -84,10 +100,17 @@ export function mapApiReport(d) {
         address: d.endereco || (loc ? `${loc.label} · Campus FACENS, Sorocaba – SP` : `${d.latitude}, ${d.longitude}`),
         campusPoint: d.ponto_referencia,
         createdAt: d.created_at,
-        author: d.user?.name || 'Usuário',
+        author: d.autor?.nome || d.user?.name || 'Cidadão',
+        anonymous: !!d.autor?.anonimo,
+        mine: !!d.autor?.sou_eu,
         authorId: d.user_id,
-        confirmations: d.confirmacoes_count || 0,
-        confirmedByMe: !!d.confirmada_por_mim,
+        // Validação comunitária
+        votes: { exists: d.validacoes?.existe ?? d.confirmacoes_count ?? 0, resolved: d.validacoes?.resolvida ?? 0 },
+        myVote: d.meu_voto || null,
+        canVote: d.pode_validar ?? false,
+        blockReason: d.motivo_bloqueio || null,
+        confirmations: d.validacoes?.existe ?? d.confirmacoes_count ?? 0,
+        confirmedByMe: d.meu_voto === 'existe' || !!d.confirmada_por_mim,
         permissions: d.permissoes || {},
         photos: d.fotos?.length ? d.fotos : (d.foto_url ? [d.foto_url] : []),
         history,
@@ -169,7 +192,7 @@ export const api = {
         return mapApiReport(data);
     },
     /** Mesmo contrato usado pelo app mobile (StoreDenunciaRequest). */
-    async createReport({ photo, extraPhotos = [], coords, address, campusPoint, severity, category, title, description }) {
+    async createReport({ photo, extraPhotos = [], coords, address, campusPoint, severity, category, title, description, ignoreDuplicate = false }) {
         const form = new FormData();
         form.append('foto', photo);
         extraPhotos.slice(0, 4).forEach((f) => form.append('fotos[]', f));
@@ -182,12 +205,18 @@ export const api = {
         if (campusPoint) form.append('ponto_referencia', campusPoint);
         form.append('criticidade', severity);
         form.append('origem', 'web');
+        if (ignoreDuplicate) form.append('ignorar_duplicata', '1');
         const { data } = await http.post('/denuncias', form);
         return mapApiReport(data);
     },
     async confirmReport(apiId) {
         const { data } = await http.post(`/denuncias/${apiId}/confirmar`);
         return mapApiReport(data);
+    },
+    /** Validação comunitária: tipo "existe" ou "resolvida" (um voto por pessoa). */
+    async vote(apiId, tipo) {
+        const { data } = await http.post(`/denuncias/${apiId}/validar`, { tipo });
+        return { report: mapApiReport(data.denuncia), registered: data.voto_registrado, statusChanged: data.status_mudou };
     },
     async updateStatus(apiId, status, observacao) {
         const { data } = await http.patch(`/denuncias/${apiId}/status`, { status: toApiStatus(status), observacao });

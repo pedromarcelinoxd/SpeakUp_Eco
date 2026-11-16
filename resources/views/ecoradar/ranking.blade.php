@@ -15,7 +15,10 @@
         </section>
 
         <template x-if="!$store.eco.isAuthenticated">
-            <x-eco.demo-notice text="Você está no modo demonstração: os participantes exibidos são fictícios. Entre na sua conta para ver o ranking real, calculado pelo servidor." />
+            <div class="flex items-start gap-2.5 rounded-xl border border-line bg-white px-4 py-3 text-[13px] text-ink">
+                <x-eco.icon name="info" class="mt-px h-4 w-4 shrink-0 text-eco-700" />
+                <p>Ranking real, calculado pelo servidor. <a href="{{ route('eco.login') }}" class="font-semibold text-eco-700 underline underline-offset-2">Entre na sua conta</a> para pontuar e aparecer aqui.</p>
+            </div>
         </template>
 
         <div class="grid gap-6 lg:grid-cols-3">

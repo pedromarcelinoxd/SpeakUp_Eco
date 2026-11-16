@@ -67,6 +67,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Denuncia::class, 'denuncia_confirmacoes')->withTimestamps();
     }
 
+    /** Votos de validação comunitária feitos com esta conta. */
+    public function validacoes()
+    {
+        return $this->hasMany(DenunciaValidacao::class);
+    }
+
     /** Usado pelo canal de push: tokens Expo do usuário. */
     public function routeNotificationForExpo(): array
     {

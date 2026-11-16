@@ -85,9 +85,9 @@ export function createMap(el, { center = MAP_DEFAULTS.center, zoom = MAP_DEFAULT
 export function reportIcon(report, selected = false) {
     const cat = reportCategory(report.category);
     const st = STATUSES[report.status] || STATUSES.recebida;
-    // Cor com função: denúncia aberta é coral; encerrada fica em pedra. O glifo diferencia a categoria.
+    // Cada categoria tem sua cor (a mesma do app e da legenda); encerradas ficam em cinza.
     const closed = ['resolvida', 'nao_confirmada'].includes(report.status);
-    const fill = closed ? '#DCE2DC' : '#E77A5B';
+    const fill = closed ? '#DCE2DC' : cat.color;
     return L.divIcon({
         className: `er-marker${selected ? ' is-selected' : ''}`,
         html: `<div class="er-pin${closed ? ' er-pin--closed' : ''}" style="--c:${fill};--s:${st.color}">

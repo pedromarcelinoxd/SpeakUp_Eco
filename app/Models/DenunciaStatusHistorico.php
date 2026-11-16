@@ -8,7 +8,7 @@ class DenunciaStatusHistorico extends Model
 {
     protected $table = 'denuncia_status_historico';
 
-    protected $fillable = ['status', 'user_id', 'observacao'];
+    protected $fillable = ['status', 'origem', 'user_id', 'observacao'];
 
     public function denuncia()
     {

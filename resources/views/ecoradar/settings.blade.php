@@ -93,14 +93,14 @@
                 </div>
                 <div class="rounded-xl border border-slate-100 p-3">
                     <dt class="text-ink-muted">Denúncias (API)</dt>
-                    <dd class="mt-0.5 font-display text-lg font-extrabold text-ink tabular" x-text="$store.eco.isAuthenticated ? $store.eco.apiReports.length : '—'"></dd>
+                    <dd class="mt-0.5 font-display text-lg font-extrabold text-ink tabular" x-text="$store.eco.apiReports.length"></dd>
                 </div>
                 <div class="rounded-xl border border-slate-100 p-3">
                     <dt class="text-ink-muted">Salvas no dispositivo</dt>
                     <dd class="mt-0.5 font-display text-lg font-extrabold text-ink tabular" x-text="$store.eco.localReports.length"></dd>
                 </div>
             </dl>
-            <p x-show="!$store.eco.isAuthenticated" class="mt-3 text-[12.5px] text-ink-muted">A listagem de denúncias da API exige login.</p>
+            <p class="mt-3 text-[12.5px] text-ink-muted">O mapa e as denúncias são públicos; a conta é opcional.</p>
         </section>
 
         <section class="text-center text-[12px] text-slate-400">

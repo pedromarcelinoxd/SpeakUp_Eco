@@ -9,7 +9,9 @@ import { timeAgo } from '@/lib/format';
 import { useApi } from '@/lib/useApi';
 
 function iconFor(n: AppNotification): { name: IconName; tint: string } {
+  if (n.titulo.toLowerCase().includes('pode ter sido resolvida')) return { name: 'circle-check', tint: '#4D7C0F' };
   if (n.titulo.toLowerCase().includes('resolvida')) return { name: 'circle-check', tint: color.success };
+  if (n.titulo.toLowerCase().includes('comunidade')) return { name: 'users', tint: '#0F766E' };
   if (n.tipo === 'confirmacao') return { name: 'thumbs-up', tint: color.info };
   if (n.tipo === 'recebida') return { name: 'inbox', tint: color.info };
   if (n.titulo.toLowerCase().includes('verificada')) return { name: 'badge-check', tint: color.verified };

@@ -27,8 +27,10 @@ class EcoRadarNotification extends Notification
     public static function statusAtualizado(Denuncia $d): self
     {
         $mensagens = [
+            'confirmada' => ['A comunidade confirmou sua denúncia', 'foi confirmada por outras pessoas. Você ganhou 50 pontos!'],
             'em_analise' => ['Sua denúncia está em análise', 'foi encaminhada para a equipe responsável.'],
-            'verificada' => ['Sua denúncia foi verificada', 'foi confirmada pela equipe. Você ganhou 50 pontos!'],
+            'verificada' => ['Sua denúncia foi verificada pela equipe', 'foi confirmada pela equipe. Você ganhou 50 pontos!'],
+            'possivelmente_resolvida' => ['Sua denúncia pode ter sido resolvida', 'recebeu avisos de resolução e aguarda mais validações.'],
             'resolvida' => ['Sua denúncia foi marcada como resolvida', 'foi solucionada. Obrigado por ajudar!'],
             'nao_confirmada' => ['Não foi possível confirmar sua denúncia', 'não pôde ser confirmada no local.'],
             'pendente' => ['Sua denúncia voltou para a fila', 'aguarda nova análise.'],

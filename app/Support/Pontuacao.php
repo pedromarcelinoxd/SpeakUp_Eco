@@ -37,19 +37,22 @@ class Pontuacao
     public static function porUsuario(?CarbonInterface $desde = null): Collection
     {
         $validadas = DB::table('denuncias')
+            ->whereNotNull('user_id')
             ->whereIn('status', Denuncia::STATUS_VALIDADOS)
             ->when($desde, fn ($q) => $q->where('created_at', '>=', $desde))
             ->groupBy('user_id')
             ->select('user_id', DB::raw('count(*) as total'))
             ->pluck('total', 'user_id');
 
-        $confirmacoes = DB::table('denuncia_confirmacoes')
-            ->join('denuncias', 'denuncias.id', '=', 'denuncia_confirmacoes.denuncia_id')
+        // Validações comunitárias feitas com conta, em ocorrências que se confirmaram
+        $confirmacoes = DB::table('denuncia_validacoes')
+            ->join('denuncias', 'denuncias.id', '=', 'denuncia_validacoes.denuncia_id')
+            ->whereNotNull('denuncia_validacoes.user_id')
             ->whereIn('denuncias.status', Denuncia::STATUS_VALIDADOS)
-            ->when($desde, fn ($q) => $q->where('denuncia_confirmacoes.created_at', '>=', $desde))
-            ->groupBy('denuncia_confirmacoes.user_id')
-            ->select('denuncia_confirmacoes.user_id', DB::raw('count(*) as total'))
-            ->pluck('total', 'denuncia_confirmacoes.user_id');
+            ->when($desde, fn ($q) => $q->where('denuncia_validacoes.created_at', '>=', $desde))
+            ->groupBy('denuncia_validacoes.user_id')
+            ->select('denuncia_validacoes.user_id', DB::raw('count(*) as total'))
+            ->pluck('total', 'denuncia_validacoes.user_id');
 
         return $validadas->keys()->merge($confirmacoes->keys())->unique()
             ->mapWithKeys(fn ($id) => [

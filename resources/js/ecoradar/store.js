@@ -7,9 +7,9 @@
  *   - 'demo'  → dados demonstrativos (data/demo.js)
  */
 import { api, apiError } from './services/api';
-import { DEMO_USER, buildNotifications, buildRanking, demoPoints, demoReports } from './data/demo';
+import { buildNotifications, buildRanking, demoPoints, demoReports } from './data/demo';
 import { distanceKm, levelFor, storage } from './utils';
-import { MAP_DEFAULTS } from './config';
+import { MAP_DEFAULTS, STATUSES } from './config';
 
 const MAP_LAYERS = ['osm', 'light', 'streets', 'satellite'];
 const BASE = (window.EcoRadar && window.EcoRadar.base) || '/app';
@@ -62,7 +62,20 @@ export function createStore() {
 
         async init() {
             if (!MAP_LAYERS.includes(this.settings.mapLayer)) this.settings.mapLayer = 'osm';
+            // Dados demonstrativos (fictícios) só aparecem se a pessoa ativar em Configurações.
+            this.settings.showDemo = !!this.settings.demoOptIn;
             await this.load();
+            // Novas denúncias de outras pessoas aparecem sem recarregar a página
+            setInterval(() => { if (document.visibilityState === 'visible') this.refreshPublic(); }, 45000);
+        },
+
+        /** Recarrega mapa e denúncias (público). */
+        async refreshPublic() {
+            try {
+                const [reports, points] = await Promise.all([api.reports(), api.points()]);
+                this.apiReports = reports;
+                this.apiPoints = points;
+            } catch { /* mantém os dados atuais */ }
         },
 
         /* ---------------- Carregamento ---------------- */
@@ -70,10 +83,11 @@ export function createStore() {
             this.loading = true;
             const tasks = [
                 api.points().then((p) => { this.apiPoints = p; this.apiOnline = true; }),
+                // Denúncias são públicas: carregadas com ou sem conta
+                api.reports().then((r) => { this.apiReports = r; }),
             ];
             if (this.token) {
                 tasks.push(api.me().then((u) => { this.apiUser = u; storage.set('user', u); }));
-                tasks.push(api.reports().then((r) => { this.apiReports = r; }));
                 tasks.push(api.summary().then((s) => { this.apiSummary = s; }));
                 tasks.push(this.loadNotifications());
             }
@@ -149,12 +163,22 @@ export function createStore() {
                     source: 'api',
                 };
             }
-            const localCount = this.localReports.length;
+            // Visitante sem conta: nada inventado — só as denúncias feitas por este navegador.
+            const mine = this.apiReports.filter((r) => r.mine);
             return {
-                ...DEMO_USER,
+                id: 'visitante',
+                name: 'Visitante',
+                fullName: 'Visitante (sem conta)',
+                email: '',
+                bairro: '',
+                telefone: '',
                 avatar: null,
-                stats: { ...DEMO_USER.stats, sent: DEMO_USER.stats.sent + localCount },
-                source: 'demo',
+                isAdmin: false,
+                points: 0,
+                weeklyPoints: 0,
+                monthlyPoints: 0,
+                stats: { sent: mine.length, validated: 0, confirmed: 0, pointsFound: 0 },
+                source: 'guest',
             };
         },
 
@@ -170,13 +194,12 @@ export function createStore() {
             if (this.isAuthenticated) {
                 return this.apiReports.filter((r) => String(r.authorId) === String(this.apiUser.id));
             }
-            return [...this.localReports, ...(this.settings.showDemo ? demoReports.filter((r) => r.mine) : [])]
+            return this.apiReports.filter((r) => r.mine)
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         },
 
-        /** Ranking real (API) quando logado; demonstrativo caso contrário. */
+        /** Ranking real (API), público; "você" aparece só com conta. */
         async loadRanking() {
-            if (!this.isAuthenticated) return;
             const periods = { weekly: 'semanal', monthly: 'mensal', total: 'geral' };
             const results = await Promise.all(Object.values(periods).map((p) => api.ranking(p)));
             const rows = {};
@@ -190,6 +213,7 @@ export function createStore() {
         },
 
         get ranking() {
+            if (this.apiRanking && !this.isAuthenticated) return this.apiRanking.map((r) => ({ ...r, me: false }));
             if (this.isAuthenticated && this.apiRanking) {
                 const meId = this.apiUser.id;
                 const list = this.apiRanking.map((r) => ({ ...r, me: r.id === meId }));
@@ -253,14 +277,16 @@ export function createStore() {
         },
 
         /* ---------------- Denúncias ---------------- */
+        /** Envia para o servidor (com ou sem conta). Erros, inclusive duplicata (409), sobem para o formulário. */
         async submitReport(form) {
-            if (this.isAuthenticated) {
-                const report = await api.createReport(form);
-                this.apiReports.unshift(report);
-                this.loadNotifications();
-                return report;
-            }
-            // Modo demonstração: guarda apenas neste navegador.
+            const report = await api.createReport(form);
+            this.apiReports.unshift(report);
+            if (this.isAuthenticated) this.loadNotifications();
+            return report;
+        },
+
+        /** Legado (modo demonstração antigo) — não é mais usado. */
+        submitLocalReport(form) {
             const id = `local-${Date.now().toString(36)}`;
             const report = {
                 id,
@@ -292,7 +318,25 @@ export function createStore() {
         },
 
         isConfirmed(id) {
-            return this.confirmed.includes(id) || !!this.apiReports.find((r) => r.id === id)?.confirmedByMe;
+            return !!this.apiReports.find((r) => r.id === id)?.confirmedByMe;
+        },
+
+        /**
+         * Validação comunitária: "existe" (o problema continua) ou "resolvida".
+         * Retorna { ok, text } para o feedback na tela.
+         */
+        async vote(id, tipo) {
+            const report = this.findReport(id);
+            if (report?.source !== 'api') return { ok: false, text: 'Esta ocorrência é demonstrativa e não aceita validação.' };
+            try {
+                const { report: updated, registered, statusChanged } = await api.vote(report.apiId, tipo);
+                this.replaceApiReport(updated);
+                if (!registered && report.myVote === tipo) return { ok: true, text: 'Você já tinha registrado essa informação.' };
+                if (statusChanged) return { ok: true, text: `Obrigado! A ocorrência agora está como “${STATUSES[updated.status]?.label || updated.status}”.` };
+                return { ok: true, text: tipo === 'existe' ? 'Obrigado! Sua confirmação foi registrada.' : 'Obrigado! Seu aviso de resolução foi registrado.' };
+            } catch (e) {
+                return { ok: false, text: apiError(e) };
+            }
         },
 
         replaceApiReport(report) {
@@ -302,6 +346,12 @@ export function createStore() {
         },
 
         async confirmReport(id) {
+            const r = await this.vote(id, 'existe');
+            this.toast(r.text, r.ok ? 'success' : 'error');
+        },
+
+        /** Legado — substituído por vote(). */
+        async confirmReportOld(id) {
             if (this.isConfirmed(id)) return;
             const report = this.findReport(id);
             if (report?.source === 'api') {
@@ -321,7 +371,7 @@ export function createStore() {
         /** Detalhe completo (com histórico) direto da API. */
         async refreshReport(id) {
             const report = this.findReport(id);
-            if (report?.source !== 'api' || !this.isAuthenticated) return;
+            if (report?.source !== 'api') return;
             try { this.replaceApiReport(await api.report(report.apiId)); } catch { /* mantém versão em cache */ }
         },
 

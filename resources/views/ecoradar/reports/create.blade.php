@@ -35,17 +35,17 @@
 
         {{-- Modo de envio --}}
         <div x-show="step <= 5" class="mb-4">
-            <template x-if="usesApi">
+            <template x-if="$store.eco.isAuthenticated">
                 <div class="flex items-center gap-2.5 rounded-xl border border-eco-200 bg-eco-50 px-4 py-2.5 text-[12.5px] text-eco-900">
                     <x-eco.icon name="shield-check" class="h-4 w-4 shrink-0 text-eco-700" />
-                    <span>Conectado como <strong x-text="$store.eco.user.fullName"></strong>. A denúncia será enviada ao servidor do EcoRadar.</span>
+                    <span>Conectado como <strong x-text="$store.eco.user.fullName"></strong>. A denúncia vai para o mapa público e conta pontos quando for confirmada.</span>
                 </div>
             </template>
-            <template x-if="!usesApi">
-                <div class="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-[12.5px] text-sky-900">
-                    <x-eco.icon name="info" class="mt-px h-4 w-4 shrink-0 text-sky-600" />
-                    <span>Modo demonstração: a denúncia ficará salva apenas neste navegador.
-                        <a href="{{ route('eco.login') }}" class="font-semibold underline underline-offset-2">Entre na sua conta</a> para enviá-la ao servidor.</span>
+            <template x-if="!$store.eco.isAuthenticated">
+                <div class="flex items-start gap-2.5 rounded-xl border border-line bg-white px-4 py-2.5 text-[12.5px] text-ink">
+                    <x-eco.icon name="info" class="mt-px h-4 w-4 shrink-0 text-eco-700" />
+                    <span>Você pode denunciar sem conta: a ocorrência vai para o mapa público e outras pessoas poderão validá-la.
+                        <a href="{{ route('eco.login') }}" class="font-semibold text-eco-700 underline underline-offset-2">Entre na sua conta</a> para ganhar pontos e receber notificações.</span>
                 </div>
             </template>
         </div>
@@ -250,6 +250,16 @@
                         <x-eco.icon name="circle-alert" class="mt-px h-4 w-4 shrink-0" />
                         <span x-text="submitError"></span>
                     </p>
+
+                    <div x-cloak x-show="duplicate" class="space-y-3 rounded-2xl border border-amber-200 bg-amber-50 p-4" role="alert">
+                        <p class="text-[14px] font-semibold text-amber-900">Já existe uma denúncia parecida bem perto daqui</p>
+                        <p class="text-[13px] text-amber-900"
+                           x-text="duplicate && `“${duplicate.title}” · ${duplicate.votes.exists} ${duplicate.votes.exists === 1 ? 'confirmação' : 'confirmações'}. Confirmar a existente ajuda mais do que criar outra.`"></p>
+                        <div class="flex flex-wrap gap-2">
+                            <a :href="duplicate && $u.route('report', duplicate.id)" class="btn-primary btn-sm">Ver e confirmar a existente</a>
+                            <button type="button" class="btn-secondary btn-sm" @click="submit(true)">É outro problema, enviar</button>
+                        </div>
+                    </div>
                 </section>
 
                 {{-- ========== Sucesso ========== --}}
@@ -262,7 +272,7 @@
                     </div>
                     <h3 class="mt-6 font-display text-2xl font-extrabold text-ink">Denúncia enviada!</h3>
                     <p class="mx-auto mt-2 max-w-md text-[14px] leading-relaxed text-ink-muted"
-                       x-text="result?.source === 'api' ? 'Sua ocorrência foi registrada no servidor e será analisada pela equipe. Você receberá atualizações sobre o andamento.' : 'Sua ocorrência foi salva neste navegador (modo demonstração). Entre na sua conta para enviar ao servidor.'"></p>
+                       x-text="'A ocorrência já aparece no mapa para todos. Agora outras pessoas podem confirmar se o problema existe; o status muda conforme a validação da comunidade e da equipe.'"></p>
                     <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[12.5px] font-semibold text-ink">
                         Protocolo <span class="font-mono" x-text="result && `#${String(result.apiId || result.id).replace('local-', '').toUpperCase()}`"></span>
                     </p>

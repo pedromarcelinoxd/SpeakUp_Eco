@@ -2,10 +2,11 @@
  * Ranking — gamificação sóbria: classificação por período, sua posição,
  * como pontuar e os níveis. Tudo calculado pelo servidor.
  */
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Banner, Divider, EmptyState, ScreenHeader, Section, Segmented, SkeletonRows } from '@/design/components';
+import { Avatar, Banner, Button, Divider, EmptyState, ScreenHeader, Section, Segmented, SkeletonRows } from '@/design/components';
 import { Icon } from '@/design/Icon';
 import { MosaicProgress } from '@/design/Mosaic';
 import { Text } from '@/design/Text';
@@ -24,14 +25,15 @@ const PERIODS: { value: Period; label: string }[] = [
 
 export default function RankingScreen() {
   const { user } = useAuth();
+  const router = useRouter();
   const [period, setPeriod] = useState<Period>('semanal');
   const { data, error, loading, refreshing, reload } = useApi(async () => {
-    const [ranking, summary] = await Promise.all([api.ranking(period), api.summary()]);
+    const [ranking, summary] = await Promise.all([api.ranking(period), user ? api.summary() : Promise.resolve(null)]);
     return { ...ranking, summary };
-  }, period);
+  }, `${period}:${user?.id ?? 'visitante'}`);
 
-  const level = data?.summary.nivel;
-  const pts = data?.summary.pontos ?? 0;
+  const level = data?.summary?.nivel;
+  const pts = data?.summary?.pontos ?? 0;
   const progress = level?.proximo ? (pts - level.minimo) / (level.proximo.minimo - level.minimo) : 1;
   const myPos = data?.eu?.posicao;
 
@@ -40,7 +42,7 @@ export default function RankingScreen() {
       <StatusBar style="dark" />
       <ScreenHeader title="Ranking" subtitle="Quem mais cuida da cidade">
         <Segmented value={period} onChange={setPeriod} options={PERIODS} />
-        <View style={styles.me}>
+        {user ? <View style={styles.me}>
           <View style={{ flex: 1 }}>
             <Text variant="caption" tone="muted">Sua posição</Text>
             <Text style={styles.bigPos}>{myPos ? `${myPos}º` : '—'}</Text>
@@ -49,9 +51,14 @@ export default function RankingScreen() {
             <Text variant="caption" tone="muted">Pontos no período</Text>
             <Text variant="number">{data?.eu?.pontos ?? 0}</Text>
           </View>
-        </View>
-        {!myPos && !loading && (
-          <Text variant="caption" tone="muted">Você entra no ranking quando uma denúncia sua for validada pela equipe.</Text>
+        </View> : (
+          <View style={{ gap: space.sm }}>
+            <Text variant="body" tone="muted">Você pode denunciar e validar sem conta. Para pontuar e aparecer no ranking, entre com uma conta.</Text>
+            <Button label="Entrar ou criar conta" icon="user" variant="secondary" onPress={() => router.push('/login')} style={{ alignSelf: 'flex-start' }} size="sm" />
+          </View>
+        )}
+        {user && !myPos && !loading && (
+          <Text variant="caption" tone="muted">Você entra no ranking quando uma denúncia sua for confirmada pela comunidade ou pela equipe.</Text>
         )}
       </ScreenHeader>
 
@@ -87,7 +94,7 @@ export default function RankingScreen() {
           )}
         </Section>
 
-        <Section title="Seu nível">
+        {user && <Section title="Seu nível">
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <Text variant="subhead">{level?.nome ?? 'Semente'}</Text>
             <Text variant="caption" tone="muted">{level?.proximo ? `faltam ${level.faltam} pts para ${level.proximo.nome}` : 'nível máximo'}</Text>
@@ -106,7 +113,7 @@ export default function RankingScreen() {
               );
             })}
           </View>
-        </Section>
+        </Section>}
 
         <Section title="Como ganhar pontos">
           {SCORE_RULES.map((r) => (

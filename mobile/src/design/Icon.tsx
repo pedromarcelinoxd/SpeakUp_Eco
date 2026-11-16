@@ -3,11 +3,11 @@
  * Nunca dentro de "quadradinhos" coloridos: o ícone acompanha o texto.
  */
 import {
-  ArrowLeft, ArrowRight, Award, Axe, BadgeCheck, BatteryCharging, Bell, BellOff, BrickWall, Camera, Check,
+  ArrowLeft, ArrowRight, Award, Axe, BadgeCheck, BatteryCharging, Bell, BellOff, BrickWall, Calendar, Camera, Check, Cpu,
   ChevronLeft, ChevronRight, CircleCheck, CircleHelp, CircleX, Clock, Droplet, Droplets, Flag, Flame, Hourglass,
   ImagePlus, Inbox, Info, Layers, Leaf, Lightbulb, LocateFixed, LogOut, Mail, Map, MapPin, Medal, Navigation, Package,
   Pencil, Pill, Plus, Recycle, RefreshCw, Search, Send, Server, Share2, ShieldCheck, SlidersHorizontal, Smartphone,
-  Sprout, Star, ThumbsUp, Trash2, Trees, TriangleAlert, Trophy, User, Users, Warehouse, WifiOff, X,
+  Sprout, Star, ThumbsDown, ThumbsUp, Trash2, Trees, TriangleAlert, Trophy, User, Users, Warehouse, WifiOff, X, Minus, ChevronDown,
 } from 'lucide-react-native';
 import { color } from './tokens';
 
@@ -22,7 +22,7 @@ export const ICONS = {
   refresh: RefreshCw, search: Search, send: Send, server: Server, share: Share2, shield: ShieldCheck,
   sliders: SlidersHorizontal, phone: Smartphone, sprout: Sprout, star: Star, 'thumbs-up': ThumbsUp, trash: Trash2,
   trees: Trees, alert: TriangleAlert, trophy: Trophy, user: User, users: Users, warehouse: Warehouse,
-  offline: WifiOff, x: X,
+  offline: WifiOff, x: X, cpu: Cpu, calendar: Calendar, 'thumbs-down': ThumbsDown, minus: Minus, 'chevron-down': ChevronDown,
 } as const;
 
 export type IconName = keyof typeof ICONS;

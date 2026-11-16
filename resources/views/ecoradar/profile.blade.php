@@ -11,7 +11,7 @@
                         <div class="flex flex-wrap items-center gap-2">
                             <h2 class="font-display text-2xl font-extrabold tracking-tight text-ink" x-text="$store.eco.user.fullName || $store.eco.user.name"></h2>
                             <span class="badge" :class="$store.eco.isAuthenticated ? 'bg-eco-50 text-eco-800' : 'bg-amber-50 text-amber-700'"
-                                  x-text="$store.eco.isAuthenticated ? 'Conta verificada no servidor' : 'Conta demonstrativa'"></span>
+                                  x-text="$store.eco.isAuthenticated ? 'Conta verificada no servidor' : 'Visitante (sem conta)'"></span>
                         </div>
                         <p class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13.5px] text-ink-muted">
                             <span class="flex items-center gap-1.5"><x-eco.icon name="mail" class="h-3.5 w-3.5" /><span x-text="$store.eco.user.email"></span></span>
@@ -96,7 +96,7 @@
             <template x-if="!$store.eco.isAuthenticated">
                 <div class="mb-4 flex gap-2.5 rounded-xl bg-amber-50 p-3 text-[12.5px] text-amber-900">
                     <x-eco.icon name="lock" class="mt-px h-4 w-4 shrink-0 text-amber-600" />
-                    <p>A conta demonstrativa não pode ser alterada. <a href="{{ route('eco.login') }}" class="font-semibold underline">Entre na sua conta</a> para editar seus dados.</p>
+                    <p>Você está sem conta. <a href="{{ route('eco.login') }}" class="font-semibold underline">Entre ou crie uma conta</a> para ter um perfil.</p>
                 </div>
             </template>
             <form class="space-y-4" @submit.prevent="save()" novalidate>

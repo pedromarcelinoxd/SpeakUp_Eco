@@ -158,7 +158,8 @@ export function reportDetail(id) {
             if (!this.r) return [];
             const done = this.r.history || [];
             if (this.r.status === 'nao_confirmada') return done.map((h) => ({ ...h, done: true }));
-            const flow = ['recebida', 'em_analise', 'verificada', 'resolvida'];
+            // Próximas etapas do fluxo comunitário (a equipe pode intervir a qualquer momento)
+            const flow = ['recebida', 'confirmada', 'resolvida'];
             const doneKeys = done.map((h) => h.status);
             return [
                 ...done.map((h) => ({ ...h, done: true })),

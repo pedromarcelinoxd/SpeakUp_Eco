@@ -76,7 +76,7 @@ class EngajamentoController extends Controller
                 'enviadas' => $user->denuncias()->count(),
                 'validadas' => $user->denuncias()->whereIn('status', Denuncia::STATUS_VALIDADOS)->count(),
                 'resolvidas' => $user->denuncias()->where('status', 'resolvida')->count(),
-                'confirmacoes' => $user->confirmacoes()->count(),
+                'confirmacoes' => $user->validacoes()->count(),
             ],
             'regras' => [
                 'denuncia_validada' => Pontuacao::DENUNCIA_VALIDADA,
