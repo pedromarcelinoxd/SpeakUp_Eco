@@ -1,7 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/", "destination": "/app", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/", "destination": "https://ecoradar-api-f3sw.onrender.com/" },
     { "source": "/:path*", "destination": "https://ecoradar-api-f3sw.onrender.com/:path*" }
   ]
 }
