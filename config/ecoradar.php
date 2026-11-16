@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| EcoRadar — configuração da interface web
+| SpeakUp Eco — configuração da interface web
 |--------------------------------------------------------------------------
 | Itens de navegação compartilhados entre a sidebar (desktop) e o menu
 | inferior (mobile). Não afeta a API.
@@ -10,7 +10,7 @@
 
 return [
 
-    'name' => 'EcoRadar',
+    'name' => 'SpeakUp Eco',
     'tagline' => 'Identifique. Denuncie. Transforme.',
 
     'nav' => [

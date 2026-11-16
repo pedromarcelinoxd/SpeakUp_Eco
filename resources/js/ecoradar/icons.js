@@ -1,5 +1,5 @@
 /**
- * Ícones Lucide usados pelo EcoRadar.
+ * Ícones Lucide usados pelo SpeakUp Eco.
  *
  * Importamos apenas os ícones necessários (tree-shaking) e expomos:
  *  - iconSvg(name, cls)  → string SVG (para marcadores do Leaflet e x-html)

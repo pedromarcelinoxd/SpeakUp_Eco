@@ -1,5 +1,5 @@
 /**
- * Assinatura visual do EcoRadar: o mosaico de pedra portuguesa.
+ * Assinatura visual do SpeakUp Eco: o mosaico de pedra portuguesa.
  *
  * Como num calçadão, cada pedra é talhada à mão: lados e cantos variam um pouco,
  * e as juntas entre elas ficam desiguais. Na grade de atividade TODA pedra é

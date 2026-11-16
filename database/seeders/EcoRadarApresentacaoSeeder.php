@@ -47,7 +47,7 @@ class EcoRadarApresentacaoSeeder extends Seeder
         $agora = Carbon::now();
 
         // ---------------------------------------------------------- Pessoas
-        $equipe = User::create(['name' => 'Equipe EcoRadar', 'email' => 'equipe'.self::DOMINIO, 'password' => $senha, 'bairro' => 'Centro', 'foto_perfil_path' => 'avatares/equipe.jpg']);
+        $equipe = User::create(['name' => 'Equipe SpeakUp Eco', 'email' => 'equipe'.self::DOMINIO, 'password' => $senha, 'bairro' => 'Centro', 'foto_perfil_path' => 'avatares/equipe.jpg']);
         $equipe->forceFill(['is_admin' => true, 'email_verified_at' => $agora])->save();
 
         $pessoas = [

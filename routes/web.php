@@ -12,7 +12,7 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| EcoRadar — interface web
+| SpeakUp Eco — interface web
 |--------------------------------------------------------------------------
 | Páginas Blade que consomem a API existente (routes/api.php).
 | Não alteram o backend nem exigem sessão web: a autenticação usa o token

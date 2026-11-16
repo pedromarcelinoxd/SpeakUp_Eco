@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "EcoRadar",
+    "name": "SpeakUp Eco",
     "slug": "ecoradar",
     "scheme": "ecoradar",
     "version": "1.0.0",
@@ -11,9 +11,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "br.edu.facens.ecoradar",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "O EcoRadar usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos.",
-        "NSCameraUsageDescription": "O EcoRadar usa a câmera para fotografar a ocorrência ambiental.",
-        "NSPhotoLibraryUsageDescription": "O EcoRadar acessa sua galeria para anexar fotos à denúncia.",
+        "NSLocationWhenInUseUsageDescription": "O SpeakUp Eco usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos.",
+        "NSCameraUsageDescription": "O SpeakUp Eco usa a câmera para fotografar a ocorrência ambiental.",
+        "NSPhotoLibraryUsageDescription": "O SpeakUp Eco acessa sua galeria para anexar fotos à denúncia.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -42,14 +42,14 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "O EcoRadar usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos."
+          "locationWhenInUsePermission": "O SpeakUp Eco usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "O EcoRadar acessa sua galeria para anexar fotos à denúncia.",
-          "cameraPermission": "O EcoRadar usa a câmera para fotografar a ocorrência ambiental."
+          "photosPermission": "O SpeakUp Eco acessa sua galeria para anexar fotos à denúncia.",
+          "cameraPermission": "O SpeakUp Eco usa a câmera para fotografar a ocorrência ambiental."
         }
       ],
       [

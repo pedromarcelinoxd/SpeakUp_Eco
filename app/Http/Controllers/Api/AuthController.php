@@ -51,7 +51,7 @@ class AuthController extends Controller
         }
 
         if ($user->bloqueado_em) {
-            return response()->json(['message' => 'Esta conta foi bloqueada pela equipe do EcoRadar.'.($user->bloqueio_motivo ? " Motivo: {$user->bloqueio_motivo}" : '')], 403);
+            return response()->json(['message' => 'Esta conta foi bloqueada pela equipe do SpeakUp Eco.'.($user->bloqueio_motivo ? " Motivo: {$user->bloqueio_motivo}" : '')], 403);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

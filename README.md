@@ -1,4 +1,4 @@
-# EcoRadar
+# SpeakUp Eco
 
 **Identifique. Denuncie. Transforme.** Plataforma colaborativa de monitoramento ambiental (UPX · Engenharia da Computação · FACENS).
 
@@ -78,7 +78,7 @@ Abra no **Expo Go** (Android/iOS) na mesma rede Wi-Fi do computador.
 ## Testes
 
 ```bash
-php artisan test --filter=EcoRadar
+php artisan test --filter=SpeakUp Eco
 ```
 
 Cobre a integração app ⇄ painel, as permissões, as confirmações, o ranking, as notificações/push e todas as páginas do painel.

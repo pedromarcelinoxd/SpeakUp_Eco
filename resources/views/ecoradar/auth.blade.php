@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Entrar · EcoRadar</title>
+    <title>Entrar · SpeakUp Eco</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('ecoradar-icon.svg') }}">
     <script>window.EcoRadar = { base: @json(url('/app')) };</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,7 +18,7 @@
             </svg>
             <a href="{{ route('eco.dashboard') }}" class="relative flex items-center gap-2.5">
                 <x-eco.logo class="h-9 w-9" />
-                <span class="font-display text-xl font-extrabold text-eco-700">EcoRadar</span>
+                <span class="font-display text-xl font-extrabold text-eco-700">SpeakUp Eco</span>
             </a>
             <div class="relative mt-auto max-w-md">
                 <p class="font-display text-[40px] font-extrabold leading-[1.08] tracking-tight">Identifique.<br>Denuncie.<br><span class="text-eco-600">Transforme.</span></p>

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Inicialização do contêiner do EcoRadar (Render ou qualquer host Docker).
+# Inicialização do contêiner do SpeakUp Eco (Render ou qualquer host Docker).
 set -e
 cd /var/www/html
 

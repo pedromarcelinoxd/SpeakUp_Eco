@@ -1,4 +1,4 @@
-<x-eco.layout title="Administração" subtitle="Área exclusiva da equipe do EcoRadar">
+<x-eco.layout title="Administração" subtitle="Área exclusiva da equipe do SpeakUp Eco">
     <div x-data="adminPage" class="space-y-6">
 
         {{-- Carregando a sessão --}}
@@ -8,7 +8,7 @@
         <section x-cloak x-show="$store.eco.ready && !allowed" class="card mx-auto max-w-lg p-6 text-center sm:p-8">
             <span class="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-eco-100 text-eco-700"><x-eco.icon name="lock" class="h-6 w-6" /></span>
             <h2 class="mt-4 font-display text-xl font-bold text-ink">Acesso restrito à equipe</h2>
-            <p class="mt-2 text-[14px] text-ink-muted">Esta área é só para administradores do EcoRadar. Se você faz parte da equipe, entre com a sua conta de administrador.</p>
+            <p class="mt-2 text-[14px] text-ink-muted">Esta área é só para administradores do SpeakUp Eco. Se você faz parte da equipe, entre com a sua conta de administrador.</p>
             <a x-show="!$store.eco.isAuthenticated" href="{{ route('eco.login') }}" class="btn-primary mt-5"><x-eco.icon name="log-in" class="h-4 w-4" />Entrar</a>
         </section>
 

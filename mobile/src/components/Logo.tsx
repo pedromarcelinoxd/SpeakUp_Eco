@@ -1,13 +1,13 @@
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { color } from '@/design/tokens';
 
-/** Marca EcoRadar: radar com folha — o mesmo desenho do painel web. */
+/** Marca SpeakUp Eco: radar com folha — o mesmo desenho do painel web. */
 export function Logo({ size = 40, tone = 'brand' }: { size?: number; tone?: 'brand' | 'light' }) {
   const bg = tone === 'brand' ? color.brand : color.surface;
   const fg = tone === 'brand' ? color.surface : color.brand;
   const leaf = color.brandSoft;
   return (
-    <Svg width={size} height={size} viewBox="0 0 32 32" accessibilityLabel="EcoRadar">
+    <Svg width={size} height={size} viewBox="0 0 32 32" accessibilityLabel="SpeakUp Eco">
       <Rect width={32} height={32} rx={9} fill={bg} />
       <Circle cx={15} cy={17} r={9.5} stroke={fg} strokeOpacity={0.3} strokeWidth={1.6} fill="none" />
       <Circle cx={15} cy={17} r={5} stroke={fg} strokeOpacity={0.6} strokeWidth={1.6} fill="none" />

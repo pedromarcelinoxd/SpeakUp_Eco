@@ -1,5 +1,5 @@
 ---
-name: EcoRadar
+name: SpeakUp Eco
 description: Mapa cívico de denúncias ambientais e pontos de descarte, na voz do modernismo brasileiro.
 colors:
   brand: "#176B56"
@@ -242,13 +242,13 @@ components:
     rounded: "18px"
 ---
 
-# Design System: EcoRadar
+# Design System: SpeakUp Eco
 
 ## Overview
 
 **Creative North Star: "Modernismo Cívico"**
 
-O EcoRadar fala com a voz do design público modernista brasileiro: sinalização clara, o calçadão de pedra portuguesa como assinatura de dados e uma única cor de chamado, reservada para a denúncia. É sinalização pública, não aplicativo de marca: um chão marfim carrega todas as telas, superfícies brancas recebem o que se destaca ou flutua, o carvão escreve o texto e um verde-petróleo marca a navegação e as ações principais, sempre em áreas pequenas. Nenhuma parte da moldura é um bloco escuro: cabeçalhos, barra de abas, barra lateral do painel e login são claros.
+O SpeakUp Eco fala com a voz do design público modernista brasileiro: sinalização clara, o calçadão de pedra portuguesa como assinatura de dados e uma única cor de chamado, reservada para a denúncia. É sinalização pública, não aplicativo de marca: um chão marfim carrega todas as telas, superfícies brancas recebem o que se destaca ou flutua, o carvão escreve o texto e um verde-petróleo marca a navegação e as ações principais, sempre em áreas pequenas. Nenhuma parte da moldura é um bloco escuro: cabeçalhos, barra de abas, barra lateral do painel e login são claros.
 
 A hierarquia vem da escala tipográfica e de listas com linhas finas (hairline), nunca de pilhas de cartões. Títulos e números grandes usam Archivo em pesos fortes (Bold/ExtraBold), em proporção normal; o texto corrido usa o corte normal. Valores importantes ficam à direita, em algarismos tabulares. Sombras existem só no que flutua sobre o mapa. O padrão "app eco" de verde em tudo, cartões com sombra empilhados e ícones decorativos em quadradinhos tintados é recusado.
 
@@ -269,7 +269,7 @@ O mapa é a primeira tela e o centro do produto: marcadores com formas próprias
 Uma paleta de praça clara: marfim e branco no chão, carvão no texto, um verde-petróleo contido para marca e navegação, um coral queimado reservado para denunciar e uma família semântica separada para os estados.
 
 ### Primary
-- **Verde-Petróleo** (brand): a marca e o "você está aqui" da navegação. Logotipo e nome EcoRadar, aba ativa, fio de 4px do item ativo da barra lateral, botão principal (Como chegar, Também vi isso, Continuar, Entrar), segmento ativo, borda de campo em foco, links de seção ("Ver no mapa"), pedra do ponto de descarte, avatar padrão, ponto de não lida, barra de etapas da denúncia, contador de filtros. Contraste de 6,4:1 com o branco. **Petróleo Pressionado** (brand-pressed) é o hover do botão principal no painel e o texto do item ativo e do chip ativo no painel.
+- **Verde-Petróleo** (brand): a marca e o "você está aqui" da navegação. Logotipo e nome SpeakUp Eco, aba ativa, fio de 4px do item ativo da barra lateral, botão principal (Como chegar, Também vi isso, Continuar, Entrar), segmento ativo, borda de campo em foco, links de seção ("Ver no mapa"), pedra do ponto de descarte, avatar padrão, ponto de não lida, barra de etapas da denúncia, contador de filtros. Contraste de 6,4:1 com o branco. **Petróleo Pressionado** (brand-pressed) é o hover do botão principal no painel e o texto do item ativo e do chip ativo no painel.
 - **Realce Sálvia-Claro** (brand-tint): a cor da seleção. Chip selecionado (com borda e texto petróleo), linha "você" no ranking, botões de ícone tint nos cabeçalhos claros, item ativo da barra lateral, chips de material do ponto, fundo da denúncia sem foto, seleção de texto no painel.
 
 ### Secondary

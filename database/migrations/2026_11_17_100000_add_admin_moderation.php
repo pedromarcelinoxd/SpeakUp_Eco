@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Administração do EcoRadar (mudanças ADITIVAS):
+ * Administração do SpeakUp Eco (mudanças ADITIVAS):
  *  - users: bloqueio de conta (data, motivo e quem bloqueou);
  *  - denuncias: ocultação por moderação (some do mapa público sem ser apagada).
  */

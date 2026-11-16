@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
- * Garante que todas as páginas da interface EcoRadar renderizam
+ * Garante que todas as páginas da interface SpeakUp Eco renderizam
  * e que a rota raiz da API continua inalterada.
  */
 class EcoRadarPagesTest extends TestCase

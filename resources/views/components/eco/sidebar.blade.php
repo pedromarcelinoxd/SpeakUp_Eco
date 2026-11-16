@@ -2,9 +2,9 @@
 <aside class="er-sidebar sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-line bg-white text-ink transition-[width] duration-300 ease-out lg:flex"
        aria-label="Navegação principal">
     <div class="flex h-16 items-center justify-between gap-2 px-4">
-        <a href="{{ route('eco.dashboard') }}" class="flex min-w-0 items-center gap-2.5 rounded-lg" aria-label="EcoRadar — início">
+        <a href="{{ route('eco.dashboard') }}" class="flex min-w-0 items-center gap-2.5 rounded-lg" aria-label="SpeakUp Eco — início">
             <x-eco.logo class="h-8 w-8 shrink-0" />
-            <span class="er-label font-display text-[17px] font-extrabold tracking-tight text-eco-700">EcoRadar</span>
+            <span class="er-label font-display text-[17px] font-extrabold tracking-tight text-eco-700">SpeakUp Eco</span>
         </a>
         <button type="button" class="er-label icon-btn h-8 w-8" @click="$store.eco.toggleSidebar()" title="Recolher menu" aria-label="Recolher menu">
             <x-eco.icon name="panel-left-close" class="h-[18px] w-[18px]" />

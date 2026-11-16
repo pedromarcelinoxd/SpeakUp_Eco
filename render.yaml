@@ -9,7 +9,7 @@ services:
     healthCheckPath: /up
     envVars:
       - key: APP_NAME
-        value: EcoRadar
+        value: SpeakUp Eco
       - key: APP_ENV
         value: production
       - key: APP_DEBUG

@@ -1,5 +1,5 @@
 /**
- * Mapa ambiental — página principal do EcoRadar.
+ * Mapa ambiental — página principal do SpeakUp Eco.
  * Leaflet (todos os ícones visíveis, sem agrupamento), filtros por categoria/status/período,
  * pesquisa local + endereço (Nominatim), painel de detalhes.
  */

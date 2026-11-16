@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Regras de pontuação do EcoRadar — única fonte para app, painel e ranking.
+ * Regras de pontuação do SpeakUp Eco — única fonte para app, painel e ranking.
  *
  *  - Denúncia validada (verificada ou resolvida): +50
  *  - Confirmação de ocorrência que foi validada:  +10

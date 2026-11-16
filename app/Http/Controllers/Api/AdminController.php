@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /**
- * Administração do EcoRadar (rotas /api/admin, só para a equipe — middleware "admin").
+ * Administração do SpeakUp Eco (rotas /api/admin, só para a equipe — middleware "admin").
  * Indicadores, moderação de denúncias, contas e categorias. Ecopontos usam as
  * rotas /api/ecopontos, também restritas à equipe.
  */

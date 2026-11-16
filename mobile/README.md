@@ -1,4 +1,4 @@
-# EcoRadar — aplicativo mobile (Android e iOS)
+# SpeakUp Eco — aplicativo mobile (Android e iOS)
 
 Aplicativo nativo em **React Native + Expo SDK 58** com **Expo Router**. Consome a mesma API Laravel do painel web: uma denúncia enviada pelo app aparece no painel e vice-versa.
 

@@ -178,7 +178,7 @@ export function reportDetail(id) {
             const url = window.location.href;
             try {
                 if (navigator.share) {
-                    await navigator.share({ title: this.r.title, text: 'Ocorrência ambiental no EcoRadar', url });
+                    await navigator.share({ title: this.r.title, text: 'Ocorrência ambiental no SpeakUp Eco', url });
                     return;
                 }
                 await navigator.clipboard.writeText(url);

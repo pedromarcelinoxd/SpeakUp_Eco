@@ -1,5 +1,5 @@
 /**
- * Componentes do design system EcoRadar.
+ * Componentes do design system SpeakUp Eco.
  * Regras: hierarquia por escala e espaço; sombras só no que flutua;
  * verde-petróleo nos botões principais e na navegação ativa; coral só na ação
  * de denunciar e nas ocorrências; ícones sem caixas atrás.

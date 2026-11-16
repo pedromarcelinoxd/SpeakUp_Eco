@@ -7,7 +7,7 @@ use App\Notifications\Channels\ExpoPushChannel;
 use Illuminate\Notifications\Notification;
 
 /**
- * Notificação do EcoRadar: gravada no banco (lida pelo app e pelo painel)
+ * Notificação do SpeakUp Eco: gravada no banco (lida pelo app e pelo painel)
  * e enviada como push para os dispositivos do usuário.
  */
 class EcoRadarNotification extends Notification

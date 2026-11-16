@@ -1,5 +1,5 @@
 /**
- * Registro dos componentes Alpine das páginas do EcoRadar.
+ * Registro dos componentes Alpine das páginas do SpeakUp Eco.
  */
 import dashboardPage from './dashboard';
 import miniMap from './miniMap';

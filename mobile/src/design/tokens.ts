@@ -1,5 +1,5 @@
 /**
- * EcoRadar — design tokens.
+ * SpeakUp Eco — design tokens.
  *
  * Fundo marfim · cartões brancos · texto carvão · verde-petróleo para marca,
  * navegação ativa e botões principais (em áreas pequenas, nunca em grandes blocos)

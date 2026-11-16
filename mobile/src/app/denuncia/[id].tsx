@@ -56,7 +56,7 @@ export default function ReportDetail() {
   const back = (
     <View style={[styles.topButtons, { top: insets.top + space.xs }]}>
       <IconButton icon="arrow-left" label="Voltar" onPress={() => router.back()} />
-      {r && <IconButton icon="share" label="Compartilhar" onPress={() => Share.share({ message: `Ocorrência ambiental no EcoRadar: ${r.titulo ?? 'denúncia'} (protocolo #${r.id})` })} />}
+      {r && <IconButton icon="share" label="Compartilhar" onPress={() => Share.share({ message: `Ocorrência ambiental no SpeakUp Eco: ${r.titulo ?? 'denúncia'} (protocolo #${r.id})` })} />}
     </View>
   );
 

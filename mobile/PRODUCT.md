@@ -35,7 +35,7 @@ Um único mapa que junta problemas ambientais e soluções de descarte, alimenta
 - Conquistas (badges) ainda não existem no backend: qualquer conquista exibida deve ser derivada de dados reais já disponíveis (estatísticas, pontos, nível), nunca inventada.
 
 ## Brand Commitments
-- Nome EcoRadar e slogan acima.
+- Nome SpeakUp Eco e slogan acima.
 - Verde como cor da marca; a paleta inicial (#16A34A, #14532D, #DCFCE7, #F8FAFC, vermelho para denúncias, âmbar para análise, azul para informação) **pode ser reinterpretada** no redesign (confirmado pelo usuário).
 - Marca: radar com folha (logo já existente no painel web).
 

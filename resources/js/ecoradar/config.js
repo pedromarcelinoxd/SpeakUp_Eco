@@ -1,5 +1,5 @@
 /**
- * Configurações e dicionários do EcoRadar.
+ * Configurações e dicionários do SpeakUp Eco.
  * Fonte única para categorias, status, níveis e pontos de referência.
  */
 

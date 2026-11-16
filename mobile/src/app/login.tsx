@@ -46,7 +46,7 @@ export default function LoginScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" bounces={false}>
         <View style={[styles.hero, { paddingTop: insets.top + space.xxxl }]}>
           <Logo size={48} />
-          <Text style={styles.brand} accessibilityRole="header">EcoRadar</Text>
+          <Text style={styles.brand} accessibilityRole="header">SpeakUp Eco</Text>
           <Text variant="headline" tone="muted" style={{ fontFamily: font.semibold }}>
             Identifique. Denuncie. <Text variant="headline" tone="brand">Transforme.</Text>
           </Text>

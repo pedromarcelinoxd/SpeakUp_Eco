@@ -1,5 +1,5 @@
 /**
- * Fábrica de mapas Leaflet com a identidade visual do EcoRadar.
+ * Fábrica de mapas Leaflet com a identidade visual do SpeakUp Eco.
  */
 import L from 'leaflet';
 import { MAP_DEFAULTS, STATUSES } from '../config';

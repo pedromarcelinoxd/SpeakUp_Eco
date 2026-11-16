@@ -1,5 +1,5 @@
 /**
- * Administração do EcoRadar (/app/admin) — só para a equipe.
+ * Administração do SpeakUp Eco (/app/admin) — só para a equipe.
  * A página mostra os dados apenas para administradores; a API confere is_admin
  * em todas as chamadas, então esconder a tela não é a única proteção.
  */

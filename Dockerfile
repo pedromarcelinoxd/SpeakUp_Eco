@@ -1,4 +1,4 @@
-# EcoRadar — API Laravel + painel web para hospedagem em contêiner (Render).
+# SpeakUp Eco — API Laravel + painel web para hospedagem em contêiner (Render).
 # O app mobile (pasta mobile/) não entra na imagem; ele é gerado pelo EAS Build.
 
 # 1) Assets do painel (Vite + Tailwind)

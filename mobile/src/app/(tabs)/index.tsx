@@ -1,5 +1,5 @@
 /**
- * Mapa — a experiência central do EcoRadar e a tela inicial, aberta a qualquer
+ * Mapa — a experiência central do SpeakUp Eco e a tela inicial, aberta a qualquer
  * pessoa (com ou sem conta). Mapa em tela cheia; painel "Perto de você"; ao tocar
  * num marcador, o painel vira o cartão completo do item, com validação comunitária.
  * Os marcadores se atualizam ao voltar para a tela e a cada 45 s.

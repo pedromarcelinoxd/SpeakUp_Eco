@@ -71,7 +71,7 @@
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <h2 id="c-api" class="section-title">Conexão com o servidor</h2>
-                    <p class="mt-0.5 text-[13px] text-ink-muted">API Laravel do EcoRadar (<code class="rounded bg-slate-100 px-1 text-[12px]">/api</code>)</p>
+                    <p class="mt-0.5 text-[13px] text-ink-muted">API Laravel do SpeakUp Eco (<code class="rounded bg-slate-100 px-1 text-[12px]">/api</code>)</p>
                 </div>
                 <button type="button" class="btn-secondary btn-sm" @click="check()" :disabled="checking">
                     <x-eco.icon name="refresh" class="h-3.5 w-3.5" ::class="checking && 'animate-spin'" />
@@ -104,7 +104,7 @@
         </section>
 
         <section class="text-center text-[12px] text-slate-400">
-            <p>EcoRadar · {{ config('ecoradar.tagline') }}</p>
+            <p>SpeakUp Eco · {{ config('ecoradar.tagline') }}</p>
             <p class="mt-0.5">Projeto UPX · Engenharia da Computação · FACENS</p>
         </section>
 

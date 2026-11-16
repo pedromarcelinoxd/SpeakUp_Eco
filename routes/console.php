@@ -8,7 +8,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 /*
-| Promove (ou rebaixa) um usuário a administrador do EcoRadar.
+| Promove (ou rebaixa) um usuário a administrador do SpeakUp Eco.
 | Administradores moderam denúncias (alteram status) e gerenciam ecopontos.
 |   php artisan ecoradar:admin pessoa@exemplo.com
 |   php artisan ecoradar:admin pessoa@exemplo.com --remover
@@ -22,7 +22,7 @@ Artisan::command('ecoradar:admin {email} {--remover}', function (string $email) 
     }
     $user->forceFill(['is_admin' => ! $this->option('remover')])->save();
     $this->info($user->is_admin ? "{$user->name} agora é administrador." : "{$user->name} não é mais administrador.");
-})->purpose('Concede ou remove o papel de administrador do EcoRadar');
+})->purpose('Concede ou remove o papel de administrador do SpeakUp Eco');
 
 /*
 | Publica as fotos de exemplo (denúncias e avatares) no disco público e aplica os avatares.

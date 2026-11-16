@@ -1,5 +1,5 @@
 @props([
-    'title' => 'EcoRadar',
+    'title' => 'SpeakUp Eco',
     'subtitle' => null,
     'fullBleed' => false,
     'back' => null,
@@ -11,8 +11,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#F8FAFC">
-    <meta name="description" content="EcoRadar — plataforma colaborativa de monitoramento ambiental. {{ config('ecoradar.tagline') }}">
-    <title>{{ $title }} · EcoRadar</title>
+    <meta name="description" content="SpeakUp Eco — plataforma colaborativa de monitoramento ambiental. {{ config('ecoradar.tagline') }}">
+    <title>{{ $title }} · SpeakUp Eco</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('ecoradar-icon.svg') }}">
     <script>
         // Aplica o estado da sidebar antes da renderização (evita "piscar")

@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  DADOS DEMONSTRATIVOS — EcoRadar
+ *  DADOS DEMONSTRATIVOS — SpeakUp Eco
  * ============================================================
  *  Tudo neste arquivo é FICTÍCIO e serve apenas para demonstrar
  *  a interface enquanto o backend não oferece estes recursos.

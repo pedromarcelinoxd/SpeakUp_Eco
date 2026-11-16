@@ -7,7 +7,7 @@
     <div class="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
         {{-- Mobile: logo --}}
         @unless ($back)
-            <a href="{{ route('eco.dashboard') }}" class="shrink-0 lg:hidden" aria-label="EcoRadar — início">
+            <a href="{{ route('eco.dashboard') }}" class="shrink-0 lg:hidden" aria-label="SpeakUp Eco — início">
                 <x-eco.logo class="h-8 w-8" />
             </a>
         @endunless
