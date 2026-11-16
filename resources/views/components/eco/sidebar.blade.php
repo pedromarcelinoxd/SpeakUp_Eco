@@ -44,6 +44,15 @@
 
     <div class="border-t border-line px-3 py-3">
         <ul class="space-y-0.5">
+            {{-- Só a equipe vê este item (a API também bloqueia quem não é administrador) --}}
+            <li x-cloak x-show="$store.eco.isAdmin">
+                <a href="{{ route('eco.admin') }}" title="Administração"
+                   @class(['nav-item', 'nav-item-active' => request()->routeIs('eco.admin')])
+                   @if (request()->routeIs('eco.admin')) aria-current="page" @endif>
+                    <x-eco.icon name="shield-check" class="h-[18px] w-[18px]" />
+                    <span class="er-label">Administração</span>
+                </a>
+            </li>
             @foreach (config('ecoradar.nav_secondary') as $item)
                 @php($active = request()->routeIs($item['match']))
                 <li>

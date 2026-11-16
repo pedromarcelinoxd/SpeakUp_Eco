@@ -55,10 +55,22 @@ class Denuncia extends Model
 
     protected $hidden = ['autor_hash'];
 
+    /** Visíveis ao público: não ocultadas pela moderação. */
+    public function scopeVisiveis($query)
+    {
+        return $query->whereNull('oculta_em');
+    }
+
+    public function ocultadaPor()
+    {
+        return $this->belongsTo(User::class, 'oculta_por');
+    }
+
     protected function casts(): array
     {
         return [
             'fotos_extras' => 'array',
+            'oculta_em' => 'datetime',
             'latitude' => 'float',
             'longitude' => 'float',
         ];

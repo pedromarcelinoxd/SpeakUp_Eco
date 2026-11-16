@@ -221,15 +221,15 @@ class EcoRadarApiTest extends TestCase
         $this->postJson('/api/push-tokens', ['token' => 'ExponentPushToken[xyz]', 'plataforma' => 'ios'])->assertCreated();
         $this->assertDatabaseHas('push_tokens', ['user_id' => $user->id, 'token' => 'ExponentPushToken[xyz]']);
 
-        $ponto = $this->postJson('/api/ecopontos', [
-            'nome' => 'Coleta de pilhas',
-            'categoria' => 'pilhas',
-            'latitude' => -23.47,
-            'longitude' => -47.43,
-            'residuos_aceitos' => ['Pilhas'],
-        ])->assertCreated()->json('id');
+        $dados = ['nome' => 'Coleta de pilhas', 'categoria' => 'pilhas', 'latitude' => -23.47, 'longitude' => -47.43, 'residuos_aceitos' => ['Pilhas']];
 
-        // Apenas administradores alteram ou removem ecopontos
+        // Apenas administradores cadastram, alteram ou removem ecopontos
+        $this->postJson('/api/ecopontos', $dados)->assertForbidden();
+        $admin = User::factory()->create();
+        $admin->forceFill(['is_admin' => true])->save();
+        Sanctum::actingAs($admin);
+        $ponto = $this->postJson('/api/ecopontos', $dados)->assertCreated()->json('id');
+        Sanctum::actingAs($user);
         $this->deleteJson("/api/ecopontos/{$ponto}")->assertForbidden();
 
         $this->getJson('/api/ecopontos')->assertOk()->assertJsonPath('0.categoria', 'pilhas');

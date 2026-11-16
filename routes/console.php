@@ -25,11 +25,11 @@ Artisan::command('ecoradar:admin {email} {--remover}', function (string $email) 
 })->purpose('Concede ou remove o papel de administrador do EcoRadar');
 
 /*
-| Publica as imagens ilustrativas dos dados de apresentação no disco público.
+| Publica as fotos de exemplo (denúncias e avatares) no disco público e aplica os avatares.
 | Roda a cada inicialização do servidor na hospedagem (o disco é apagado ao reiniciar).
 |   php artisan ecoradar:fotos-demo
 */
 Artisan::command('ecoradar:fotos-demo', function () {
     \Database\Seeders\EcoRadarApresentacaoSeeder::publicarFotos();
-    $this->info('Imagens ilustrativas publicadas em storage/app/public/demo.');
-})->purpose('Publica as imagens ilustrativas dos dados de apresentação');
+    $this->info('Fotos de exemplo das denúncias e avatares dos moradores publicados.');
+})->purpose('Publica as fotos de exemplo das denúncias e os avatares dos moradores');

@@ -6,7 +6,7 @@
  */
 import { useEffect, useState, type ReactNode } from 'react';
 import {
-  ActivityIndicator, Animated, Easing, Modal, Pressable, StyleSheet, TextInput, View,
+  ActivityIndicator, Animated, Easing, Image, Modal, Pressable, StyleSheet, TextInput, View,
   type StyleProp, type TextInputProps, type ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -206,20 +206,6 @@ export function ReportDrop({ category, size = 40, muted, onMap }: { category?: s
   );
 }
 
-/** Agrupamento de marcadores próximos no mapa: círculo com a quantidade. */
-export function ClusterBubble({ count, hasReports }: { count: number; hasReports: boolean }) {
-  const size = count < 10 ? 38 : count < 50 ? 44 : 52;
-  return (
-    <View style={[{
-      width: size, height: size, borderRadius: size / 2, backgroundColor: color.ink,
-      borderWidth: 3, borderColor: hasReports ? color.coral : color.brand,
-      alignItems: 'center', justifyContent: 'center',
-    }, mapMarkerEdge]}>
-      <Text variant="label" style={{ color: color.surface, fontFamily: font.bold }}>{count}</Text>
-    </View>
-  );
-}
-
 /** Pedra verde-petróleo do ponto de descarte — a mesma forma do mapa. */
 export function PointStone({ category, size = 40, onMap }: { category?: string; size?: number; onMap?: boolean }) {
   const cat = pointCategory(category);
@@ -230,12 +216,16 @@ export function PointStone({ category, size = 40, onMap }: { category?: string; 
   );
 }
 
-export function Avatar({ name, size = 44, tone = 'brand' }: { name: string; size?: number; tone?: 'brand' | 'tint' | 'stone' }) {
+/** Foto de perfil, ou as iniciais quando a pessoa não tem foto. */
+export function Avatar({ name, size = 44, tone = 'brand', uri }: { name: string; size?: number; tone?: 'brand' | 'tint' | 'stone'; uri?: string | null }) {
   const bg = { brand: color.brand, tint: color.brandTint, stone: color.stone }[tone];
   const fg = tone === 'brand' ? color.surface : tone === 'tint' ? color.brand : color.ink;
   return (
-    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
       <Text style={{ fontFamily: font.bold, fontSize: size * 0.36, lineHeight: size * 0.44, color: fg }}>{initials(name)}</Text>
+      {!!uri && (
+        <Image source={{ uri }} style={StyleSheet.absoluteFill} accessibilityLabel={`Foto de ${name}`} accessibilityIgnoresInvertColors />
+      )}
     </View>
   );
 }

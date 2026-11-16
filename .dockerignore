@@ -16,7 +16,6 @@ database/*.sqlite*
 telas-figma
 telas-mobile
 telas-*.zip
-.claude
 postman
 .postman
 tests

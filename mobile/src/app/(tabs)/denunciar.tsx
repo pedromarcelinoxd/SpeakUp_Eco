@@ -19,6 +19,7 @@ import { Text } from '@/design/Text';
 import { color, font, motion, radius, readable, space } from '@/design/tokens';
 import { api, ApiError, type PhotoAsset, type Report } from '@/lib/api';
 import { DEFAULT_CENTER, REPORT_CATEGORIES, SEVERITIES, type ReportCategory, type Severity } from '@/lib/catalog';
+import { useAuth } from '@/lib/auth';
 import { useMyLocation } from '@/lib/location';
 
 const STEPS = ['O que é', 'Foto e local', 'Detalhes', 'Revisão'];
@@ -27,7 +28,32 @@ const MAX_BYTES = 5 * 1024 * 1024; // limite do backend
 
 type Photo = PhotoAsset & { fileSize?: number };
 
+/** Denunciar exige conta (o servidor também recusa envios sem login). */
 export default function ReportScreen() {
+  const { user } = useAuth();
+  return user ? <ReportFlow /> : <LoginGate />;
+}
+
+function LoginGate() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[styles.gate, { paddingTop: insets.top + space.huge }]}>
+      <StatusBar style="dark" />
+      <View style={styles.gateIcon}><Icon name="flag" size={30} tint={color.brand} /></View>
+      <Text variant="title" align="center">Entre para fazer uma denúncia</Text>
+      <Text variant="body" tone="muted" align="center">
+        Para evitar abusos, só pessoas cadastradas podem denunciar e validar ocorrências. Ver o mapa e as denúncias continua livre.
+      </Text>
+      <View style={{ gap: space.sm, alignSelf: 'stretch', marginTop: space.md }}>
+        <Button label="Entrar ou criar conta" icon="user" onPress={() => router.push('/login')} />
+        <Button label="Ver o mapa" variant="secondary" onPress={() => router.navigate('/')} />
+      </View>
+    </View>
+  );
+}
+
+function ReportFlow() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const location = useMyLocation();
@@ -201,7 +227,7 @@ export default function ReportScreen() {
             </View>
             {/* Lista com divisórias finas (mesma gramática das outras listas), não cartões */}
             <View accessibilityRole="radiogroup">
-              {(Object.keys(REPORT_CATEGORIES) as ReportCategory[]).map((k, i) => {
+              {(Object.keys(REPORT_CATEGORIES) as ReportCategory[]).filter((k) => !REPORT_CATEGORIES[k].inactive).map((k, i) => {
                 const c = REPORT_CATEGORIES[k];
                 const active = category === k;
                 return (
@@ -415,6 +441,8 @@ const styles = StyleSheet.create({
   bar: { height: 4, borderRadius: 2, backgroundColor: color.line },
   catRow: { flexDirection: 'row', alignItems: 'center', gap: space.md, minHeight: 72, paddingVertical: space.sm, borderRadius: radius.sm },
   rule: { height: StyleSheet.hairlineWidth, backgroundColor: color.line, marginLeft: 52 },
+  gate: { flex: 1, backgroundColor: color.ground, alignItems: 'center', paddingHorizontal: space.xl, gap: space.sm, ...readable },
+  gateIcon: { width: 72, height: 72, borderRadius: 22, backgroundColor: color.brandTint, alignItems: 'center', justifyContent: 'center', marginBottom: space.sm },
   duplicate: { gap: space.xs, padding: space.md, borderRadius: radius.lg, backgroundColor: color.warningTint, borderWidth: 1, borderColor: '#F3D9A4' },
   radio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: color.line, alignItems: 'center', justifyContent: 'center' },
   radioOn: { backgroundColor: color.brand, borderColor: color.brand },

@@ -32,6 +32,7 @@ function RootStack() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="denuncia/[id]" options={{ title: '', headerTransparent: true }} />
       <Stack.Screen name="ponto/[id]" options={{ title: '', headerTransparent: true }} />
+      <Stack.Screen name="panorama" options={{ title: 'Panorama ambiental' }} />
       <Stack.Protected guard={!!user}>
         <Stack.Screen name="notificacoes" options={{ title: 'Notificações' }} />
       </Stack.Protected>

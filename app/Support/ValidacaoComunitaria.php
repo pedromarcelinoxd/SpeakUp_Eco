@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Regras da validação comunitária (não é confirmação oficial da prefeitura).
  *
- * Cada pessoa tem um voto por ocorrência — "existe" ou "resolvida" — e pode mudar
+ * Validar exige conta. Cada pessoa tem um voto por ocorrência — "existe" ou "resolvida" — e pode mudar
  * de opinião, mas não votar duas vezes. O autor não vota na própria denúncia.
  * Nenhuma pessoa sozinha muda o status: ele é recalculado a partir dos votos.
  *
@@ -25,16 +25,25 @@ use Illuminate\Support\Facades\DB;
 class ValidacaoComunitaria
 {
     /** Motivo pelo qual o votante não pode votar, ou null se pode. */
+    public const PRECISA_LOGIN = 'Entre na sua conta para validar ocorrências.';
+
     public static function bloqueio(Denuncia $denuncia, ?Votante $votante): ?string
     {
-        if (! $votante) {
-            return 'Não foi possível identificar este dispositivo. Atualize o app e tente novamente.';
-        }
-        if ($votante->ehAutor($denuncia)) {
-            return 'Você registrou esta denúncia; a validação é feita por outras pessoas.';
+        if ($denuncia->oculta_em) {
+            return 'Esta ocorrência foi retirada do mapa pela moderação.';
         }
         if (in_array($denuncia->status, Denuncia::STATUS_FINAIS, true)) {
             return 'Esta ocorrência já foi encerrada.';
+        }
+        // Validar exige conta (consultar continua livre)
+        if (! $votante?->user) {
+            return self::PRECISA_LOGIN;
+        }
+        if ($votante->user->bloqueado_em) {
+            return 'Esta conta está bloqueada e não pode validar ocorrências.';
+        }
+        if ($votante->ehAutor($denuncia)) {
+            return 'Você registrou esta denúncia; a validação é feita por outras pessoas.';
         }
 
         return null;

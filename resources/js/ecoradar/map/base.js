@@ -2,7 +2,6 @@
  * Fábrica de mapas Leaflet com a identidade visual do EcoRadar.
  */
 import L from 'leaflet';
-import 'leaflet.markercluster';
 import { MAP_DEFAULTS, STATUSES } from '../config';
 import { iconSvg } from '../icons';
 import { pointCategory, reportCategory } from '../utils';
@@ -133,22 +132,15 @@ export function dropIcon(color = '#176B56') {
     });
 }
 
-export function createCluster(color = '#202A27') {
-    return L.markerClusterGroup({
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: true,
-        maxClusterRadius: 48,
-        disableClusteringAtZoom: 17,
-        iconCreateFunction(cluster) {
-            const n = cluster.getChildCount();
-            const size = n < 10 ? 36 : n < 50 ? 42 : 50;
-            return L.divIcon({
-                className: 'er-cluster',
-                html: `<div class="er-cluster__inner" style="--c:${color}">${n}</div>`,
-                iconSize: [size, size],
-            });
-        },
-    });
+/**
+ * Camada de marcadores SEM agrupamento: todos os ícones aparecem já na visão da
+ * cidade, como no app. Mantém o nome e a interface usados pelas páginas
+ * (addTo, addLayer, clearLayers, getBounds, zoomToShowLayer).
+ */
+export function createCluster() {
+    const group = L.featureGroup();
+    group.zoomToShowLayer = (_marker, done) => done?.();
+    return group;
 }
 
 export function tooltip(text) {

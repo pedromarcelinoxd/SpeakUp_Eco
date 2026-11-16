@@ -82,7 +82,7 @@ export default function LoginScreen() {
           <Text variant="caption" tone="muted" align="center">A mesma conta funciona no app e no painel web.</Text>
           <Button label="Continuar sem conta" variant="quiet" onPress={close} />
           <Text variant="caption" tone="muted" align="center">
-            Sem conta você vê o mapa, denuncia e valida ocorrências. Com conta, você ganha pontos, recebe notificações e entra no ranking.
+            Sem conta você pode ver o mapa e as ocorrências. Para denunciar e validar, entre com uma conta.
           </Text>
           {__DEV__ && <Text variant="caption" tone="faint" align="center" style={{ fontSize: 11 }}>Servidor: {API_URL}</Text>}
         </View>

@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Storage;
  * - Conta para apresentar:  apresentacao@exemplo.test
  * - Conta da equipe (admin): equipe@exemplo.test (altera status no painel)
  *   Senha das duas: variável ECORADAR_DEMO_PASSWORD (padrão: EcoRadar2026).
- * - As fotos são imagens ilustrativas (database/seeders/fotos), não fotos reais.
+ * - Fotos das denúncias: fotos livres da Unsplash (ver database/seeders/fotos/CREDITOS.md).
+ * - Fotos de perfil: avatares ilustrados (database/seeders/avatares), não pessoas reais.
  * - Idempotente: se a conta de apresentação já existe, não faz nada.
  *
  * Para remover: apagar usuários com e-mail @exemplo.test (as denúncias saem em cascata)
@@ -46,7 +47,7 @@ class EcoRadarApresentacaoSeeder extends Seeder
         $agora = Carbon::now();
 
         // ---------------------------------------------------------- Pessoas
-        $equipe = User::create(['name' => 'Equipe EcoRadar', 'email' => 'equipe'.self::DOMINIO, 'password' => $senha, 'bairro' => 'Centro']);
+        $equipe = User::create(['name' => 'Equipe EcoRadar', 'email' => 'equipe'.self::DOMINIO, 'password' => $senha, 'bairro' => 'Centro', 'foto_perfil_path' => 'avatares/equipe.jpg']);
         $equipe->forceFill(['is_admin' => true, 'email_verified_at' => $agora])->save();
 
         $pessoas = [
@@ -65,7 +66,7 @@ class EcoRadarApresentacaoSeeder extends Seeder
         ];
         $u = [];
         foreach ($pessoas as [$login, $nome, $bairro]) {
-            $u[$login] = User::create(['name' => $nome, 'email' => $login.self::DOMINIO, 'password' => $senha, 'bairro' => $bairro]);
+            $u[$login] = User::create(['name' => $nome, 'email' => $login.self::DOMINIO, 'password' => $senha, 'bairro' => $bairro, 'foto_perfil_path' => 'avatares/'.$login.'.jpg']);
             $u[$login]->forceFill(['email_verified_at' => $agora])->save();
         }
 
@@ -197,16 +198,30 @@ class EcoRadarApresentacaoSeeder extends Seeder
     }
 
     /**
-     * Copia as imagens ilustrativas para o disco público (storage/app/public/demo).
+     * Copia as fotos de exemplo para o disco público (storage/app/public/demo e
+     * /avatares) e aplica os avatares aos moradores fictícios que ainda não têm foto.
      * Chamado também na inicialização do servidor, porque o disco da hospedagem
      * gratuita é apagado a cada reinício.
      */
     public static function publicarFotos(): void
     {
-        foreach (glob(database_path('seeders/fotos/*.jpg')) as $arquivo) {
-            $destino = 'demo/'.basename($arquivo);
-            if (! Storage::disk('public')->exists($destino)) {
-                Storage::disk('public')->put($destino, file_get_contents($arquivo));
+        $pastas = ['seeders/fotos' => 'demo', 'seeders/avatares' => 'avatares'];
+        foreach ($pastas as $origem => $destino) {
+            foreach (glob(database_path($origem.'/*.jpg')) as $arquivo) {
+                $alvo = $destino.'/'.basename($arquivo);
+                $disco = Storage::disk('public');
+                // Atualiza se o arquivo mudou (ex.: troca das imagens de exemplo)
+                if (! $disco->exists($alvo) || $disco->size($alvo) !== filesize($arquivo)) {
+                    $disco->put($alvo, file_get_contents($arquivo));
+                }
+            }
+        }
+
+        // Moradores fictícios (@exemplo.test) sem foto recebem o avatar com o mesmo nome
+        foreach (User::where('email', 'like', '%'.self::DOMINIO)->whereNull('foto_perfil_path')->get() as $user) {
+            $login = strstr($user->email, '@', true);
+            if (file_exists(database_path("seeders/avatares/{$login}.jpg"))) {
+                $user->forceFill(['foto_perfil_path' => "avatares/{$login}.jpg"])->save();
             }
         }
     }

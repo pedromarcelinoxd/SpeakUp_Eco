@@ -6,7 +6,8 @@
 export const MAP_DEFAULTS = {
     // Sorocaba/SP — cidade da FACENS
     center: [-23.4995, -47.4560],
-    zoom: 13,
+    // Cidade inteira à vista: todos os ícones aparecem sem precisar de zoom
+    zoom: 12,
 };
 
 /* --------------------------------------------------------------

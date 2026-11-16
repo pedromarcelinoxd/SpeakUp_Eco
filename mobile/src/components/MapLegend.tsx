@@ -1,9 +1,9 @@
 /**
  * Legenda do mapa: cor e ícone de cada categoria de ocorrência, pontos de
- * descarte, agrupamentos e ocorrências encerradas.
+ * descarte e ocorrências encerradas.
  */
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { ClusterBubble, IconButton, PointStone, ReportDrop } from '@/design/components';
+import { IconButton, PointStone, ReportDrop } from '@/design/components';
 import { Text } from '@/design/Text';
 import { color, float, radius, space } from '@/design/tokens';
 import { REPORT_CATEGORIES } from '@/lib/catalog';
@@ -30,10 +30,6 @@ export function MapLegend({ onClose }: { onClose: () => void }) {
         <View style={styles.row}>
           <View style={styles.mark}><ReportDrop category="outros" size={20} muted /></View>
           <Text variant="caption" style={{ flex: 1 }}>Ocorrência encerrada</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={[styles.mark, { transform: [{ scale: 0.62 }] }]}><ClusterBubble count={8} hasReports /></View>
-          <Text variant="caption" style={{ flex: 1 }}>Vários itens próximos — toque para aproximar</Text>
         </View>
       </ScrollView>
     </View>

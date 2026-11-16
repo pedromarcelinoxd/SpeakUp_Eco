@@ -5,15 +5,14 @@
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import * as lucide from 'lucide';
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { View } from 'react-native';
 import { shouldAnimate } from '@/design/motion';
 import { color } from '@/design/tokens';
 import { DEFAULT_CENTER, pointCategory, reportCategory } from '@/lib/catalog';
-import { clusterMarkers, clusterZoomStep } from './cluster';
 import type { EcoMapHandle, EcoMapProps, MapMarker } from './types';
 
-const ZOOM = { city: 13, neighborhood: 15, street: 17 } as const;
+const ZOOM = { city: 12, neighborhood: 15, street: 17 } as const;
 
 /** Nome do ícone do design system → ícone Lucide (mesmo desenho do app). */
 const LUCIDE: Record<string, string> = {
@@ -55,16 +54,6 @@ function markerIcon(m: MapMarker) {
   });
 }
 
-function clusterIcon(count: number, hasReports: boolean) {
-  const s = count < 10 ? 38 : count < 50 ? 44 : 52;
-  return L.divIcon({
-    className: '',
-    iconSize: [s, s],
-    iconAnchor: [s / 2, s / 2],
-    html: `<div aria-label="${count} itens agrupados" style="width:${s}px;height:${s}px;border-radius:50%;background:${color.ink};border:3px solid ${hasReports ? color.coral : color.brand};color:#fff;display:grid;place-items:center;font:700 13.5px Archivo_700Bold,Archivo,sans-serif;box-shadow:0 3px 8px rgba(32,42,39,.26)">${count}</div>`,
-  });
-}
-
 const userIcon = L.divIcon({
   className: '',
   iconSize: [22, 22],
@@ -87,7 +76,6 @@ export const EcoMap = forwardRef<EcoMapHandle, EcoMapProps>(function EcoMap(
   const map = useRef<L.Map | null>(null);
   const layer = useRef<L.LayerGroup | null>(null);
   const extra = useRef<L.LayerGroup | null>(null);
-  const [zoom, setZoom] = useState<number>(ZOOM[initialZoom]);
   const handlers = useRef({ onMarkerPress, onMapPress, onPinMove });
   handlers.current = { onMarkerPress, onMapPress, onPinMove };
 
@@ -114,7 +102,6 @@ export const EcoMap = forwardRef<EcoMapHandle, EcoMapProps>(function EcoMap(
       attribution: '© OpenStreetMap',
     }).addTo(m);
     m.on('click', (e: L.LeafletMouseEvent) => handlers.current.onMapPress?.({ latitude: e.latlng.lat, longitude: e.latlng.lng }));
-    m.on('zoomend', () => setZoom(m.getZoom()));
     layer.current = L.layerGroup().addTo(m);
     extra.current = L.layerGroup().addTo(m);
     map.current = m;
@@ -128,23 +115,12 @@ export const EcoMap = forwardRef<EcoMapHandle, EcoMapProps>(function EcoMap(
     const g = layer.current;
     if (!g) return;
     g.clearLayers();
-    clusterMarkers(markers, zoom).forEach((it) => {
-      if (it.type === 'cluster') {
-        L.marker([it.latitude, it.longitude], { icon: clusterIcon(it.count, it.hasReports), zIndexOffset: 800, keyboard: false })
-          .on('click', (e) => {
-            L.DomEvent.stopPropagation(e);
-            const m = map.current;
-            if (m) m.setView([it.latitude, it.longitude], m.getZoom() + clusterZoomStep, { animate: shouldAnimate() });
-          })
-          .addTo(g);
-        return;
-      }
-      const mk = it.marker;
+    markers.forEach((mk) => {
       L.marker([mk.latitude, mk.longitude], { icon: markerIcon(mk), zIndexOffset: mk.selected ? 1000 : mk.kind === 'report' ? 500 : 0, keyboard: false })
         .on('click', (e) => { L.DomEvent.stopPropagation(e); handlers.current.onMarkerPress?.(mk.id); })
         .addTo(g);
     });
-  }, [markers, zoom]);
+  }, [markers]);
 
   useEffect(() => {
     const g = extra.current;

@@ -40,7 +40,7 @@ export type Report = {
   id: number;
   user_id: number | null;
   user?: { id: number; name: string } | null;
-  autor: { nome: string; anonimo: boolean; sou_eu: boolean };
+  autor: { nome: string; anonimo: boolean; sou_eu: boolean; foto_url?: string | null };
   categoria: ReportCategory;
   titulo: string | null;
   descricao: string | null;
@@ -58,6 +58,7 @@ export type Report = {
   meu_voto: Vote | null;
   pode_validar: boolean;
   motivo_bloqueio: string | null;
+  precisa_login?: boolean;
   confirmacoes_count: number;
   confirmada_por_mim: boolean;
   permissoes: { confirmar: boolean; excluir: boolean; alterar_status: boolean } | null;
@@ -82,6 +83,7 @@ export type Point = {
 export type RankingRow = {
   posicao: number;
   user_id: number;
+  foto_url?: string | null;
   nome: string;
   bairro: string | null;
   pontos: number;
@@ -207,6 +209,7 @@ export const api = {
     return request<Report>('/denuncias', { method: 'POST', body: form });
   },
 
+  categories: () => request<{ slug: string; nome: string; cor: string; descricao: string | null }[]>('/categorias'),
   points: () => request<Point[]>('/ecopontos'),
   point: (id: number | string) => request<Point>(`/ecopontos/${id}`),
   ranking: (periodo: 'semanal' | 'mensal' | 'geral') =>

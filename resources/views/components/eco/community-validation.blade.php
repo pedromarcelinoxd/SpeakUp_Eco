@@ -40,7 +40,11 @@
         </div>
     </template>
     {{-- Visibilidade por classe (x-show não reage dentro do painel do mapa, que é recriado por x-if) --}}
-    <p class="mt-3 text-[12.5px] text-ink-muted" :class="!r.canVote && r.blockReason ? '' : 'hidden'" x-text="r.blockReason"></p>
+    <p class="mt-3 text-[12.5px] text-ink-muted" :class="!r.canVote && r.blockReason && !r.needsLogin ? '' : 'hidden'" x-text="r.blockReason"></p>
+    <div class="mt-3" :class="r.needsLogin ? '' : 'hidden'">
+        <p class="text-[12.5px] text-ink-muted">Para validar, entre com sua conta. Assim cada pessoa conta uma vez só.</p>
+        <a :href="`{{ route('eco.login') }}?voltar=${encodeURIComponent(window.location.pathname)}`" class="btn-secondary btn-sm mt-2"><x-eco.icon name="log-in" class="h-3.5 w-3.5" />Entrar para validar</a>
+    </div>
     <p class="mt-3 text-[12.5px] text-ink-muted" :class="r.source !== 'api' ? '' : 'hidden'">Ocorrência demonstrativa: não aceita validação.</p>
 
     <p class="mt-2 text-[12px] text-ink-muted" :class="r.canVote && r.myVote && !feedback ? '' : 'hidden'"

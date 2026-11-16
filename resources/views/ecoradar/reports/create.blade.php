@@ -1,6 +1,18 @@
 <x-eco.layout title="Nova denúncia" :back="route('eco.reports.index')">
     <div x-data="reportForm" class="mx-auto max-w-3xl">
 
+        {{-- Denunciar exige conta (o servidor também recusa envios sem login) --}}
+        <section x-cloak x-show="$store.eco.ready && !$store.eco.isAuthenticated" class="card mx-auto max-w-lg p-6 text-center sm:p-8">
+            <span class="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-eco-100 text-eco-700"><x-eco.icon name="megaphone" class="h-6 w-6" /></span>
+            <h2 class="mt-4 font-display text-xl font-bold text-ink">Entre para fazer uma denúncia</h2>
+            <p class="mt-2 text-[14px] text-ink-muted">Para evitar abusos, só pessoas cadastradas podem denunciar e validar ocorrências. Ver o mapa e as denúncias continua livre.</p>
+            <div class="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
+                <a href="{{ route('eco.login', ['voltar' => '/app/denuncias/nova']) }}" class="btn-primary"><x-eco.icon name="log-in" class="h-4 w-4" />Entrar</a>
+                <a href="{{ route('eco.login', ['voltar' => '/app/denuncias/nova', 'modo' => 'cadastro']) }}" class="btn-secondary"><x-eco.icon name="user-plus" class="h-4 w-4" />Criar conta</a>
+            </div>
+        </section>
+
+        <div x-cloak x-show="$store.eco.isAuthenticated">
         {{-- Cabeçalho --}}
         <div x-show="step <= 5" class="mb-6 text-center sm:mb-8">
             <span class="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-eco-100 text-eco-700">
@@ -41,13 +53,6 @@
                     <span>Conectado como <strong x-text="$store.eco.user.fullName"></strong>. A denúncia vai para o mapa público e conta pontos quando for confirmada.</span>
                 </div>
             </template>
-            <template x-if="!$store.eco.isAuthenticated">
-                <div class="flex items-start gap-2.5 rounded-xl border border-line bg-white px-4 py-2.5 text-[12.5px] text-ink">
-                    <x-eco.icon name="info" class="mt-px h-4 w-4 shrink-0 text-eco-700" />
-                    <span>Você pode denunciar sem conta: a ocorrência vai para o mapa público e outras pessoas poderão validá-la.
-                        <a href="{{ route('eco.login') }}" class="font-semibold text-eco-700 underline underline-offset-2">Entre na sua conta</a> para ganhar pontos e receber notificações.</span>
-                </div>
-            </template>
         </div>
 
         <form @submit.prevent="step < 5 ? next() : submit()" novalidate>
@@ -58,7 +63,7 @@
                     <h3 id="s1" class="font-display text-lg font-bold text-ink">Qual é o problema?</h3>
                     <p class="mt-0.5 text-[13.5px] text-ink-muted">Escolha a categoria que melhor descreve a ocorrência.</p>
                     <div class="mt-5 grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Categoria">
-                        <template x-for="[key, c] in Object.entries(categories)" :key="key">
+                        <template x-for="[key, c] in Object.entries(categories).filter(([, c]) => !c.inactive)" :key="key">
                             <label class="group relative flex cursor-pointer items-start gap-3.5 rounded-2xl border-2 p-4 transition"
                                    :class="category === key ? 'bg-white shadow-lift' : 'border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/60'"
                                    :style="category === key && `border-color:${c.color}`">
@@ -302,5 +307,6 @@
                 </button>
             </div>
         </form>
+        </div>
     </div>
 </x-eco.layout>

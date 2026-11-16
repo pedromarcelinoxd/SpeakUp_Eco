@@ -109,6 +109,7 @@ export function mapApiReport(d) {
         myVote: d.meu_voto || null,
         canVote: d.pode_validar ?? false,
         blockReason: d.motivo_bloqueio || null,
+        needsLogin: !!d.precisa_login,
         confirmations: d.validacoes?.existe ?? d.confirmacoes_count ?? 0,
         confirmedByMe: d.meu_voto === 'existe' || !!d.confirmada_por_mim,
         permissions: d.permissoes || {},
@@ -238,6 +239,29 @@ export const api = {
     },
     async markAllNotificationsRead() {
         await http.post('/notificacoes/lidas');
+    },
+    /* ---------------- Administração (só a equipe; o servidor confere) ---------------- */
+    admin: {
+        async resumo() { return (await http.get('/admin/resumo')).data; },
+        async denuncias(params) { return (await http.get('/admin/denuncias', { params })).data; },
+        async votos(id) { return (await http.get(`/admin/denuncias/${id}/votos`)).data; },
+        async status(id, status, observacao) { return (await http.patch(`/denuncias/${id}/status`, { status, observacao })).data; },
+        async ocultar(id, motivo) { return (await http.post(`/admin/denuncias/${id}/ocultar`, { motivo })).data; },
+        async reexibir(id) { return (await http.delete(`/admin/denuncias/${id}/ocultar`)).data; },
+        async excluir(id) { await http.delete(`/denuncias/${id}`); },
+        async usuarios(busca) { return (await http.get('/admin/usuarios', { params: { busca } })).data; },
+        async usuario(id, payload) { return (await http.patch(`/admin/usuarios/${id}`, payload)).data; },
+        async categorias() { return (await http.get('/admin/categorias')).data; },
+        async categoria(id, payload) { return (await http.put(`/admin/categorias/${id}`, payload)).data; },
+        async ecopontos() { return (await http.get('/ecopontos')).data; },
+        async salvarEcoponto(id, payload) {
+            return (id ? await http.put(`/ecopontos/${id}`, payload) : await http.post('/ecopontos', payload)).data;
+        },
+        async excluirEcoponto(id) { await http.delete(`/ecopontos/${id}`); },
+    },
+    /** Categorias ativas definidas pela equipe (nome, cor, ícone). */
+    async categories() {
+        return (await http.get('/categorias')).data;
     },
     async ping() {
         const started = performance.now();

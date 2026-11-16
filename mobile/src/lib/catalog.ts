@@ -14,7 +14,7 @@ export type ReportStatus = 'pendente' | 'confirmada' | 'em_analise' | 'verificad
 export type Severity = 'baixa' | 'media' | 'alta';
 export type PointCategory = 'ecoponto' | 'pilhas' | 'eletronicos' | 'oleo' | 'medicamentos' | 'lampadas' | 'reciclagem' | 'outros';
 
-export const REPORT_CATEGORIES: Record<ReportCategory, { label: string; icon: IconName; color: string; description: string }> = {
+export const REPORT_CATEGORIES: Record<ReportCategory, { label: string; icon: IconName; color: string; description: string; inactive?: boolean }> = {
   descarte_irregular: { label: 'Descarte irregular', icon: 'trash', color: '#C2410C', description: 'Lixo ou resíduos abandonados em local inadequado' },
   entulho: { label: 'Entulho', icon: 'brick', color: '#8B5E34', description: 'Restos de construção, reforma ou demolição' },
   eletronicos: { label: 'Resíduos eletrônicos', icon: 'cpu', color: '#7C3AED', description: 'Aparelhos, pilhas, baterias ou cabos descartados' },
@@ -23,6 +23,23 @@ export const REPORT_CATEGORIES: Record<ReportCategory, { label: string; icon: Ic
   dano_ambiental: { label: 'Dano ambiental', icon: 'axe', color: '#BE185D', description: 'Corte de árvores, aterro ou dano à fauna' },
   outros: { label: 'Outro problema', icon: 'help', color: '#475569', description: 'Algo que não se encaixa acima' },
 };
+
+/**
+ * Aplica as categorias definidas pela equipe no painel (nome, cor, ativa) sobre o
+ * catálogo local. Categorias desativadas somem do formulário de denúncia, mas
+ * continuam legíveis nas denúncias antigas.
+ */
+export function applyServerCategories(list: { slug: string; nome: string; cor: string; descricao: string | null }[]) {
+  const active = new Set(list.map((c) => c.slug));
+  for (const c of list) {
+    const local = REPORT_CATEGORIES[c.slug as ReportCategory];
+    if (!local) continue;
+    local.label = c.nome;
+    local.color = /^#[0-9A-Fa-f]{6}$/.test(c.cor) ? c.cor : local.color;
+    if (c.descricao) local.description = c.descricao;
+  }
+  for (const [k, c] of Object.entries(REPORT_CATEGORIES)) c.inactive = !active.has(k);
+}
 
 /** Cor dos pontos de descarte no mapa (verde da marca). */
 export const POINT_COLOR = color.brand;

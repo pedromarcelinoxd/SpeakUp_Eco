@@ -50,6 +50,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenciais inválidas.'], 401);
         }
 
+        if ($user->bloqueado_em) {
+            return response()->json(['message' => 'Esta conta foi bloqueada pela equipe do EcoRadar.'.($user->bloqueio_motivo ? " Motivo: {$user->bloqueio_motivo}" : '')], 403);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

@@ -9,7 +9,7 @@
 import { api, apiError } from './services/api';
 import { buildNotifications, buildRanking, demoPoints, demoReports } from './data/demo';
 import { distanceKm, levelFor, storage } from './utils';
-import { MAP_DEFAULTS, STATUSES } from './config';
+import { MAP_DEFAULTS, REPORT_CATEGORIES, STATUSES } from './config';
 
 const MAP_LAYERS = ['osm', 'light', 'streets', 'satellite'];
 const BASE = (window.EcoRadar && window.EcoRadar.base) || '/app';
@@ -69,6 +69,22 @@ export function createStore() {
             setInterval(() => { if (document.visibilityState === 'visible') this.refreshPublic(); }, 45000);
         },
 
+        /**
+         * Aplica as categorias definidas pela equipe (nome e cor) sobre o catálogo local.
+         * Categorias desativadas continuam legíveis nas denúncias antigas, mas saem do formulário.
+         */
+        async loadCategories() {
+            try {
+                const list = await api.categories();
+                const ativas = new Set(list.map((c) => c.slug));
+                list.forEach((c) => {
+                    REPORT_CATEGORIES[c.slug] = { ...(REPORT_CATEGORIES[c.slug] || { icon: 'circle-help', short: c.nome }), label: c.nome, color: c.cor, description: c.descricao || '' };
+                });
+                Object.entries(REPORT_CATEGORIES).forEach(([k, c]) => { c.inactive = !ativas.has(k); });
+                this.categoriesVersion = (this.categoriesVersion || 0) + 1;
+            } catch { /* mantém o catálogo local */ }
+        },
+
         /** Recarrega mapa e denúncias (público). */
         async refreshPublic() {
             try {
@@ -86,6 +102,7 @@ export function createStore() {
                 // Denúncias são públicas: carregadas com ou sem conta
                 api.reports().then((r) => { this.apiReports = r; }),
             ];
+            tasks.push(this.loadCategories());
             if (this.token) {
                 tasks.push(api.me().then((u) => { this.apiUser = u; storage.set('user', u); }));
                 tasks.push(api.summary().then((s) => { this.apiSummary = s; }));
@@ -205,7 +222,7 @@ export function createStore() {
             const rows = {};
             Object.keys(periods).forEach((key, i) => {
                 results[i].ranking.forEach((r) => {
-                    rows[r.user_id] ??= { id: r.user_id, name: r.nome, neighborhood: r.bairro || '—', weekly: 0, monthly: 0, total: 0, source: 'api' };
+                    rows[r.user_id] ??= { id: r.user_id, name: r.nome, photo: r.foto_url, neighborhood: r.bairro || '—', weekly: 0, monthly: 0, total: 0, source: 'api' };
                     rows[r.user_id][key] = r.pontos;
                 });
             });

@@ -77,7 +77,7 @@ export default function RankingScreen() {
                 {i > 0 && <Divider />}
                 <View style={[styles.row, mine && styles.mine]}>
                   <Text style={[styles.pos, podium && styles.posTop]}>{r.posicao}</Text>
-                  <Avatar name={r.nome} size={podium ? 44 : 38} tone={mine || podium ? 'brand' : 'stone'} />
+                  <Avatar name={r.nome} size={podium ? 44 : 38} tone={mine || podium ? 'brand' : 'stone'} uri={r.foto_url} />
                   <View style={{ flex: 1 }}>
                     <Text variant={podium ? 'subhead' : 'bodyStrong'} numberOfLines={1}>{r.nome}{mine ? ' · você' : ''}</Text>
                     <Text variant="caption" tone="muted">{r.nivel}{r.bairro ? ` · ${r.bairro}` : ''}</Text>

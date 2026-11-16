@@ -9,6 +9,7 @@ import panoramaPage from './panorama';
 import { reportDetail, reportsPage } from './reports';
 import { pointDetail, pointsPage } from './points';
 import { authPage, notificationsPage, profilePage, rankingPage, settingsPage } from './account';
+import adminPage from './admin';
 
 export function registerComponents(Alpine) {
     Alpine.data('dashboardPage', dashboardPage);
@@ -25,4 +26,5 @@ export function registerComponents(Alpine) {
     Alpine.data('notificationsPage', notificationsPage);
     Alpine.data('settingsPage', settingsPage);
     Alpine.data('authPage', authPage);
+    Alpine.data('adminPage', adminPage);
 }

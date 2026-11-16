@@ -79,6 +79,10 @@
                 </li>
             @endforeach
         </ul>
+        <a x-cloak x-show="$store.eco.isAdmin" href="{{ route('eco.admin') }}" class="btn-secondary mt-3 w-full">
+            <x-eco.icon name="shield-check" class="h-4 w-4" />
+            Administração
+        </a>
         <button type="button" class="btn-secondary mt-3 w-full text-red-600" @click="$store.eco.logout()">
             <x-eco.icon name="log-out" class="h-4 w-4" />
             Sair

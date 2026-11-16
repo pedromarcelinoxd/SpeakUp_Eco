@@ -3,9 +3,10 @@
  * detalhe da denúncia. A validação da comunidade é sempre identificada como tal
  * e separada da confirmação oficial da equipe/prefeitura.
  */
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { StatusTag } from '@/design/components';
+import { Avatar, StatusTag } from '@/design/components';
 import { Icon, type IconName } from '@/design/Icon';
 import { shouldAnimate } from '@/design/motion';
 import { Text } from '@/design/Text';
@@ -70,7 +71,14 @@ export function ReportSummary({ r, km, compact }: { r: Report; km?: string | nul
       <View style={{ gap: 6 }}>
         {!!r.endereco && <Fact icon="pin">{km ? `${r.endereco} · ${km} de você` : r.endereco}</Fact>}
         <Fact icon="calendar">{`${formatDateTime(r.created_at)} · ${timeAgo(r.created_at)}`}</Fact>
-        <Fact icon="user">{r.autor?.anonimo ? 'Enviada por um cidadão (sem conta)' : `Enviada por ${r.autor?.nome ?? 'morador'}`}</Fact>
+        {r.autor?.foto_url ? (
+          <View style={styles.fact}>
+            <Avatar name={r.autor.nome} size={18} tone="tint" uri={r.autor.foto_url} />
+            <Text variant="caption" tone="secondary" style={{ flex: 1 }}>{`Enviada por ${r.autor.nome}`}</Text>
+          </View>
+        ) : (
+          <Fact icon="user">{r.autor?.anonimo ? 'Enviada por um cidadão (sem conta)' : `Enviada por ${r.autor?.nome ?? 'morador'}`}</Fact>
+        )}
       </View>
     </View>
   );
@@ -114,6 +122,7 @@ function statusLabel(s: string) {
 export function CommunityValidation({ r, vote, voting, feedback }: {
   r: Report; vote: (t: Vote) => void; voting: Vote | null; feedback: { ok: boolean; text: string } | null;
 }) {
+  const router = useRouter();
   const closed = !r.pode_validar && !!r.motivo_bloqueio;
   return (
     <View style={styles.box} accessibilityLabel="Validação da comunidade">
@@ -127,7 +136,15 @@ export function CommunityValidation({ r, vote, voting, feedback }: {
         <Count value={r.validacoes.resolvida} label={r.validacoes.resolvida === 1 ? 'informou resolução' : 'informaram resolução'} />
       </View>
 
-      {r.pode_validar ? (
+      {r.precisa_login ? (
+        <View style={{ gap: space.xs }}>
+          <Text variant="caption" tone="muted">Para validar, entre com sua conta. Assim cada pessoa conta uma vez só.</Text>
+          <Pressable onPress={() => router.push('/login')} accessibilityRole="button" style={({ pressed }) => [styles.vote, { flex: 0 }, pressed && { opacity: 0.8 }]}>
+            <Icon name="user" size={17} tint={color.brand} />
+            <Text variant="label" style={{ color: color.brand }}>Entrar para validar</Text>
+          </Pressable>
+        </View>
+      ) : r.pode_validar ? (
         <View style={{ flexDirection: 'row', gap: space.xs }}>
           <VoteButton icon="thumbs-up" label="Ainda existe" active={r.meu_voto === 'existe'} loading={voting === 'existe'} disabled={!!voting} onPress={() => vote('existe')} />
           <VoteButton icon="circle-check" label="Foi resolvido" active={r.meu_voto === 'resolvida'} loading={voting === 'resolvida'} disabled={!!voting} onPress={() => vote('resolvida')} />

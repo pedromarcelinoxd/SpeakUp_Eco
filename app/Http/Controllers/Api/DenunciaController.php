@@ -22,8 +22,8 @@ use Illuminate\Validation\Rule;
 /**
  * API de denúncias, consumida pelo app mobile (Expo) e pelo painel web.
  *
- * Consulta é pública (sem conta). Denunciar e validar também: quem não tem conta
- * é identificado pelo dispositivo (ver App\Support\Votante), com limites de envio.
+ * Consulta é pública (sem conta). Denunciar e validar exigem conta (rotas com
+ * auth:sanctum), com limites de envio e checagem de duplicatas.
  */
 class DenunciaController extends Controller
 {
@@ -33,7 +33,7 @@ class DenunciaController extends Controller
         $chaves = Votante::daRequisicao($request)?->chaves() ?? [];
 
         return Denuncia::query()
-            ->with('user:id,name')
+            ->with('user:id,name,foto_perfil_path')
             ->withCount([
                 'validacoes as votos_existe' => fn ($q) => $q->where('tipo', 'existe'),
                 'validacoes as votos_resolvida' => fn ($q) => $q->where('tipo', 'resolvida'),
@@ -62,6 +62,7 @@ class DenunciaController extends Controller
 
         $votante = Votante::daRequisicao($request);
         $denuncias = $this->query($request)
+            ->visiveis()
             ->when($request->status, fn ($q, $s) => $q->where('status', $s))
             ->when($request->categoria, fn ($q, $c) => $q->where('categoria', $c))
             ->when($request->boolean('minhas'), function ($q) use ($votante) {
@@ -84,16 +85,21 @@ class DenunciaController extends Controller
     public function show(Request $request, int $id): DenunciaResource
     {
         $denuncia = $this->query($request)->with('historico')->findOrFail($id);
+        // Ocultada pela moderação: só a equipe ainda vê
+        abort_if($denuncia->oculta_em && ! $request->user('sanctum')?->is_admin, 404);
 
         return new DenunciaResource($denuncia);
     }
 
-    /** POST /api/denuncias — qualquer pessoa (conta ou dispositivo), com limites e checagem de duplicata */
+    /** POST /api/denuncias — só com conta, com limites e checagem de duplicata */
     public function store(StoreDenunciaRequest $request): JsonResponse
     {
         $votante = Votante::daRequisicao($request);
         if (! $votante) {
             return response()->json(['message' => 'Não foi possível identificar este dispositivo. Atualize o app e tente novamente.'], 422);
+        }
+        if ($votante->user?->bloqueado_em) {
+            return response()->json(['message' => 'Esta conta está bloqueada e não pode enviar denúncias.'], 403);
         }
 
         if (! $request->boolean('ignorar_duplicata') && $request->filled('latitude')) {
@@ -204,7 +210,7 @@ class DenunciaController extends Controller
         $raio = config('ecoradar.limites.duplicata_raio_metros');
         $grau = $raio / 111_000;
 
-        return Denuncia::where('categoria', $categoria)
+        return Denuncia::visiveis()->where('categoria', $categoria)
             ->whereNotIn('status', Denuncia::STATUS_FINAIS)
             ->where('created_at', '>=', now()->subDays(config('ecoradar.limites.duplicata_dias')))
             ->whereBetween('latitude', [$lat - $grau, $lat + $grau])

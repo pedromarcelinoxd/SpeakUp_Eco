@@ -36,6 +36,7 @@ class DenunciaResource extends JsonResource
             'user' => $this->user ? ['id' => $this->user->id, 'name' => $nomeAutor] : null,
             'autor' => [
                 'nome' => $nomeAutor ?? 'Cidadão anônimo',
+                'foto_url' => $this->user?->foto_perfil_path ? asset('storage/'.$this->user->foto_perfil_path) : null,
                 'anonimo' => ! $this->user_id,
                 'sou_eu' => (bool) $votante?->ehAutor($this->resource),
             ],
@@ -58,6 +59,7 @@ class DenunciaResource extends JsonResource
             'meu_voto' => $this->meu_voto,
             'pode_validar' => $bloqueio === null,
             'motivo_bloqueio' => $bloqueio,
+            'precisa_login' => $bloqueio === ValidacaoComunitaria::PRECISA_LOGIN,
             // Legado
             'confirmacoes_count' => $existe,
             'confirmada_por_mim' => $this->meu_voto === 'existe',

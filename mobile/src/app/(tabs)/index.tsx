@@ -11,6 +11,7 @@ import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EcoMap } from '@/components/map/EcoMap';
 import type { EcoMapHandle, MapMarker } from '@/components/map/types';
+import { CountBars } from '@/components/CountBars';
 import { MapLegend } from '@/components/MapLegend';
 import { MapSheet, type MapSheetHandle } from '@/components/MapSheet';
 import { CommunityValidation, PhotoStrip, ReportSummary, useVote } from '@/components/ReportCard';
@@ -18,7 +19,6 @@ import {
   Banner, Button, Chip, Divider, IconButton, PointStone, ReportDrop, Row, Section, Segmented, Sheet, SkeletonRows,
 } from '@/design/components';
 import { Icon } from '@/design/Icon';
-import { MosaicActivity } from '@/design/Mosaic';
 import { Text } from '@/design/Text';
 import { color, float, floatSoft, font, radius, space } from '@/design/tokens';
 import { api, type Point, type Report } from '@/lib/api';
@@ -99,7 +99,19 @@ export default function MapScreen() {
   ], [reports, points, selected]);
 
   const summary = useMemo(() => regionSummary(data?.reports ?? [], data?.points ?? [], location.coords), [data, location.coords]);
-  const activityDates = useMemo(() => (data?.reports ?? []).map((r) => r.created_at), [data]);
+  // Ocorrências abertas por tipo, nas mesmas cores do mapa
+  const openByCategory = useMemo(() => Object.entries(REPORT_CATEGORIES).map(([key, c]) => ({
+    key, label: c.label, color: c.color, icon: c.icon,
+    count: (data?.reports ?? []).filter((r) => r.categoria === key && statusInfo(r.status).open).length,
+  })), [data]);
+
+  /** Mostra no mapa só as ocorrências daquele tipo. */
+  function showOnlyCategory(key: string) {
+    setMode('reports');
+    setHiddenCats(Object.keys(REPORT_CATEGORIES).filter((k) => k !== key).map((k) => `r:${k}`));
+    setSelected(null);
+    sheet.current?.collapse();
+  }
 
   function select(id: string) {
     const isReport = id.startsWith('r');
@@ -284,8 +296,11 @@ export default function MapScreen() {
                   </View>
                 )}
 
-                <Section title="Atividade na região">
-                  <MosaicActivity dates={activityDates} caption="Denúncias registradas" />
+                <Section title="Ocorrências abertas por tipo" action="Panorama" onAction={() => router.push('/panorama')}>
+                  <CountBars items={openByCategory} empty="Nenhuma ocorrência aberta no momento." onPress={showOnlyCategory} />
+                  {openByCategory.some((i) => i.count > 0) && (
+                    <Text variant="caption" tone="muted">Toque num tipo para ver só ele no mapa.</Text>
+                  )}
                 </Section>
 
                 <Section title="Abertas perto de você" action={summary.nearestReports.length ? 'Ver no mapa' : undefined} onAction={() => { setMode('reports'); sheet.current?.collapse(); }}>

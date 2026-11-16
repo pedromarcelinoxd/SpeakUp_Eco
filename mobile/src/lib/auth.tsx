@@ -2,6 +2,7 @@ import { secureStorage } from './storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
 import { api, setToken, setUnauthorizedHandler, type User } from './api';
+import { applyServerCategories } from './catalog';
 import { registerForPushAsync } from './push';
 
 const TOKEN_KEY = 'ecoradar.token';
@@ -56,6 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setUnauthorizedHandler(() => { clear(); });
     (async () => {
+      // Categorias da equipe (nome e cor) antes da primeira tela; sem rede, segue com o catálogo local
+      await Promise.race([
+        api.categories().then(applyServerCategories).catch(() => {}),
+        new Promise((r) => setTimeout(r, 4000)),
+      ]);
       const saved = await secureStorage.get(TOKEN_KEY);
       if (saved) {
         setToken(saved);

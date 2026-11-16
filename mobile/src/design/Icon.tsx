@@ -3,7 +3,7 @@
  * Nunca dentro de "quadradinhos" coloridos: o ícone acompanha o texto.
  */
 import {
-  ArrowLeft, ArrowRight, Award, Axe, BadgeCheck, BatteryCharging, Bell, BellOff, BrickWall, Calendar, Camera, Check, Cpu,
+  ArrowLeft, ArrowRight, Award, ChartColumn, Axe, BadgeCheck, BatteryCharging, Bell, BellOff, BrickWall, Calendar, Camera, Check, Cpu,
   ChevronLeft, ChevronRight, CircleCheck, CircleHelp, CircleX, Clock, Droplet, Droplets, Flag, Flame, Hourglass,
   ImagePlus, Inbox, Info, Layers, Leaf, Lightbulb, LocateFixed, LogOut, Mail, Map, MapPin, Medal, Navigation, Package,
   Pencil, Pill, Plus, Recycle, RefreshCw, Search, Send, Server, Share2, ShieldCheck, SlidersHorizontal, Smartphone,
@@ -12,7 +12,7 @@ import {
 import { color } from './tokens';
 
 export const ICONS = {
-  'arrow-left': ArrowLeft, 'arrow-right': ArrowRight, award: Award, axe: Axe, 'badge-check': BadgeCheck,
+  chart: ChartColumn, 'arrow-left': ArrowLeft, 'arrow-right': ArrowRight, award: Award, axe: Axe, 'badge-check': BadgeCheck,
   battery: BatteryCharging, bell: Bell, 'bell-off': BellOff, brick: BrickWall, camera: Camera, check: Check,
   'chevron-left': ChevronLeft, 'chevron-right': ChevronRight, 'circle-check': CircleCheck, help: CircleHelp,
   'circle-x': CircleX, clock: Clock, droplet: Droplet, droplets: Droplets, flag: Flag, flame: Flame,

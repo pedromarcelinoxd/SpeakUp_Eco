@@ -4,18 +4,18 @@
  */
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useMemo } from 'react';
 import { Alert, Image, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Banner, Button, Divider, EmptyState, ScreenHeader, IconButton, Section, SkeletonRows, StatusTag } from '@/design/components';
 import { Icon, type IconName } from '@/design/Icon';
-import { MosaicActivity, MosaicProgress } from '@/design/Mosaic';
+import { MosaicProgress } from '@/design/Mosaic';
 import { Text } from '@/design/Text';
 import { color, radius, readable, space } from '@/design/tokens';
 import { API_URL, api, type Summary } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
-import { reportCategory } from '@/lib/catalog';
+import { STATUSES, reportCategory } from '@/lib/catalog';
 import { timeAgo } from '@/lib/format';
 import { useApi } from '@/lib/useApi';
+import { CountBars } from '@/components/CountBars';
 
 type Achievement = { icon: IconName; title: string; rule: string; current: number; goal: number };
 
@@ -37,53 +37,41 @@ export default function ProfileScreen() {
   return user ? <SignedProfile /> : <GuestProfile />;
 }
 
-/** Sem conta: convite para entrar e as denúncias feitas por este aparelho. */
+/** Sem conta: o que dá para fazer e convite para entrar. */
+function PanoramaLink() {
+  const router = useRouter();
+  return (
+    <Pressable onPress={() => router.push('/panorama')} style={styles.setting} accessibilityRole="button">
+      <Icon name="chart" size={20} />
+      <View style={{ flex: 1 }}>
+        <Text variant="bodyStrong">Panorama ambiental</Text>
+        <Text variant="caption" tone="muted">Números da cidade: evolução, resolução, categorias e bairros</Text>
+      </View>
+      <Icon name="chevron-right" size={18} tint={color.faint} />
+    </Pressable>
+  );
+}
+
 function GuestProfile() {
   const router = useRouter();
-  const { data, error, loading, refreshing, reload } = useApi(() => api.reports({ minhas: true }), 'visitante');
   return (
     <View style={{ flex: 1, backgroundColor: color.ground }}>
       <StatusBar style="dark" />
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: space.xxxl }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={reload} tintColor={color.brand} />}
-      >
-        <ScreenHeader title="Perfil" subtitle="Você está usando o EcoRadar sem conta" />
+      <ScrollView contentContainerStyle={{ paddingBottom: space.xxxl }}>
+        <ScreenHeader title="Perfil" subtitle="Você está navegando sem conta" />
         <View style={[readable, { paddingHorizontal: space.lg, gap: space.md, marginTop: space.lg }]}>
           <Text variant="body" tone="secondary">
-            Sem conta você já pode ver o mapa, denunciar e validar ocorrências. Com uma conta você acompanha notificações, ganha pontos e aparece no ranking.
+            Sem conta você pode ver o mapa e as ocorrências. Com uma conta você denuncia, valida ocorrências, recebe notificações, ganha pontos e aparece no ranking.
           </Text>
           <Button label="Entrar ou criar conta" icon="user" onPress={() => router.push('/login')} />
-          {error && <Banner text={error} action="Tentar" onAction={reload} />}
-          <Section title="Denúncias deste aparelho" action={data?.length ? `${data.length}` : undefined}>
-            {loading ? <SkeletonRows count={2} /> : data?.length ? data.map((r, i) => (
-              <View key={r.id}>
-                {i > 0 && <Divider inset={68} />}
-                <Pressable onPress={() => router.push(`/denuncia/${r.id}`)} style={({ pressed }) => [styles.report, pressed && { backgroundColor: color.stone }]} accessibilityRole="button">
-                  {r.foto_url
-                    ? <Image source={{ uri: r.foto_url }} style={styles.thumb} accessibilityIgnoresInvertColors />
-                    : <View style={[styles.thumb, { alignItems: 'center', justifyContent: 'center' }]}><Icon name={reportCategory(r.categoria).icon} tint={color.muted} /></View>}
-                  <View style={{ flex: 1, gap: 4 }}>
-                    <Text variant="bodyStrong" numberOfLines={2}>{r.titulo ?? 'Denúncia'}</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.xs }}>
-                      <StatusTag status={r.status} size="sm" />
-                      <Text variant="caption" tone="muted">{timeAgo(r.created_at)}</Text>
-                    </View>
-                  </View>
-                  <Icon name="chevron-right" size={18} tint={color.faint} />
-                </Pressable>
-              </View>
-            )) : (
-              <EmptyState icon="flag" title="Nenhuma denúncia deste aparelho" text="As denúncias que você fizer sem conta aparecem aqui." action="Fazer uma denúncia" onAction={() => router.push('/denunciar')} />
-            )}
-          </Section>
           <View style={styles.setting}>
             <Icon name="shield" size={20} />
             <View style={{ flex: 1 }}>
-              <Text variant="bodyStrong">Privacidade</Text>
-              <Text variant="caption" tone="muted">Sem conta, o aparelho é identificado por um código aleatório, sem nome, e-mail ou telefone. Ele só serve para evitar votos repetidos.</Text>
+              <Text variant="bodyStrong">Por que precisa de conta?</Text>
+              <Text variant="caption" tone="muted">Para evitar denúncias falsas e votos repetidos: cada pessoa conta uma vez. Seu e-mail não aparece para outras pessoas.</Text>
             </View>
           </View>
+          <PanoramaLink />
         </View>
       </ScrollView>
     </View>
@@ -101,7 +89,6 @@ function SignedProfile() {
   const s = data?.summary;
   const level = s?.nivel;
   const progress = level?.proximo && s ? (s.pontos - level.minimo) / (level.proximo.minimo - level.minimo) : s ? 1 : 0;
-  const activityDates = useMemo(() => (data?.mine ?? []).map((r) => r.created_at), [data]);
   const ach = s ? achievements(s) : [];
   const earned = ach.filter((a) => a.current >= a.goal).length;
 
@@ -115,7 +102,7 @@ function SignedProfile() {
         <ScreenHeader
           title={user?.name ?? ''}
           subtitle={user?.email}
-          left={<Avatar name={user?.name ?? ''} size={52} tone="brand" />}
+          left={<Avatar name={user?.name ?? ''} size={52} tone="brand" uri={data?.summary.foto_perfil_url} />}
           right={<IconButton icon="bell" label="Notificações" variant="tint" badge={data?.unread} onPress={() => router.push('/notificacoes')} />}
         >
           <View style={{ gap: space.sm, marginTop: space.xs }}>
@@ -147,8 +134,14 @@ function SignedProfile() {
             ))}
           </View>
 
-          <Section title="Sua atividade">
-            <MosaicActivity dates={activityDates} caption="Suas denúncias" />
+          <Section title="Suas denúncias por situação">
+            <CountBars
+              items={Object.entries(STATUSES).map(([key, st]) => ({
+                key, label: st.label, color: st.dot, icon: st.icon,
+                count: (data?.mine ?? []).filter((r) => r.status === key).length,
+              }))}
+              empty="Você ainda não fez denúncias."
+            />
           </Section>
 
           <Section title="Conquistas" action={s ? `${earned} de ${ach.length}` : undefined}>
@@ -196,6 +189,10 @@ function SignedProfile() {
             )) : (
               <EmptyState icon="flag" title="Nenhuma denúncia ainda" text="Quando você registrar uma ocorrência, acompanha o andamento por aqui." action="Fazer uma denúncia" onAction={() => router.push('/denunciar')} />
             )}
+          </Section>
+
+          <Section title="Cidade">
+            <PanoramaLink />
           </Section>
 
           <Section title="Configurações">

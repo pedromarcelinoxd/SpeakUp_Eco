@@ -189,7 +189,8 @@ export function authPage() {
                 } else {
                     await this.$store.eco.login(this.email.trim(), this.password);
                 }
-                window.location.href = route('dashboard');
+                const back = new URLSearchParams(window.location.search).get('voltar');
+                window.location.href = back && /^\/app(\/[\w\-/]*)?$/.test(back) ? back : route('dashboard');
             } catch (e) {
                 this.error = apiError(e);
             } finally {

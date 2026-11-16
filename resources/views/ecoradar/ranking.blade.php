@@ -31,7 +31,7 @@
                                 <div class="flex flex-col items-center text-center">
                                     <div class="relative">
                                         <span x-show="u.position === 1" class="absolute -top-6 left-1/2 -translate-x-1/2 text-amber-500"><span x-icon="'crown'" class="er-icon h-6 w-6"></span></span>
-                                        <x-eco.avatar name-expr="u.name" class="ring-4 ring-white" ::class="u.position === 1 ? 'h-20 w-20 text-xl' : 'h-16 w-16 text-lg'" />
+                                        <x-eco.avatar name-expr="u.name" photo-expr="u.photo" class="ring-4 ring-white" ::class="u.position === 1 ? 'h-20 w-20 text-xl' : 'h-16 w-16 text-lg'" />
                                         <span class="absolute -bottom-1 left-1/2 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full text-[11px] font-bold text-white ring-2 ring-white"
                                               :class="{ 'bg-amber-500': u.position === 1, 'bg-slate-400': u.position === 2, 'bg-orange-400': u.position === 3 }" x-text="u.position"></span>
                                     </div>
@@ -56,7 +56,7 @@
                         <template x-for="u in rest" :key="u.id">
                             <li class="flex items-center gap-3 px-5 py-3 transition" :class="u.me ? 'bg-eco-50/70' : 'hover:bg-slate-50/70'">
                                 <span class="w-6 text-center text-[13px] font-bold text-slate-400 tabular" x-text="u.position"></span>
-                                <x-eco.avatar name-expr="u.name" class="h-10 w-10 text-[13px]" />
+                                <x-eco.avatar name-expr="u.name" photo-expr="u.photo" class="h-10 w-10 text-[13px]" />
                                 <div class="min-w-0 flex-1">
                                     <p class="truncate text-[14px] font-semibold text-ink">
                                         <span x-text="u.name"></span>

@@ -36,5 +36,7 @@ Route::prefix('app')->name('eco.')->group(function () {
     Route::view('/perfil', 'ecoradar.profile')->name('profile');
     Route::view('/notificacoes', 'ecoradar.notifications')->name('notifications');
     Route::view('/configuracoes', 'ecoradar.settings')->name('settings');
+    // Administração: a página só exibe dados para a equipe; a API verifica is_admin em cada chamada
+    Route::view('/admin', 'ecoradar.admin')->name('admin');
     Route::view('/entrar', 'ecoradar.auth')->name('login');
 });

@@ -1,6 +1,6 @@
 /**
  * Mapa ambiental — página principal do EcoRadar.
- * Leaflet + MarkerCluster, filtros por categoria/status/período,
+ * Leaflet (todos os ícones visíveis, sem agrupamento), filtros por categoria/status/período,
  * pesquisa local + endereço (Nominatim), painel de detalhes.
  */
 import { POINT_CATEGORIES, REPORT_CATEGORIES, STATUSES } from '../config';
