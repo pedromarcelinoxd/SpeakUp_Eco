@@ -1,0 +1,809 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T11:29:48.781Z",
+  "title": "Design System: EcoRadar",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Verde-Petróleo",
+        "canonical": "#176B56",
+        "tonalRamp": [
+          "#0B3A2E",
+          "#0F4A3B",
+          "#125847",
+          "#176B56",
+          "#3E8C74",
+          "#9CCBB3",
+          "#DDEBE2",
+          "#EEF5F1"
+        ]
+      },
+      "brand-pressed": {
+        "role": "primary",
+        "displayName": "Petróleo Pressionado",
+        "canonical": "#125847",
+        "tonalRamp": [
+          "oklch(15% 0.013 172.3)",
+          "oklch(26% 0.041 172.3)",
+          "oklch(37% 0.069 172.3)",
+          "oklch(48% 0.073 172.3)",
+          "oklch(60% 0.073 172.3)",
+          "oklch(72% 0.071 172.3)",
+          "oklch(84% 0.041 172.3)",
+          "oklch(95% 0.013 172.3)"
+        ]
+      },
+      "brand-tint": {
+        "role": "primary",
+        "displayName": "Realce Sálvia-Claro",
+        "canonical": "#DDEBE2",
+        "tonalRamp": [
+          "oklch(15% 0.004 157.9)",
+          "oklch(26% 0.011 157.9)",
+          "oklch(37% 0.018 157.9)",
+          "oklch(48% 0.019 157.9)",
+          "oklch(60% 0.019 157.9)",
+          "oklch(72% 0.019 157.9)",
+          "oklch(84% 0.011 157.9)",
+          "oklch(95% 0.004 157.9)"
+        ]
+      },
+      "brand-soft": {
+        "role": "secondary",
+        "displayName": "Folha Suave",
+        "canonical": "#9CCBB3",
+        "tonalRamp": [
+          "oklch(15% 0.011 162.5)",
+          "oklch(26% 0.034 162.5)",
+          "oklch(37% 0.057 162.5)",
+          "oklch(48% 0.060 162.5)",
+          "oklch(60% 0.060 162.5)",
+          "oklch(72% 0.059 162.5)",
+          "oklch(84% 0.034 162.5)",
+          "oklch(95% 0.011 162.5)"
+        ]
+      },
+      "brand-mid": {
+        "role": "secondary",
+        "displayName": "Folha Média",
+        "canonical": "#3E8C74",
+        "tonalRamp": [
+          "oklch(15% 0.015 170.4)",
+          "oklch(26% 0.048 170.4)",
+          "oklch(37% 0.082 170.4)",
+          "oklch(48% 0.086 170.4)",
+          "oklch(60% 0.086 170.4)",
+          "oklch(72% 0.084 170.4)",
+          "oklch(84% 0.048 170.4)",
+          "oklch(95% 0.015 170.4)"
+        ]
+      },
+      "coral": {
+        "role": "tertiary",
+        "displayName": "Coral Queimado",
+        "canonical": "#E77A5B",
+        "tonalRamp": [
+          "oklch(15% 0.026 36.8)",
+          "oklch(26% 0.080 36.8)",
+          "oklch(37% 0.135 36.8)",
+          "oklch(48% 0.142 36.8)",
+          "oklch(60% 0.142 36.8)",
+          "oklch(72% 0.140 36.8)",
+          "oklch(84% 0.080 36.8)",
+          "oklch(95% 0.026 36.8)"
+        ]
+      },
+      "coral-pressed": {
+        "role": "tertiary",
+        "displayName": "Coral Pressionado",
+        "canonical": "#D9694A",
+        "tonalRamp": [
+          "oklch(15% 0.027 36.4)",
+          "oklch(26% 0.083 36.4)",
+          "oklch(37% 0.141 36.4)",
+          "oklch(48% 0.148 36.4)",
+          "oklch(60% 0.148 36.4)",
+          "oklch(72% 0.145 36.4)",
+          "oklch(84% 0.083 36.4)",
+          "oklch(95% 0.027 36.4)"
+        ]
+      },
+      "coral-tint": {
+        "role": "tertiary",
+        "displayName": "Coral Claro",
+        "canonical": "#FBE9E3",
+        "tonalRamp": [
+          "oklch(15% 0.004 39.4)",
+          "oklch(26% 0.012 39.4)",
+          "oklch(37% 0.020 39.4)",
+          "oklch(48% 0.021 39.4)",
+          "oklch(60% 0.021 39.4)",
+          "oklch(72% 0.021 39.4)",
+          "oklch(84% 0.012 39.4)",
+          "oklch(95% 0.004 39.4)"
+        ]
+      },
+      "coral-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Coral",
+        "canonical": "#A9472B",
+        "tonalRamp": [
+          "oklch(15% 0.024 36.6)",
+          "oklch(26% 0.076 36.6)",
+          "oklch(37% 0.129 36.6)",
+          "oklch(48% 0.136 36.6)",
+          "oklch(60% 0.136 36.6)",
+          "oklch(72% 0.133 36.6)",
+          "oklch(84% 0.076 36.6)",
+          "oklch(95% 0.024 36.6)"
+        ]
+      },
+      "on-coral": {
+        "role": "tertiary",
+        "displayName": "Sobre Coral",
+        "canonical": "#202A27",
+        "tonalRamp": [
+          "oklch(15% 0.004 175.0)",
+          "oklch(26% 0.008 175.0)",
+          "oklch(37% 0.014 175.0)",
+          "oklch(48% 0.015 175.0)",
+          "oklch(60% 0.015 175.0)",
+          "oklch(72% 0.015 175.0)",
+          "oklch(84% 0.008 175.0)",
+          "oklch(95% 0.004 175.0)"
+        ]
+      },
+      "info": {
+        "role": "tertiary",
+        "displayName": "Azul Informativo",
+        "canonical": "#2563EB",
+        "tonalRamp": [
+          "oklch(15% 0.036 262.9)",
+          "oklch(26% 0.112 262.9)",
+          "oklch(37% 0.190 262.9)",
+          "oklch(48% 0.200 262.9)",
+          "oklch(60% 0.200 262.9)",
+          "oklch(72% 0.196 262.9)",
+          "oklch(84% 0.112 262.9)",
+          "oklch(95% 0.036 262.9)"
+        ]
+      },
+      "info-tint": {
+        "role": "tertiary",
+        "displayName": "Azul Claro",
+        "canonical": "#E7EEFD",
+        "tonalRamp": [
+          "oklch(15% 0.004 265.8)",
+          "oklch(26% 0.012 265.8)",
+          "oklch(37% 0.020 265.8)",
+          "oklch(48% 0.022 265.8)",
+          "oklch(60% 0.022 265.8)",
+          "oklch(72% 0.021 265.8)",
+          "oklch(84% 0.012 265.8)",
+          "oklch(95% 0.004 265.8)"
+        ]
+      },
+      "info-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Azul",
+        "canonical": "#1D4ED8",
+        "tonalRamp": [
+          "oklch(15% 0.036 264.4)",
+          "oklch(26% 0.112 264.4)",
+          "oklch(37% 0.190 264.4)",
+          "oklch(48% 0.200 264.4)",
+          "oklch(60% 0.200 264.4)",
+          "oklch(72% 0.196 264.4)",
+          "oklch(84% 0.112 264.4)",
+          "oklch(95% 0.036 264.4)"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Âmbar",
+        "canonical": "#D97706",
+        "tonalRamp": [
+          "oklch(15% 0.028 58.3)",
+          "oklch(26% 0.088 58.3)",
+          "oklch(37% 0.150 58.3)",
+          "oklch(48% 0.157 58.3)",
+          "oklch(60% 0.157 58.3)",
+          "oklch(72% 0.154 58.3)",
+          "oklch(84% 0.088 58.3)",
+          "oklch(95% 0.028 58.3)"
+        ]
+      },
+      "warning-tint": {
+        "role": "tertiary",
+        "displayName": "Âmbar Claro",
+        "canonical": "#FDF1DC",
+        "tonalRamp": [
+          "oklch(15% 0.005 81.8)",
+          "oklch(26% 0.017 81.8)",
+          "oklch(37% 0.029 81.8)",
+          "oklch(48% 0.031 81.8)",
+          "oklch(60% 0.031 81.8)",
+          "oklch(72% 0.030 81.8)",
+          "oklch(84% 0.017 81.8)",
+          "oklch(95% 0.005 81.8)"
+        ]
+      },
+      "warning-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Âmbar",
+        "canonical": "#92400E",
+        "tonalRamp": [
+          "oklch(15% 0.022 46.2)",
+          "oklch(26% 0.070 46.2)",
+          "oklch(37% 0.118 46.2)",
+          "oklch(48% 0.125 46.2)",
+          "oklch(60% 0.125 46.2)",
+          "oklch(72% 0.122 46.2)",
+          "oklch(84% 0.070 46.2)",
+          "oklch(95% 0.022 46.2)"
+        ]
+      },
+      "verified": {
+        "role": "tertiary",
+        "displayName": "Índigo",
+        "canonical": "#4F46E5",
+        "tonalRamp": [
+          "oklch(15% 0.036 277.0)",
+          "oklch(26% 0.112 277.0)",
+          "oklch(37% 0.190 277.0)",
+          "oklch(48% 0.200 277.0)",
+          "oklch(60% 0.200 277.0)",
+          "oklch(72% 0.196 277.0)",
+          "oklch(84% 0.112 277.0)",
+          "oklch(95% 0.036 277.0)"
+        ]
+      },
+      "verified-tint": {
+        "role": "tertiary",
+        "displayName": "Índigo Claro",
+        "canonical": "#ECEBFD",
+        "tonalRamp": [
+          "oklch(15% 0.004 288.5)",
+          "oklch(26% 0.014 288.5)",
+          "oklch(37% 0.023 288.5)",
+          "oklch(48% 0.024 288.5)",
+          "oklch(60% 0.024 288.5)",
+          "oklch(72% 0.024 288.5)",
+          "oklch(84% 0.014 288.5)",
+          "oklch(95% 0.004 288.5)"
+        ]
+      },
+      "verified-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Índigo",
+        "canonical": "#4338CA",
+        "tonalRamp": [
+          "oklch(15% 0.036 277.0)",
+          "oklch(26% 0.112 277.0)",
+          "oklch(37% 0.190 277.0)",
+          "oklch(48% 0.200 277.0)",
+          "oklch(60% 0.200 277.0)",
+          "oklch(72% 0.196 277.0)",
+          "oklch(84% 0.112 277.0)",
+          "oklch(95% 0.036 277.0)"
+        ]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Verde de Sucesso",
+        "canonical": "#16A34A",
+        "tonalRamp": [
+          "oklch(15% 0.031 149.2)",
+          "oklch(26% 0.095 149.2)",
+          "oklch(37% 0.161 149.2)",
+          "oklch(48% 0.170 149.2)",
+          "oklch(60% 0.170 149.2)",
+          "oklch(72% 0.167 149.2)",
+          "oklch(84% 0.095 149.2)",
+          "oklch(95% 0.031 149.2)"
+        ]
+      },
+      "success-tint": {
+        "role": "tertiary",
+        "displayName": "Verde de Sucesso Claro",
+        "canonical": "#E3F4E8",
+        "tonalRamp": [
+          "oklch(15% 0.004 155.1)",
+          "oklch(26% 0.013 155.1)",
+          "oklch(37% 0.023 155.1)",
+          "oklch(48% 0.024 155.1)",
+          "oklch(60% 0.024 155.1)",
+          "oklch(72% 0.023 155.1)",
+          "oklch(84% 0.013 155.1)",
+          "oklch(95% 0.004 155.1)"
+        ]
+      },
+      "success-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta de Sucesso",
+        "canonical": "#166534",
+        "tonalRamp": [
+          "oklch(15% 0.019 151.3)",
+          "oklch(26% 0.061 151.3)",
+          "oklch(37% 0.103 151.3)",
+          "oklch(48% 0.108 151.3)",
+          "oklch(60% 0.108 151.3)",
+          "oklch(72% 0.106 151.3)",
+          "oklch(84% 0.061 151.3)",
+          "oklch(95% 0.019 151.3)"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Vermelho",
+        "canonical": "#DC2626",
+        "tonalRamp": [
+          "oklch(15% 0.036 27.3)",
+          "oklch(26% 0.112 27.3)",
+          "oklch(37% 0.190 27.3)",
+          "oklch(48% 0.200 27.3)",
+          "oklch(60% 0.200 27.3)",
+          "oklch(72% 0.196 27.3)",
+          "oklch(84% 0.112 27.3)",
+          "oklch(95% 0.036 27.3)"
+        ]
+      },
+      "danger-tint": {
+        "role": "tertiary",
+        "displayName": "Vermelho Claro",
+        "canonical": "#FDECEC",
+        "tonalRamp": [
+          "oklch(15% 0.004 17.5)",
+          "oklch(26% 0.010 17.5)",
+          "oklch(37% 0.018 17.5)",
+          "oklch(48% 0.018 17.5)",
+          "oklch(60% 0.018 17.5)",
+          "oklch(72% 0.018 17.5)",
+          "oklch(84% 0.010 17.5)",
+          "oklch(95% 0.004 17.5)"
+        ]
+      },
+      "danger-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta Vermelha",
+        "canonical": "#B91C1C",
+        "tonalRamp": [
+          "oklch(15% 0.034 27.5)",
+          "oklch(26% 0.107 27.5)",
+          "oklch(37% 0.181 27.5)",
+          "oklch(48% 0.190 27.5)",
+          "oklch(60% 0.190 27.5)",
+          "oklch(72% 0.187 27.5)",
+          "oklch(84% 0.107 27.5)",
+          "oklch(95% 0.034 27.5)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Marfim",
+        "canonical": "#F7F6F0",
+        "tonalRamp": [
+          "oklch(15% 0.004 98.9)",
+          "oklch(26% 0.004 98.9)",
+          "oklch(37% 0.008 98.9)",
+          "oklch(48% 0.008 98.9)",
+          "oklch(60% 0.008 98.9)",
+          "oklch(72% 0.008 98.9)",
+          "oklch(84% 0.004 98.9)",
+          "oklch(95% 0.004 98.9)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Branco",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "oklch(15% 0.004 89.9)",
+          "oklch(26% 0.004 89.9)",
+          "oklch(37% 0.004 89.9)",
+          "oklch(48% 0.004 89.9)",
+          "oklch(60% 0.004 89.9)",
+          "oklch(72% 0.004 89.9)",
+          "oklch(84% 0.004 89.9)",
+          "oklch(95% 0.004 89.9)"
+        ]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Pedra",
+        "canonical": "#ECEEE8",
+        "tonalRamp": [
+          "oklch(15% 0.004 121.6)",
+          "oklch(26% 0.005 121.6)",
+          "oklch(37% 0.008 121.6)",
+          "oklch(48% 0.008 121.6)",
+          "oklch(60% 0.008 121.6)",
+          "oklch(72% 0.008 121.6)",
+          "oklch(84% 0.005 121.6)",
+          "oklch(95% 0.004 121.6)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Linha",
+        "canonical": "#DCE2DC",
+        "tonalRamp": [
+          "oklch(15% 0.004 145.5)",
+          "oklch(26% 0.006 145.5)",
+          "oklch(37% 0.010 145.5)",
+          "oklch(48% 0.010 145.5)",
+          "oklch(60% 0.010 145.5)",
+          "oklch(72% 0.010 145.5)",
+          "oklch(84% 0.006 145.5)",
+          "oklch(95% 0.004 145.5)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Carvão",
+        "canonical": "#202A27",
+        "tonalRamp": [
+          "oklch(15% 0.004 175.0)",
+          "oklch(26% 0.008 175.0)",
+          "oklch(37% 0.014 175.0)",
+          "oklch(48% 0.015 175.0)",
+          "oklch(60% 0.015 175.0)",
+          "oklch(72% 0.015 175.0)",
+          "oklch(84% 0.008 175.0)",
+          "oklch(95% 0.004 175.0)"
+        ]
+      },
+      "ink2": {
+        "role": "neutral",
+        "displayName": "Grafite",
+        "canonical": "#3C4844",
+        "tonalRamp": [
+          "oklch(15% 0.004 173.3)",
+          "oklch(26% 0.009 173.3)",
+          "oklch(37% 0.016 173.3)",
+          "oklch(48% 0.017 173.3)",
+          "oklch(60% 0.017 173.3)",
+          "oklch(72% 0.017 173.3)",
+          "oklch(84% 0.009 173.3)",
+          "oklch(95% 0.004 173.3)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Cinza-Sálvia",
+        "canonical": "#65726C",
+        "tonalRamp": [
+          "oklch(15% 0.004 166.2)",
+          "oklch(26% 0.010 166.2)",
+          "oklch(37% 0.017 166.2)",
+          "oklch(48% 0.018 166.2)",
+          "oklch(60% 0.018 166.2)",
+          "oklch(72% 0.018 166.2)",
+          "oklch(84% 0.010 166.2)",
+          "oklch(95% 0.004 166.2)"
+        ]
+      },
+      "sage": {
+        "role": "neutral",
+        "displayName": "Sálvia",
+        "canonical": "#68756F",
+        "tonalRamp": [
+          "oklch(15% 0.004 166.3)",
+          "oklch(26% 0.010 166.3)",
+          "oklch(37% 0.017 166.3)",
+          "oklch(48% 0.018 166.3)",
+          "oklch(60% 0.018 166.3)",
+          "oklch(72% 0.018 166.3)",
+          "oklch(84% 0.010 166.3)",
+          "oklch(95% 0.004 166.3)"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Cinza Tênue",
+        "canonical": "#97A29C",
+        "tonalRamp": [
+          "oklch(15% 0.004 162.3)",
+          "oklch(26% 0.009 162.3)",
+          "oklch(37% 0.014 162.3)",
+          "oklch(48% 0.015 162.3)",
+          "oklch(60% 0.015 162.3)",
+          "oklch(72% 0.015 162.3)",
+          "oklch(84% 0.009 162.3)",
+          "oklch(95% 0.004 162.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Marca e números de destaque (posição no ranking, login)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Título do cabeçalho claro (ScreenHeader) e das etapas da denúncia."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de seção e de folha modal."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "Títulos de estados vazios."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corrido; leitura limitada a 720px."
+      },
+      "body-strong": {
+        "displayName": "Body Strong",
+        "purpose": "Título de linha de lista."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Botões, segmentos, chips, rótulos de campo."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Subtítulos, legendas, tags de status, rótulos sob números."
+      },
+      "number": {
+        "displayName": "Number",
+        "purpose": "Contagens do bairro e do perfil, tabulares."
+      },
+      "number-sm": {
+        "displayName": "Number Sm",
+        "purpose": "Valor à direita das linhas (distância, pontos)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "float",
+        "value": "0 6px 18px rgba(32,42,39,0.14)",
+        "purpose": "Busca e botões de ícone sobre o mapa (iOS cor carvão, opacity .14, radius 14, y 6; Android elevation 6)."
+      },
+      {
+        "name": "float-soft",
+        "value": "0 3px 10px rgba(32,42,39,0.09)",
+        "purpose": "Segmento, filtros e marcadores sobre o mapa (iOS opacity .09, radius 8, y 3; Android elevation 3)."
+      },
+      {
+        "name": "map-sheet",
+        "value": "0 -4px 18px rgba(32,42,39,0.12)",
+        "purpose": "Painel inferior do mapa (Android elevation 12)."
+      },
+      {
+        "name": "panel-lift",
+        "value": "0 4px 12px -2px rgba(32,42,39,0.08), 0 2px 4px -2px rgba(32,42,39,0.04)",
+        "purpose": "Painel web: só no hover de cartão interativo."
+      },
+      {
+        "name": "scrim",
+        "value": "rgba(32,42,39,0.42)",
+        "purpose": "Véu carvão atrás da folha modal."
+      }
+    ],
+    "motion": [
+      {
+        "name": "fast",
+        "value": "160ms",
+        "purpose": "Escala ao pressionar (0.97)."
+      },
+      {
+        "name": "base",
+        "value": "240ms",
+        "purpose": "Transições de estado."
+      },
+      {
+        "name": "slow",
+        "value": "380ms",
+        "purpose": "Entrada da folha modal."
+      },
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Curva única (Easing.out(Easing.exp)): saída exponencial, sem quicar."
+      },
+      {
+        "name": "mosaic-settle",
+        "value": "900ms",
+        "purpose": "Pedras conquistadas assentam coluna a coluna na faixa de progresso."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "shouldAnimate()",
+        "purpose": "Toda animação consulta shouldAnimate(); com Reduzir movimento ou tela oculta, vai direto ao estado final."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "readable-max",
+        "value": "720px"
+      },
+      {
+        "name": "tablet-map-panel",
+        "value": "420px"
+      },
+      {
+        "name": "panel-sidebar",
+        "value": "264px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão principal (petróleo)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A ação principal de cada tela ou painel: Como chegar, Também vi isso, Continuar, Entrar.",
+      "html": "<button class=\"ds-btn-primary\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/></svg>Como chegar</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 20px;border-radius:14px;border:1.5px solid;font-family:Archivo,sans-serif;font-weight:600;font-size:15.5px;line-height:18px;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1),background .16s;background:#176B56;border-color:#176B56;color:#FFFFFF} .ds-btn-primary:hover{background:#125847;border-color:#125847} .ds-btn-primary:active{transform:scale(.97)} .ds-btn-primary:focus-visible{outline:2px solid #202A27;outline-offset:2px} .ds-btn-primary:disabled{opacity:.45}"
+    },
+    {
+      "name": "Botão de denúncia (coral)",
+      "kind": "button",
+      "refersTo": "button-report",
+      "description": "Só para denunciar: Enviar denúncia, Nova denúncia. Conteúdo em carvão (5,2:1), nunca branco.",
+      "html": "<button class=\"ds-btn-report\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/></svg>Enviar denúncia</button>",
+      "css": ".ds-btn-report{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 20px;border-radius:14px;border:1.5px solid;font-family:Archivo,sans-serif;font-weight:600;font-size:15.5px;line-height:18px;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1),background .16s;background:#E77A5B;border-color:#E77A5B;color:#202A27} .ds-btn-report:hover{background:#D9694A;border-color:#D9694A} .ds-btn-report:active{transform:scale(.97)} .ds-btn-report:focus-visible{outline:2px solid #202A27;outline-offset:2px} .ds-btn-report:disabled{opacity:.45}"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação ao lado da principal (Detalhes, Limpar, Usar minha localização): branco, borda em linha, texto petróleo.",
+      "html": "<button class=\"ds-btn-secondary\">Detalhes</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 20px;border-radius:14px;border:1.5px solid;font-family:Archivo,sans-serif;font-weight:600;font-size:15.5px;line-height:18px;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1),background .16s;background:#FFFFFF;border-color:#DCE2DC;color:#176B56} .ds-btn-secondary:hover{background:#EEF5F1;border-color:#9CCBB3} .ds-btn-secondary:active{transform:scale(.97)} .ds-btn-secondary:focus-visible{outline:2px solid #176B56;outline-offset:2px} .ds-btn-secondary:disabled{opacity:.45}"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Rótulo em Label acima; borda petróleo no foco, vermelha no erro.",
+      "html": "<label class=\"ds-field\"><span>Descrição</span><input placeholder=\"O que você viu?\"/></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;font-family:Archivo,sans-serif;color:#202A27} .ds-field span{font-weight:600;font-size:13.5px;line-height:18px} .ds-field input{height:52px;border-radius:14px;border:1.5px solid #DCE2DC;background:#FFFFFF;padding:0 16px;font-family:Archivo,sans-serif;font-size:16px;color:#202A27;outline:none;transition:border-color .16s} .ds-field input::placeholder{color:#65726C} .ds-field input:hover{border-color:#9CCBB3} .ds-field input:focus,.ds-field input:focus-visible{border-color:#176B56}"
+    },
+    {
+      "name": "Segmentado e chip",
+      "kind": "chip",
+      "refersTo": "segmented",
+      "description": "Segmento Tudo/Denúncias/Descarte com ativo em petróleo; chip selecionado em realce sálvia-claro com borda e texto petróleo.",
+      "html": "<div class=\"ds-seg\"><button class=\"on\">Tudo</button><button>Denúncias</button><button>Descarte</button></div> <button class=\"ds-chip\">Lixo</button> <button class=\"ds-chip on\">Esgoto</button>",
+      "css": ".ds-seg{display:inline-flex;background:#ECEEE8;border-radius:12px;padding:3px} .ds-seg button{height:34px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:#3C4844;font:600 13.5px/18px Archivo,sans-serif;cursor:pointer} .ds-seg button.on{background:#176B56;color:#FFFFFF} .ds-seg button:hover:not(.on){color:#202A27} .ds-seg button:focus-visible{outline:2px solid #176B56;outline-offset:1px} .ds-chip{height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #DCE2DC;background:#FFFFFF;color:#202A27;font:600 13px/18px Archivo,sans-serif;cursor:pointer;margin-left:8px} .ds-chip:hover{border-color:#9CCBB3} .ds-chip.on{background:#DDEBE2;border-color:#176B56;color:#176B56} .ds-chip:focus-visible{outline:2px solid #176B56;outline-offset:2px}"
+    },
+    {
+      "name": "Linha de lista",
+      "kind": "card",
+      "refersTo": "row",
+      "description": "Sem cartão: pedra petróleo à esquerda, título e subtítulo, distância à direita em números tabulares; divisória hairline. A linha \"você\" ganha realce sálvia-claro.",
+      "html": "<div class=\"ds-list\"><button class=\"ds-row\"><span class=\"ds-stone\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5\"/><path d=\"M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12\"/><path d=\"m14 16-3 3 3 3\"/><path d=\"M8.293 13.596 7.196 9.5 3.1 10.598\"/><path d=\"m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843\"/><path d=\"m13.378 9.633 4.096 1.098 1.097-4.096\"/></svg></span><span class=\"t\"><b>Ecoponto Vila Hortência</b><small>Recicláveis</small></span><span class=\"v\"><b>1,2 km</b><small>de você</small></span></button><button class=\"ds-row you\"><span class=\"ds-stone\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5\"/><path d=\"M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12\"/><path d=\"m14 16-3 3 3 3\"/><path d=\"M8.293 13.596 7.196 9.5 3.1 10.598\"/><path d=\"m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843\"/><path d=\"m13.378 9.633 4.096 1.098 1.097-4.096\"/></svg></span><span class=\"t\"><b>Cooperativa Reviver · você</b><small>Eletrônicos</small></span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#97A29C\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button></div>",
+      "css": ".ds-list{background:#F7F6F0;padding:0 20px;font-family:Archivo,sans-serif;color:#202A27} .ds-row{display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:12px 0;border:0;border-bottom:1px solid #DCE2DC;background:transparent;text-align:left;cursor:pointer;color:inherit;font-family:inherit;border-radius:8px} .ds-row:hover,.ds-row:active{background:#ECEEE8} .ds-row:focus-visible{outline:2px solid #176B56} .ds-row.you{background:#DDEBE2;padding:12px} .ds-row .t{flex:1;display:flex;flex-direction:column;gap:3px} .ds-row b{font-weight:600;font-size:15.5px;line-height:22px} .ds-row small{font-weight:500;font-size:12.5px;line-height:17px;color:#65726C} .ds-row .v{display:flex;flex-direction:column;align-items:flex-end} .ds-row .v b{font-family:'Archivo Expanded',Archivo,sans-serif;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums} .ds-stone{width:40px;height:40px;border-radius:9.6px;background:#176B56;display:grid;place-items:center;flex:none}"
+    },
+    {
+      "name": "Barra de abas clara",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Branca com fio superior; ativa em petróleo, inativas em sálvia; Denunciar no centro como pastilha coral com \"+\" carvão.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"on\" href=\"#\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"23\" height=\"23\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/></svg><span>Mapa</span></a><a class=\"ds-tab-report\" href=\"#\"><i><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></i><span>Denunciar</span></a><a href=\"#\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"23\" height=\"23\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg><span>Perfil</span></a></nav>",
+      "css": ".ds-tabs{display:flex;justify-content:space-around;align-items:flex-start;background:#FFFFFF;border-top:1px solid #DCE2DC;height:68px;padding-top:8px;font-family:Archivo,sans-serif} .ds-tabs a{display:flex;flex-direction:column;align-items:center;gap:4px;color:#68756F;font-weight:600;font-size:11.5px;line-height:15px;text-decoration:none} .ds-tabs a:hover,.ds-tabs a.on{color:#176B56} .ds-tabs a:focus-visible{outline:2px solid #176B56;outline-offset:2px} .ds-tab-report i{width:52px;height:34px;border-radius:12px;background:#E77A5B;color:#202A27;display:grid;place-items:center} .ds-tabs a.ds-tab-report span{color:#A9472B;font-weight:700}"
+    },
+    {
+      "name": "Cabeçalho claro (ScreenHeader)",
+      "kind": "nav",
+      "refersTo": "screen-header",
+      "description": "Marfim com título carvão, subtítulo cinza-sálvia e fio hairline; ação à direita como botão de ícone tint.",
+      "html": "<header class=\"ds-head\"><div><h2>Descarte</h2><p>Ordenado pelo mais perto de você</p></div><button class=\"ds-icon-tint\" aria-label=\"Ver no mapa\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/></svg></button></header>",
+      "css": ".ds-head{display:flex;align-items:center;gap:12px;background:#F7F6F0;padding:12px 20px 20px;border-bottom:1px solid #DCE2DC;font-family:Archivo,sans-serif} .ds-head div{flex:1} .ds-head h2{margin:0;font-family:'Archivo Expanded',Archivo,sans-serif;font-weight:700;font-size:24px;line-height:29px;letter-spacing:-0.3px;color:#202A27} .ds-head p{margin:2px 0 0;font-weight:500;font-size:12.5px;line-height:17px;color:#65726C} .ds-icon-tint{width:46px;height:46px;border-radius:14px;border:0;background:#DDEBE2;color:#176B56;display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.16,1,.3,1)} .ds-icon-tint:active{transform:scale(.97)} .ds-icon-tint:focus-visible{outline:2px solid #176B56;outline-offset:2px}"
+    },
+    {
+      "name": "Tags de status e urgência",
+      "kind": "chip",
+      "refersTo": "status-tag",
+      "description": "Cores semânticas do catálogo, separadas da marca; gravidade alta soma a tag \"Urgente\" vermelha.",
+      "html": "<div class=\"ds-tags\"><span class=\"ds-tag\" style=\"background:#E7EEFD;color:#1D4ED8\"><i style=\"background:#2563EB\"></i>Recebida</span><span class=\"ds-tag\" style=\"background:#FDF1DC;color:#92400E\"><i style=\"background:#D97706\"></i>Em análise</span><span class=\"ds-tag\" style=\"background:#ECEBFD;color:#4338CA\"><i style=\"background:#4F46E5\"></i>Verificada</span><span class=\"ds-tag\" style=\"background:#E3F4E8;color:#166534\"><i style=\"background:#16A34A\"></i>Resolvida</span><span class=\"ds-tag\" style=\"background:#ECEEE8;color:#65726C\"><i style=\"background:#97A29C\"></i>Não confirmada</span><span class=\"ds-tag\" style=\"background:#FDECEC;color:#B91C1C\">Urgente</span></div>",
+      "css": ".ds-tags{display:flex;flex-wrap:wrap;gap:8px;font-family:Archivo,sans-serif} .ds-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-weight:600;font-size:12.5px;line-height:17px} .ds-tag i{width:7px;height:7px;border-radius:4px;display:block}"
+    },
+    {
+      "name": "Marcadores e busca do mapa",
+      "kind": "custom",
+      "refersTo": "report-drop",
+      "description": "Gota coral com glifo carvão (denúncia aberta), gota em linha (encerrada), pedra petróleo (descarte), ponto azul (você), busca branca flutuante.",
+      "html": "<div class=\"ds-mapdemo\"><div class=\"ds-search\">Buscar local ou material</div><div class=\"ds-pins\"><span class=\"ds-drop\"><span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#202A27\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18\"/><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"/><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"/></svg></span></span><span class=\"ds-drop closed\"><span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3C4844\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18\"/><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"/><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"/></svg></span></span><span class=\"ds-pstone\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5\"/><path d=\"M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12\"/><path d=\"m14 16-3 3 3 3\"/><path d=\"M8.293 13.596 7.196 9.5 3.1 10.598\"/><path d=\"m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843\"/><path d=\"m13.378 9.633 4.096 1.098 1.097-4.096\"/></svg></span><span class=\"ds-you\"></span></div></div>",
+      "css": ".ds-mapdemo{background:#EEF0EB;padding:16px;border-radius:16px;font-family:Archivo,sans-serif} .ds-search{height:50px;border-radius:16px;background:#FFFFFF;color:#65726C;display:flex;align-items:center;padding:0 16px;font-size:15.5px;box-shadow:0 6px 18px rgba(32,42,39,0.14)} .ds-pins{display:flex;gap:24px;align-items:center;padding:24px 8px 8px} .ds-drop{width:36px;height:36px;border-radius:50% 50% 50% 5.8px;transform:rotate(-45deg);background:#E77A5B;border:2px solid #fff;box-shadow:0 3px 10px rgba(32,42,39,0.09);display:grid;place-items:center;transition:transform .24s cubic-bezier(.16,1,.3,1)} .ds-drop:hover{transform:rotate(-45deg) scale(1.1)} .ds-drop>span{transform:rotate(45deg);display:grid} .ds-drop.closed{background:#DCE2DC} .ds-pstone{width:32px;height:32px;border-radius:7.7px;background:#176B56;border:2px solid #fff;box-shadow:0 3px 10px rgba(32,42,39,0.09);display:grid;place-items:center} .ds-you{width:22px;height:22px;border-radius:50%;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 8px rgba(37,99,235,.18)}"
+    },
+    {
+      "name": "Mosaico de atividade",
+      "kind": "custom",
+      "refersTo": "mosaic-activity",
+      "description": "Assinatura: semanas em colunas, dias em linhas; toda pedra é dado (pedra, folha suave, folha média, petróleo).",
+      "html": "<div class=\"ds-mosaic\"><span class=\"ds-mosaic-col\"><i style=\"padding:0.6px 1.1px 0.2px 0.7px\"><b style=\"background:#3E8C74;border-radius:2.4px 2.6px 5.0px 2.6px\"></b></i><i style=\"padding:2.6px 0.9px 2.3px 0.6px\"><b style=\"background:#3E8C74;border-radius:3.7px 2.3px 2.1px 4.0px\"></b></i><i style=\"padding:1.2px 1.9px 1.5px 0.3px\"><b style=\"background:#3E8C74;border-radius:2.2px 2.0px 2.9px 2.6px\"></b></i><i style=\"padding:1.3px 1.7px 0.4px 1.2px\"><b style=\"background:#ECEEE8;border-radius:5.3px 3.8px 4.7px 4.6px\"></b></i><i style=\"padding:1.2px 2.0px 2.3px 1.0px\"><b style=\"background:#176B56;border-radius:5.3px 4.6px 4.3px 1.8px\"></b></i><i style=\"padding:1.2px 0.3px 1.5px 1.2px\"><b style=\"background:#ECEEE8;border-radius:3.8px 5.0px 2.5px 1.8px\"></b></i><i style=\"padding:0.3px 1.2px 0.1px 2.0px\"><b style=\"background:#ECEEE8;border-radius:2.1px 5.0px 4.4px 4.4px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:1.9px 1.0px 0.3px 2.0px\"><b style=\"background:#9CCBB3;border-radius:4.1px 2.6px 3.2px 5.4px\"></b></i><i style=\"padding:1.1px 0.1px 1.3px 0.6px\"><b style=\"background:#3E8C74;border-radius:2.2px 1.7px 2.5px 5.3px\"></b></i><i style=\"padding:0.6px 2.5px 0.9px 0.1px\"><b style=\"background:#3E8C74;border-radius:4.8px 2.4px 3.2px 5.0px\"></b></i><i style=\"padding:0.9px 1.9px 0.9px 1.9px\"><b style=\"background:#ECEEE8;border-radius:4.5px 1.7px 4.9px 5.4px\"></b></i><i style=\"padding:2.5px 1.7px 0.7px 1.6px\"><b style=\"background:#ECEEE8;border-radius:2.1px 4.9px 4.9px 3.6px\"></b></i><i style=\"padding:2.5px 2.4px 1.1px 1.7px\"><b style=\"background:#ECEEE8;border-radius:2.7px 1.6px 2.4px 2.6px\"></b></i><i style=\"padding:0.7px 1.8px 2.0px 0.7px\"><b style=\"background:#176B56;border-radius:5.2px 5.3px 5.0px 4.0px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:2.5px 1.6px 1.7px 2.5px\"><b style=\"background:#3E8C74;border-radius:3.3px 2.4px 5.1px 4.6px\"></b></i><i style=\"padding:1.7px 0.4px 2.4px 1.7px\"><b style=\"background:#ECEEE8;border-radius:4.5px 4.0px 3.5px 2.0px\"></b></i><i style=\"padding:0.1px 1.7px 0.9px 0.0px\"><b style=\"background:#ECEEE8;border-radius:1.5px 4.2px 4.7px 3.1px\"></b></i><i style=\"padding:2.1px 0.3px 1.0px 0.9px\"><b style=\"background:#ECEEE8;border-radius:5.3px 2.5px 3.7px 2.8px\"></b></i><i style=\"padding:2.0px 2.0px 0.2px 0.5px\"><b style=\"background:#3E8C74;border-radius:3.4px 5.4px 1.6px 5.2px\"></b></i><i style=\"padding:2.4px 0.6px 0.1px 1.9px\"><b style=\"background:#ECEEE8;border-radius:4.9px 5.0px 2.7px 3.9px\"></b></i><i style=\"padding:2.2px 0.8px 2.4px 0.4px\"><b style=\"background:#ECEEE8;border-radius:2.2px 3.7px 5.0px 2.2px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:2.3px 1.8px 1.5px 1.4px\"><b style=\"background:#ECEEE8;border-radius:5.4px 2.7px 4.7px 3.9px\"></b></i><i style=\"padding:2.5px 1.6px 2.2px 0.9px\"><b style=\"background:#ECEEE8;border-radius:4.9px 2.3px 5.2px 4.8px\"></b></i><i style=\"padding:0.8px 0.3px 1.1px 1.2px\"><b style=\"background:#9CCBB3;border-radius:2.1px 2.8px 1.6px 2.9px\"></b></i><i style=\"padding:0.9px 1.4px 0.2px 0.9px\"><b style=\"background:#3E8C74;border-radius:5.2px 4.8px 3.1px 3.7px\"></b></i><i style=\"padding:0.2px 0.8px 0.1px 1.4px\"><b style=\"background:#ECEEE8;border-radius:5.2px 1.9px 4.4px 3.4px\"></b></i><i style=\"padding:1.1px 1.5px 2.3px 1.3px\"><b style=\"background:#9CCBB3;border-radius:3.5px 3.9px 4.1px 2.3px\"></b></i><i style=\"padding:0.1px 0.7px 0.3px 2.5px\"><b style=\"background:#9CCBB3;border-radius:4.5px 1.8px 1.8px 5.3px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:0.2px 1.7px 1.7px 0.4px\"><b style=\"background:#3E8C74;border-radius:2.2px 4.8px 4.7px 4.2px\"></b></i><i style=\"padding:1.7px 1.2px 0.3px 1.8px\"><b style=\"background:#ECEEE8;border-radius:3.2px 4.0px 5.1px 2.0px\"></b></i><i style=\"padding:1.0px 1.6px 1.1px 2.3px\"><b style=\"background:#ECEEE8;border-radius:3.5px 3.0px 3.9px 2.0px\"></b></i><i style=\"padding:2.4px 1.9px 1.4px 1.9px\"><b style=\"background:#3E8C74;border-radius:4.5px 1.7px 2.6px 4.8px\"></b></i><i style=\"padding:1.2px 2.1px 1.9px 1.6px\"><b style=\"background:#ECEEE8;border-radius:1.5px 5.2px 4.6px 2.6px\"></b></i><i style=\"padding:1.1px 2.5px 1.9px 1.2px\"><b style=\"background:#3E8C74;border-radius:3.8px 4.0px 2.8px 3.2px\"></b></i><i style=\"padding:2.3px 2.5px 0.5px 0.8px\"><b style=\"background:#176B56;border-radius:4.6px 3.2px 4.7px 3.6px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:2.4px 1.1px 2.0px 0.6px\"><b style=\"background:#176B56;border-radius:4.0px 5.4px 1.8px 4.4px\"></b></i><i style=\"padding:1.8px 0.7px 0.7px 1.3px\"><b style=\"background:#ECEEE8;border-radius:3.5px 1.6px 3.8px 4.5px\"></b></i><i style=\"padding:1.1px 0.7px 2.6px 0.7px\"><b style=\"background:#ECEEE8;border-radius:5.2px 2.7px 2.3px 3.0px\"></b></i><i style=\"padding:2.5px 2.5px 0.6px 2.3px\"><b style=\"background:#ECEEE8;border-radius:3.9px 5.2px 5.0px 5.4px\"></b></i><i style=\"padding:0.9px 2.1px 2.0px 0.8px\"><b style=\"background:#ECEEE8;border-radius:1.5px 4.5px 1.9px 4.8px\"></b></i><i style=\"padding:1.3px 1.3px 1.7px 2.3px\"><b style=\"background:#9CCBB3;border-radius:4.5px 5.2px 1.8px 2.6px\"></b></i><i style=\"padding:2.5px 2.4px 2.0px 0.5px\"><b style=\"background:#ECEEE8;border-radius:4.0px 5.4px 2.9px 4.2px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:0.0px 0.8px 2.3px 1.5px\"><b style=\"background:#ECEEE8;border-radius:3.3px 2.5px 2.0px 1.7px\"></b></i><i style=\"padding:0.4px 0.1px 2.6px 0.1px\"><b style=\"background:#9CCBB3;border-radius:4.7px 1.9px 2.5px 4.1px\"></b></i><i style=\"padding:0.1px 1.0px 1.1px 2.1px\"><b style=\"background:#3E8C74;border-radius:2.6px 4.0px 2.7px 3.8px\"></b></i><i style=\"padding:0.6px 1.0px 0.2px 0.3px\"><b style=\"background:#9CCBB3;border-radius:4.8px 2.9px 3.8px 5.4px\"></b></i><i style=\"padding:0.5px 1.7px 1.6px 0.3px\"><b style=\"background:#3E8C74;border-radius:2.2px 3.9px 5.3px 5.0px\"></b></i><i style=\"padding:1.5px 2.1px 0.7px 2.5px\"><b style=\"background:#3E8C74;border-radius:5.3px 3.7px 4.7px 4.7px\"></b></i><i style=\"padding:1.2px 1.4px 0.6px 0.9px\"><b style=\"background:#ECEEE8;border-radius:3.9px 2.4px 2.8px 2.4px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:0.3px 2.5px 0.8px 0.4px\"><b style=\"background:#ECEEE8;border-radius:1.8px 4.9px 4.2px 3.9px\"></b></i><i style=\"padding:1.7px 0.8px 1.4px 2.2px\"><b style=\"background:#ECEEE8;border-radius:3.9px 3.0px 2.1px 2.9px\"></b></i><i style=\"padding:1.7px 1.5px 1.8px 2.4px\"><b style=\"background:#9CCBB3;border-radius:5.2px 2.5px 4.8px 4.6px\"></b></i><i style=\"padding:0.2px 2.0px 0.7px 1.5px\"><b style=\"background:#ECEEE8;border-radius:4.3px 2.3px 1.7px 1.6px\"></b></i><i style=\"padding:0.4px 1.4px 2.2px 1.6px\"><b style=\"background:#ECEEE8;border-radius:4.0px 1.7px 2.0px 4.8px\"></b></i><i style=\"padding:0.8px 1.8px 2.3px 1.7px\"><b style=\"background:#ECEEE8;border-radius:1.5px 3.9px 4.4px 3.6px\"></b></i><i style=\"padding:0.1px 1.9px 0.5px 1.2px\"><b style=\"background:#176B56;border-radius:4.7px 4.1px 1.7px 1.8px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:1.0px 0.3px 2.5px 1.2px\"><b style=\"background:#3E8C74;border-radius:2.9px 3.2px 3.2px 4.2px\"></b></i><i style=\"padding:1.7px 2.4px 1.3px 1.8px\"><b style=\"background:#ECEEE8;border-radius:4.9px 1.8px 2.3px 2.8px\"></b></i><i style=\"padding:1.1px 2.4px 1.1px 2.1px\"><b style=\"background:#3E8C74;border-radius:2.1px 4.6px 4.0px 2.1px\"></b></i><i style=\"padding:2.2px 2.6px 1.0px 0.5px\"><b style=\"background:#3E8C74;border-radius:3.5px 3.1px 2.7px 3.2px\"></b></i><i style=\"padding:0.3px 0.2px 0.0px 2.4px\"><b style=\"background:#ECEEE8;border-radius:3.9px 4.7px 5.4px 4.9px\"></b></i><i style=\"padding:1.6px 0.3px 0.2px 2.5px\"><b style=\"background:#ECEEE8;border-radius:3.5px 5.2px 3.2px 2.6px\"></b></i><i style=\"padding:0.3px 1.7px 0.7px 0.3px\"><b style=\"background:#ECEEE8;border-radius:5.2px 5.3px 2.7px 4.4px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:1.1px 0.4px 0.8px 1.2px\"><b style=\"background:#ECEEE8;border-radius:3.9px 1.9px 2.2px 5.0px\"></b></i><i style=\"padding:0.3px 2.5px 0.7px 1.7px\"><b style=\"background:#9CCBB3;border-radius:4.9px 1.6px 5.5px 2.2px\"></b></i><i style=\"padding:0.5px 0.5px 0.2px 1.7px\"><b style=\"background:#ECEEE8;border-radius:1.9px 4.1px 2.1px 2.4px\"></b></i><i style=\"padding:0.3px 2.0px 0.4px 2.1px\"><b style=\"background:#ECEEE8;border-radius:4.2px 2.4px 4.5px 1.6px\"></b></i><i style=\"padding:1.8px 0.6px 0.0px 2.0px\"><b style=\"background:#3E8C74;border-radius:4.5px 3.9px 3.8px 1.9px\"></b></i><i style=\"padding:0.4px 1.0px 0.7px 0.2px\"><b style=\"background:#ECEEE8;border-radius:5.3px 3.4px 3.5px 4.5px\"></b></i><i style=\"padding:0.6px 1.0px 0.6px 1.5px\"><b style=\"background:#ECEEE8;border-radius:4.9px 1.9px 4.2px 2.8px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:0.7px 2.4px 0.3px 1.6px\"><b style=\"background:#9CCBB3;border-radius:2.2px 3.6px 5.3px 1.8px\"></b></i><i style=\"padding:2.4px 2.2px 1.0px 0.2px\"><b style=\"background:#ECEEE8;border-radius:3.2px 3.9px 5.2px 2.2px\"></b></i><i style=\"padding:0.3px 0.5px 0.3px 1.9px\"><b style=\"background:#ECEEE8;border-radius:4.9px 5.4px 4.4px 4.9px\"></b></i><i style=\"padding:0.4px 1.4px 1.8px 1.6px\"><b style=\"background:#3E8C74;border-radius:2.1px 2.0px 4.8px 2.0px\"></b></i><i style=\"padding:0.2px 0.0px 1.5px 1.1px\"><b style=\"background:#9CCBB3;border-radius:4.0px 4.1px 2.4px 3.1px\"></b></i><i style=\"padding:1.0px 0.4px 2.6px 0.9px\"><b style=\"background:#ECEEE8;border-radius:1.9px 4.9px 3.2px 1.7px\"></b></i><i style=\"padding:0.1px 2.4px 2.2px 1.0px\"><b style=\"background:#3E8C74;border-radius:4.4px 1.8px 3.5px 2.5px\"></b></i></span><span class=\"ds-mosaic-col\"><i style=\"padding:2.4px 0.0px 0.8px 0.0px\"><b style=\"background:#ECEEE8;border-radius:2.7px 5.1px 5.1px 4.6px\"></b></i><i style=\"padding:0.7px 2.5px 1.6px 1.5px\"><b style=\"background:#9CCBB3;border-radius:4.6px 4.9px 3.5px 2.0px\"></b></i><i style=\"padding:1.2px 1.9px 2.2px 0.5px\"><b style=\"background:#3E8C74;border-radius:4.2px 2.4px 4.5px 3.5px\"></b></i><i style=\"padding:0.6px 1.6px 1.9px 2.4px\"><b style=\"background:#3E8C74;border-radius:3.3px 2.3px 3.3px 4.0px\"></b></i><i style=\"padding:0.1px 2.1px 1.6px 1.9px\"><b style=\"background:#ECEEE8;border-radius:1.9px 5.2px 3.7px 4.1px\"></b></i><i style=\"padding:2.0px 2.3px 2.5px 2.0px\"><b style=\"background:#9CCBB3;border-radius:5.2px 3.7px 2.3px 3.2px\"></b></i><i style=\"padding:0.9px 0.1px 1.7px 0.3px\"><b style=\"background:#9CCBB3;border-radius:4.5px 3.9px 1.6px 5.1px\"></b></i></span></div><div class=\"ds-legend\"><span>Denúncias registradas · 12 semanas</span><span>menos <i style=\"background:#ECEEE8\"></i><i style=\"background:#9CCBB3\"></i><i style=\"background:#3E8C74\"></i><i style=\"background:#176B56\"></i> mais</span></div>",
+      "css": ".ds-mosaic i,.ds-progress i{display:block;box-sizing:border-box} .ds-mosaic b,.ds-progress b{display:block;width:100%;height:100%} .ds-mosaic{display:flex;gap:2px;background:#F7F6F0} .ds-mosaic-col{display:flex;flex-direction:column;gap:2px} .ds-mosaic i{width:20px;height:20px} .ds-legend{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;font:500 12.5px/17px Archivo,sans-serif;color:#65726C;max-width:262px} .ds-legend span{display:flex;align-items:center;gap:4px} .ds-legend i{display:inline-block;width:10px;height:10px;border-radius:2px}"
+    },
+    {
+      "name": "Faixa de progresso (calçadão)",
+      "kind": "custom",
+      "refersTo": "mosaic-progress",
+      "description": "Duas fileiras; pedras conquistadas em petróleo; a onda em linha só aqui, nas não conquistadas.",
+      "html": "<div class=\"ds-progress\" role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"><span class=\"ds-mosaic-row\"><i style=\"padding:0.5px 1.0px 0.2px 0.7px\"><b style=\"background:#176B56;border-radius:2.4px 2.6px 5.0px 2.6px\"></b></i><i style=\"padding:1.7px 0.9px 0.3px 1.8px\"><b style=\"background:#176B56;border-radius:4.1px 2.6px 3.2px 5.4px\"></b></i><i style=\"padding:2.2px 1.4px 1.5px 2.2px\"><b style=\"background:#176B56;border-radius:3.3px 2.4px 5.1px 4.6px\"></b></i><i style=\"padding:2.1px 1.7px 1.3px 1.3px\"><b style=\"background:#176B56;border-radius:5.4px 2.7px 4.7px 3.9px\"></b></i><i style=\"padding:0.2px 1.5px 1.6px 0.4px\"><b style=\"background:#176B56;border-radius:2.2px 4.8px 4.7px 4.2px\"></b></i><i style=\"padding:2.1px 1.0px 1.8px 0.5px\"><b style=\"background:#176B56;border-radius:4.0px 5.4px 1.8px 4.4px\"></b></i><i style=\"padding:0.0px 0.7px 2.1px 1.3px\"><b style=\"background:#176B56;border-radius:3.3px 2.5px 2.0px 1.7px\"></b></i><i style=\"padding:0.2px 2.3px 0.8px 0.4px\"><b style=\"background:#DCE2DC;border-radius:1.8px 4.9px 4.2px 3.9px\"></b></i><i style=\"padding:0.9px 0.3px 2.3px 1.1px\"><b style=\"background:#DCE2DC;border-radius:2.9px 3.2px 3.2px 4.2px\"></b></i><i style=\"padding:1.0px 0.3px 0.7px 1.1px\"><b style=\"background:#ECEEE8;border-radius:3.9px 1.9px 2.2px 5.0px\"></b></i><i style=\"padding:0.6px 2.1px 0.2px 1.4px\"><b style=\"background:#ECEEE8;border-radius:2.2px 3.6px 5.3px 1.8px\"></b></i><i style=\"padding:2.1px 0.0px 0.7px 0.0px\"><b style=\"background:#ECEEE8;border-radius:2.7px 5.1px 5.1px 4.6px\"></b></i><i style=\"padding:2.2px 1.8px 1.6px 0.8px\"><b style=\"background:#DCE2DC;border-radius:4.5px 2.2px 4.5px 5.2px\"></b></i><i style=\"padding:1.4px 1.8px 0.2px 0.5px\"><b style=\"background:#DCE2DC;border-radius:3.3px 5.5px 4.0px 2.1px\"></b></i><i style=\"padding:1.7px 0.8px 0.8px 0.7px\"><b style=\"background:#DCE2DC;border-radius:1.8px 2.2px 2.2px 2.8px\"></b></i><i style=\"padding:0.1px 0.8px 0.3px 0.8px\"><b style=\"background:#ECEEE8;border-radius:4.7px 3.0px 3.4px 4.3px\"></b></i></span><span class=\"ds-mosaic-row\"><i style=\"padding:2.3px 0.8px 2.1px 0.6px\"><b style=\"background:#176B56;border-radius:3.7px 2.3px 2.1px 4.0px\"></b></i><i style=\"padding:1.0px 0.1px 1.1px 0.6px\"><b style=\"background:#176B56;border-radius:2.2px 1.7px 2.5px 5.3px\"></b></i><i style=\"padding:1.5px 0.4px 2.1px 1.5px\"><b style=\"background:#176B56;border-radius:4.5px 4.0px 3.5px 2.0px\"></b></i><i style=\"padding:2.2px 1.5px 2.0px 0.8px\"><b style=\"background:#176B56;border-radius:4.9px 2.3px 5.2px 4.8px\"></b></i><i style=\"padding:1.5px 1.0px 0.2px 1.6px\"><b style=\"background:#176B56;border-radius:3.2px 4.0px 5.1px 2.0px\"></b></i><i style=\"padding:1.6px 0.7px 0.7px 1.2px\"><b style=\"background:#176B56;border-radius:3.5px 1.6px 3.8px 4.5px\"></b></i><i style=\"padding:0.4px 0.1px 2.3px 0.0px\"><b style=\"background:#ECEEE8;border-radius:4.7px 1.9px 2.5px 4.1px\"></b></i><i style=\"padding:1.5px 0.7px 1.2px 2.0px\"><b style=\"background:#ECEEE8;border-radius:3.9px 3.0px 2.1px 2.9px\"></b></i><i style=\"padding:1.5px 2.2px 1.2px 1.6px\"><b style=\"background:#ECEEE8;border-radius:4.9px 1.8px 2.3px 2.8px\"></b></i><i style=\"padding:0.3px 2.2px 0.7px 1.6px\"><b style=\"background:#DCE2DC;border-radius:4.9px 1.6px 5.5px 2.2px\"></b></i><i style=\"padding:2.2px 2.0px 0.9px 0.2px\"><b style=\"background:#DCE2DC;border-radius:3.2px 3.9px 5.2px 2.2px\"></b></i><i style=\"padding:0.6px 2.3px 1.5px 1.3px\"><b style=\"background:#DCE2DC;border-radius:4.6px 4.9px 3.5px 2.0px\"></b></i><i style=\"padding:0.2px 0.5px 0.8px 0.8px\"><b style=\"background:#ECEEE8;border-radius:5.1px 3.6px 4.6px 2.0px\"></b></i><i style=\"padding:1.8px 1.5px 2.2px 0.5px\"><b style=\"background:#ECEEE8;border-radius:3.3px 4.8px 1.8px 5.4px\"></b></i><i style=\"padding:0.3px 2.1px 0.1px 2.0px\"><b style=\"background:#ECEEE8;border-radius:3.0px 4.1px 4.2px 5.4px\"></b></i><i style=\"padding:1.7px 1.6px 0.8px 1.3px\"><b style=\"background:#DCE2DC;border-radius:1.8px 1.7px 2.3px 5.5px\"></b></i></span></div>",
+      "css": ".ds-mosaic i,.ds-progress i{display:block;box-sizing:border-box} .ds-mosaic b,.ds-progress b{display:block;width:100%;height:100%} .ds-progress{display:flex;flex-direction:column;gap:2px;background:#F7F6F0;padding:4px 0} .ds-mosaic-row{display:flex;gap:2px} .ds-progress i{width:18px;height:18px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Modernismo Cívico",
+    "overview": "O EcoRadar fala com a voz do design público modernista brasileiro: sinalização clara, o calçadão de pedra portuguesa como assinatura de dados e uma única cor de chamado, reservada para a denúncia. É sinalização pública, não aplicativo de marca: um chão marfim carrega todas as telas, superfícies brancas recebem o que se destaca ou flutua, o carvão escreve o texto e um verde-petróleo marca a navegação e as ações principais, sempre em áreas pequenas. Nenhuma parte da moldura é um bloco escuro: cabeçalhos, barra de abas, barra lateral do painel e login são claros.\n\nA hierarquia vem da escala tipográfica e de listas com linhas finas (hairline), nunca de pilhas de cartões. Títulos e números grandes usam o corte expandido de Archivo, como placas de rua; o texto corrido usa o corte normal. Valores importantes ficam à direita, em algarismos tabulares. Sombras existem só no que flutua sobre o mapa. O padrão \"app eco\" de verde em tudo, cartões com sombra empilhados e ícones decorativos em quadradinhos tintados é recusado.\n\nO mapa é a primeira tela e o centro do produto: marcadores com formas próprias (gota coral, pedra petróleo, ponto azul) ficam nas suas posições verdadeiras, e o painel inferior marfim resume o bairro com o mosaico de atividade.",
+    "keyCharacteristics": [
+      "Chão marfim (#F7F6F0), superfícies brancas e texto carvão (#202A27); cabeçalhos, barra de abas, barra lateral e login sempre claros.",
+      "Verde-petróleo (#176B56) em áreas pequenas: marca, navegação ativa e botão principal.",
+      "Coral queimado (#E77A5B) só na ação de denunciar e nos marcadores de denúncia, sempre com conteúdo em carvão.",
+      "Estados das denúncias com cores semânticas próprias (azul, âmbar, índigo, verde, vermelho), separadas da marca.",
+      "Archivo em proporção normal para tudo: ExtraBold/Bold em títulos e números, Regular/Medium/SemiBold no texto.",
+      "Listas com divisórias finas, sem pilhas de cartões; valor à direita em algarismos tabulares.",
+      "Mosaico de pedra portuguesa, com pedras talhadas à mão, como visualização de atividade e de progresso.",
+      "Sombra apenas sobre o mapa; movimento com saída exponencial, desligado por \"Reduzir movimento\"."
+    ],
+    "rules": [
+      {
+        "name": "The Small Petrol Rule",
+        "body": "O verde-petróleo marca, navega e confirma em áreas pequenas: botão, aba, segmento, fio, pedra. Nunca preenche cabeçalhos, barras, faixas ou telas; a moldura é marfim ou branca.",
+        "section": "colors"
+      },
+      {
+        "name": "The Coral Means Report Rule",
+        "body": "Coral queimado é só a ação de denunciar e o marcador de denúncia. Conteúdo sobre coral é carvão, nunca branco; texto coral usa coral-ink. Denúncia encerrada vira gota em linha com glifo grafite. No painel, toda categoria de denúncia é #A9472B e todo ponto é #176B56: o glifo diferencia a categoria, não a cor.",
+        "section": "colors"
+      },
+      {
+        "name": "The Status Is Not Brand Rule",
+        "body": "Estados usam só a família semântica (azul, âmbar, índigo, verde, vermelho), nunca o petróleo nem o coral. Erro e urgência são vermelhos, não coral.",
+        "section": "colors"
+      },
+      {
+        "name": "The Data Greens Rule",
+        "body": "No mosaico, a escala de atividade é folha suave, folha média e petróleo, sobre pedra vazia. Nenhuma outra cor entra na grade.",
+        "section": "colors"
+      },
+      {
+        "name": "The Scale-Only Rule",
+        "body": "Todo texto usa uma variante da escala; não há tamanho solto. O tamanho escala com a acessibilidade até 1,4x.",
+        "section": "typography"
+      },
+      {
+        "name": "The Signpost Number Rule",
+        "body": "Números que importam são grandes, em peso forte e tabulares, com o rótulo em caption logo abaixo, separados por fios verticais finos, nunca em cartões.",
+        "section": "typography"
+      },
+      {
+        "name": "The Map-Only Shadow Rule",
+        "body": "Se o elemento não está sobre o mapa, ele não tem sombra. Listas, cabeçalhos, seções e formulários são planos; no painel, o cartão só levanta em resposta ao hover.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reservar o coral (#E77A5B) para a ação de denunciar e os marcadores de denúncia, com conteúdo em carvão (#202A27).",
+      "Do usar o petróleo (#176B56) em áreas pequenas: botão principal, aba e item de navegação ativos, segmento ativo, foco, links de seção.",
+      "Do marcar seleção com o realce sálvia-claro (#DDEBE2): chips, linha \"você\", botões de ícone tint, item ativo do painel.",
+      "Do usar cinza-sálvia (#65726C) para texto secundário sobre marfim; a sálvia (#68756F) fica para ícones e rótulos inativos sobre branco.",
+      "Do tirar as cores de status da família semântica do catálogo e mostrar a tag \"Urgente\" vermelha nas denúncias de gravidade alta.",
+      "Do construir hierarquia com a escala tipográfica e divisórias hairline em linha (#DCE2DC).",
+      "Do pôr títulos e números em Archivo Bold/ExtraBold, com números tabulares alinhados à direita.",
+      "Do limitar sombras ao que flutua sobre o mapa, sempre tingidas de carvão (rgba(32,42,39,…)).",
+      "Do manter cada pedra do mosaico de atividade como dado, na escala folha suave, folha média, petróleo.",
+      "Do checar `shouldAnimate()` antes de qualquer animação e ir direto ao estado final quando \"Reduzir movimento\" estiver ativo.",
+      "Do manter marcadores no mesmo local nas posições verdadeiras e oferecer a lista \"Também neste local\"."
+    ],
+    "donts": [
+      "Don't pintar cabeçalhos, barra de abas, barra lateral, login ou faixas inteiras de petróleo ou carvão.",
+      "Don't pôr texto ou ícone branco sobre o coral.",
+      "Don't usar coral para erros, status ou destaques; erro e urgência são vermelhos.",
+      "Don't usar o petróleo ou o coral para indicar estado de uma denúncia.",
+      "Don't diferenciar categorias por cor; o glifo diferencia, a cor diz só denúncia (coral) ou descarte (petróleo).",
+      "Don't usar amarelo-ipê nem gradientes em faixas, banners ou placeholders.",
+      "Don't empilhar cartões com sombra fora do mapa.",
+      "Don't colocar ícones decorativos dentro de quadradinhos tintados.",
+      "Don't usar a onda de duas cores fora da faixa de progresso, nem pedras decorativas na grade de atividade.",
+      "Don't usar tamanhos de texto fora da escala.",
+      "Don't deslocar nem agrupar marcadores no app para separá-los."
+    ]
+  }
+}

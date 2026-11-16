@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "EcoRadar",
+    "slug": "ecoradar",
+    "scheme": "ecoradar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "br.edu.facens.ecoradar",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "O EcoRadar usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos.",
+        "NSCameraUsageDescription": "O EcoRadar usa a câmera para fotografar a ocorrência ambiental.",
+        "NSPhotoLibraryUsageDescription": "O EcoRadar acessa sua galeria para anexar fotos à denúncia.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "br.edu.facens.ecoradar",
+      "adaptiveIcon": {
+        "backgroundColor": "#176B56",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "POST_NOTIFICATIONS"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O EcoRadar usa sua localização para marcar onde está a ocorrência e mostrar pontos de descarte próximos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O EcoRadar acessa sua galeria para anexar fotos à denúncia.",
+          "cameraPermission": "O EcoRadar usa a câmera para fotografar a ocorrência ambiental."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#176B56"
+        }
+      ],
+      "@maplibre/maplibre-react-native"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {}
+    }
+  }
+}

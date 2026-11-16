@@ -1,0 +1,48 @@
+# Blueprint do Render: API + painel (Docker) e banco PostgreSQL, ambos no plano gratuito.
+# No Render: New → Blueprint → escolha este repositório.
+services:
+  - type: web
+    name: ecoradar-api
+    runtime: docker
+    plan: free
+    region: virginia
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: EcoRadar
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_LOCALE
+        value: pt_BR
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: ecoradar-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      # Cria os dados de apresentação na primeira inicialização (só se ainda não existirem)
+      - key: ECORADAR_SEED_DEMO
+        value: "true"
+      # Senha das contas de apresentação (apresentacao@exemplo.test e equipe@exemplo.test).
+      # O Render pede o valor ao criar o blueprint.
+      - key: ECORADAR_DEMO_PASSWORD
+        sync: false
+
+databases:
+  - name: ecoradar-db
+    plan: free
+    region: virginia
+    databaseName: ecoradar
+    user: ecoradar

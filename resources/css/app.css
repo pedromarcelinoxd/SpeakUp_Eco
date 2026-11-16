@@ -1,0 +1,215 @@
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.css';
+@import './ecoradar/map.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+ | EcoRadar — base
+ * ------------------------------------------------------------------ */
+@layer base {
+    :root {
+        --brand: #176B56;
+        --coral: #E77A5B;
+        --canvas: #F7F6F0;
+        --ink: #202A27;
+        --ink-muted: #65726C;
+        --sidebar-w: 264px;
+    }
+
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-canvas font-sans text-ink antialiased;
+        font-feature-settings: 'cv11', 'ss01';
+    }
+
+    /* Títulos e números em Archivo de proporção normal (o corte expandido achatava as letras) */
+    h1, h2, h3, h4 {
+        @apply font-display tracking-tight;
+    }
+
+    :focus-visible {
+        @apply outline-none ring-2 ring-eco-600/40 ring-offset-2 ring-offset-white;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    ::selection {
+        background: #DDEBE2;
+        color: #125847;
+    }
+}
+
+/* ------------------------------------------------------------------
+ | Componentes reutilizáveis
+ * ------------------------------------------------------------------ */
+@layer components {
+    .card {
+        @apply rounded-2xl border border-line bg-white;
+    }
+
+    .card-hover {
+        @apply transition duration-200 hover:-translate-y-0.5 hover:border-eco-200 hover:shadow-lift;
+    }
+
+    .btn {
+        @apply inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-150 active:scale-[.98] disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1.5 text-[13px];
+    }
+
+    /* Verde-petróleo: botões principais */
+    .btn-primary {
+        @apply btn bg-eco-600 text-white hover:bg-eco-700;
+    }
+
+    /* Coral queimado: só a ação de denunciar (conteúdo em carvão para contraste) */
+    .btn-report {
+        @apply btn bg-coral text-coral-on hover:bg-coral-pressed;
+    }
+
+    .btn-dark {
+        @apply btn bg-eco-600 text-white hover:bg-eco-700;
+    }
+
+    .btn-secondary {
+        @apply btn border-[1.5px] border-line bg-white text-eco-700 hover:border-eco-300 hover:bg-eco-50;
+    }
+
+    .btn-ghost {
+        @apply btn text-ink-muted hover:bg-slate-100 hover:text-ink;
+    }
+
+    .btn-danger {
+        @apply btn bg-alert text-white hover:bg-red-700;
+    }
+
+    .icon-btn {
+        @apply inline-flex h-10 w-10 items-center justify-center rounded-xl text-ink-muted transition hover:bg-slate-100 hover:text-ink active:scale-95;
+    }
+
+    .input {
+        @apply block w-full rounded-xl border-[1.5px] border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-muted/80 transition focus:border-eco-600 focus:ring-0;
+    }
+
+    .input-error {
+        @apply border-alert/70 focus:border-alert focus:ring-alert/10;
+    }
+
+    .label {
+        @apply mb-1.5 block text-[13px] font-semibold text-ink;
+    }
+
+    .chip {
+        @apply inline-flex select-none items-center gap-1.5 whitespace-nowrap rounded-full border-[1.5px] border-line bg-white px-3 py-1.5 text-[13px] font-semibold text-ink transition hover:border-eco-300;
+    }
+
+    .chip-active {
+        @apply border-eco-600 bg-eco-100 text-eco-700 hover:border-eco-600 hover:text-eco-700;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[11.5px] font-semibold;
+    }
+
+    .section-title {
+        @apply font-display text-[15px] font-bold text-ink;
+    }
+
+    .eyebrow {
+        @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-muted;
+    }
+
+    /* Barra lateral clara: item ativo em realce verde-claro e texto petróleo */
+    .nav-item {
+        @apply relative flex items-center gap-3 rounded-xl px-3 py-2 text-[13.5px] font-medium text-ink-muted transition hover:bg-stone hover:text-ink;
+    }
+
+    .nav-item-active {
+        @apply bg-eco-100 font-semibold text-eco-700 hover:bg-eco-100 hover:text-eco-700;
+    }
+
+    .skeleton {
+        @apply relative overflow-hidden rounded-lg bg-stone;
+    }
+
+    .skeleton::after {
+        content: '';
+        @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
+    }
+
+    .scroll-thin {
+        scrollbar-width: thin;
+        scrollbar-color: #CBD5E1 transparent;
+    }
+
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tabular {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* Ícones (diretiva x-icon) */
+.er-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+.er-icon > svg {
+    display: block;
+}
+
+/* Sidebar recolhível */
+.er-sidebar {
+    width: var(--sidebar-w);
+}
+
+html[data-sidebar='collapsed'] .er-sidebar {
+    width: 76px;
+}
+
+html[data-sidebar='collapsed'] .er-sidebar .er-label {
+    display: none;
+}
+
+html[data-sidebar='collapsed'] .er-sidebar .er-collapsed-only {
+    display: inline-flex;
+}
+
+html[data-sidebar='collapsed'] .er-sidebar .nav-item,
+html[data-sidebar='collapsed'] .er-sidebar a.btn-primary {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+html[data-sidebar='collapsed'] .er-sidebar .er-usercard {
+    justify-content: center;
+    border-color: transparent;
+    background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
